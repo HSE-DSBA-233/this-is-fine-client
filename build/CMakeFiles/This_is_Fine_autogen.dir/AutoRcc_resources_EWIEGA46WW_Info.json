@@ -1,0 +1,20 @@
+{
+	"BUILD_DIR" : "/Users/eeleexx/This_is_Fine/build/This_is_Fine_autogen",
+	"CMAKE_BINARY_DIR" : "/Users/eeleexx/This_is_Fine/build",
+	"CMAKE_CURRENT_BINARY_DIR" : "/Users/eeleexx/This_is_Fine/build",
+	"CMAKE_CURRENT_SOURCE_DIR" : "/Users/eeleexx/This_is_Fine",
+	"CMAKE_SOURCE_DIR" : "/Users/eeleexx/This_is_Fine",
+	"GENERATOR" : "Unix Makefiles",
+	"INCLUDE_DIR" : "/Users/eeleexx/This_is_Fine/build/This_is_Fine_autogen/include",
+	"INPUTS" : [ "/Users/eeleexx/This_is_Fine/fonts/Inter-Regular.ttf" ],
+	"LOCK_FILE" : "/Users/eeleexx/This_is_Fine/build/CMakeFiles/This_is_Fine_autogen.dir/AutoRcc_resources_EWIEGA46WW_Lock.lock",
+	"MULTI_CONFIG" : false,
+	"OPTIONS" : [ "-name", "resources" ],
+	"OUTPUT_CHECKSUM" : "EWIEGA46WW",
+	"OUTPUT_NAME" : "qrc_resources.cpp",
+	"RCC_EXECUTABLE" : "/opt/homebrew/share/qt/libexec/rcc",
+	"RCC_LIST_OPTIONS" : [ "--list" ],
+	"SETTINGS_FILE" : "/Users/eeleexx/This_is_Fine/build/CMakeFiles/This_is_Fine_autogen.dir/AutoRcc_resources_EWIEGA46WW_Used.txt",
+	"SOURCE" : "/Users/eeleexx/This_is_Fine/resources.qrc",
+	"VERBOSITY" : 0
+}

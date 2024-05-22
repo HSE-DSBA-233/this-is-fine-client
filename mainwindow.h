@@ -5,6 +5,7 @@
 #include <QStringList>
 #include <QListWidget>
 #include <QVBoxLayout>
+#include "projectswindow.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -19,17 +20,15 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_pushButton_clicked();
-    void on_BackMainButton_clicked();
-    void on_NewProjectButton_clicked();
+    void on_btn_start_clicked();
     void animateButtonPress();
     void animateButtonRelease();
 
+    void on_btn_start_back_clicked();
+
 private:
     Ui::MainWindow *ui;
-    QStringList getProjectList();
-    void showMainScreen();
-    void showProjectListScreen();
+    ProjectsWindow *projectsWindow;
 };
 
 #endif // MAINWINDOW_H

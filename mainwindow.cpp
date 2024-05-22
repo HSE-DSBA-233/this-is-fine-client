@@ -4,6 +4,9 @@
 #include <QFontDatabase>
 #include <QDebug>
 #include <QPropertyAnimation>
+#include <QVBoxLayout>
+#include <QListWidget>
+#include <QIcon>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -11,61 +14,61 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+    // Customizing
+    this->setWindowTitle("This Is Fine");
+    this->setWindowIcon(QIcon("/Users/pavelpopov/Downloads/thisisfinelogo.png"));
+
     // Apply white background color to the main window
     QPalette palette = this->palette();
     palette.setColor(QPalette::Window, Qt::white);
     this->setPalette(palette);
 
-    // Load the Inter font
-    int id = QFontDatabase::addApplicationFont(":/fonts/Inter-Regular.ttf");
-    if (id == -1) {
-        qWarning() << "Failed to load Inter font!";
-    } else {
-        QString family = QFontDatabase::applicationFontFamilies(id).at(0);
-        QFont interFont(family);
-        qDebug() << "Loaded Inter font:" << family;
-    }
-
     // Apply a style sheet to the entire application
     qApp->setStyleSheet(
-        "QLabel { color: black; }"  // Black text for QLabel
-        "QPushButton { background-color: #fccb48; color: white; "
-        "border: 2px solid #fccb48; border-radius: 10px; padding: 5px 15px; }"  // Yellow background, white text, and rounded corners for QPushButton
-        "QListWidget { color: black; background-color: lightgray; "
-        "font-family: 'Inter'; font-size: 16px; border: none; }"  // No border, black text, light gray background, Inter font, and larger font size for QListWidget
-        "#backgroundFrame { background-color: #F1F1F1; border-radius: 15px; }"  // Rounded background and color for backgroundFrame
-        "#BackMainButton, #NewProjectButton { background-color: #fccb48; color: white; "
-        "border: 2px solid #fccb48; border-radius: 10px; padding: 5px 15px; }"  // Styling for BackMainButton and NewProjectButton
+        "QLabel { color: black; font-family: 'Montserrat'; }"
+        "QPushButton { background-color: #FCCD4A; font-family: 'Montserrat'; color: white; border: 2px solid #FCCD4A; border-radius: 10px; padding: 5px 15px; }"
+        "QPushButton:hover { background-color: #FFD971; }"
+        "QListWidget { color: black; font-family: 'Montserrat'; border: none; }"
         );
 
     // Add shadows to buttons
-    QList<QPushButton*> buttons = {ui->pushButton, ui->BackMainButton, ui->NewProjectButton};
+    QList<QPushButton*> buttons = {ui->btn_start, ui->btn_newproject, ui->btn_start_back};
     foreach (QPushButton* button, buttons) {
         QGraphicsDropShadowEffect *buttonShadow = new QGraphicsDropShadowEffect;
-        buttonShadow->setBlurRadius(10);
-        buttonShadow->setOffset(2, 2);
+        buttonShadow->setBlurRadius(50);
+        buttonShadow->setOffset(0, 5);
         buttonShadow->setColor(Qt::gray);
         button->setGraphicsEffect(buttonShadow);
 
-        // Add press and release animations
+        // // Add press and release animations
         connect(button, &QPushButton::pressed, this, &MainWindow::animateButtonPress);
         connect(button, &QPushButton::released, this, &MainWindow::animateButtonRelease);
     }
 
-    // Initially hide the list placeholder, BackMainButton, and NewProjectButton
-    ui->listPlaceholder->setVisible(false);
-    ui->BackMainButton->setVisible(false);
-    ui->NewProjectButton->setVisible(false);
+    // Add shadow to text widget
+    QGraphicsDropShadowEffect *textShadow = new QGraphicsDropShadowEffect;
+    textShadow->setBlurRadius(50);
+    textShadow->setOffset(0, 5);
+    textShadow->setColor(Qt::gray);
+    ui->text->setGraphicsEffect(textShadow);
 
-    // Connect the button signals to the slots
-    connect(ui->pushButton, &QPushButton::clicked, this, &MainWindow::on_pushButton_clicked);
-    connect(ui->BackMainButton, &QPushButton::clicked, this, &MainWindow::on_BackMainButton_clicked);
-    connect(ui->NewProjectButton, &QPushButton::clicked, this, &MainWindow::on_NewProjectButton_clicked);
+    // Add shadow to projects widget
+    QGraphicsDropShadowEffect *projectsShadow = new QGraphicsDropShadowEffect;
+    projectsShadow->setBlurRadius(50);
+    projectsShadow->setOffset(0, 5);
+    projectsShadow->setColor(Qt::gray);
+    ui->projects->setGraphicsEffect(projectsShadow);
+
+    // Add some data to projects
+    QStringList items = {"Project 1", "Project 2", "Project 3"};
+    ui->projects->addItems(items);
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+    if (projectsWindow)
+        delete projectsWindow;
 }
 
 void MainWindow::animateButtonPress()
@@ -74,8 +77,8 @@ void MainWindow::animateButtonPress()
     if (button) {
         QGraphicsDropShadowEffect *effect = qobject_cast<QGraphicsDropShadowEffect*>(button->graphicsEffect());
         if (effect) {
-            effect->setOffset(-2, -2);
-            effect->setBlurRadius(5);
+            effect->setOffset(0, 0);
+            effect->setBlurRadius(50);
         }
     }
 }
@@ -86,92 +89,18 @@ void MainWindow::animateButtonRelease()
     if (button) {
         QGraphicsDropShadowEffect *effect = qobject_cast<QGraphicsDropShadowEffect*>(button->graphicsEffect());
         if (effect) {
-            effect->setOffset(2, 2);
-            effect->setBlurRadius(10);
+            effect->setOffset(0, 5);
+            effect->setBlurRadius(50);
         }
     }
 }
 
-void MainWindow::on_pushButton_clicked()
+void MainWindow::on_btn_start_clicked()
 {
-    qDebug() << "Button clicked, updating UI...";
-    showProjectListScreen();
+    ui->stackedWidget->setCurrentIndex(1);
 }
 
-void MainWindow::on_BackMainButton_clicked()
+void MainWindow::on_btn_start_back_clicked()
 {
-    qDebug() << "Back button clicked, returning to main screen...";
-    showMainScreen();
-}
-
-void MainWindow::on_NewProjectButton_clicked()
-{
-    qDebug() << "New project button clicked, no action defined yet...";
-    // Define new project functionality here in the future
-}
-
-void MainWindow::showMainScreen()
-{
-    // Hide the list placeholder and show the main UI elements
-    ui->listPlaceholder->setVisible(false);
-    ui->pushButton->setVisible(true);
-    ui->label->setVisible(true);
-    ui->backgroundFrame->setVisible(true);
-    ui->BackMainButton->setVisible(false);
-    ui->NewProjectButton->setVisible(false);
-}
-
-void MainWindow::showProjectListScreen()
-{
-    // Clear the layout of the placeholder widget
-    QLayout *currentLayout = ui->listPlaceholder->layout();
-    if (currentLayout != nullptr) {
-        QLayoutItem *item;
-        while ((item = currentLayout->takeAt(0)) != nullptr) {
-            if (item->widget()) {
-                delete item->widget();
-            }
-            delete item;
-        }
-        delete currentLayout;
-    }
-
-    // Create a new layout for the project list screen
-    QVBoxLayout *layout = new QVBoxLayout;
-    QListWidget *listWidget = new QListWidget(this);
-
-    // Add projects to the list widget
-    QStringList projects = getProjectList(); // Fetch the project list
-    qDebug() << "Projects:" << projects;
-    for (const QString &project : projects) {
-        listWidget->addItem(project);
-    }
-
-    // Apply a style sheet to the list widget
-    listWidget->setStyleSheet("QListWidget::item { padding: 5px; }");
-
-    // Add the list widget to the layout
-    layout->addWidget(listWidget);
-
-    // Set the new layout to the placeholder widget
-    ui->listPlaceholder->setLayout(layout);
-
-    // Make the placeholder visible
-    ui->listPlaceholder->setVisible(true);
-
-    // Show the Back and New Project buttons
-    ui->BackMainButton->setVisible(true);
-    ui->NewProjectButton->setVisible(true);
-
-    // Hide the main UI elements
-    ui->pushButton->setVisible(false);
-    ui->label->setVisible(false);
-    ui->backgroundFrame->setVisible(true);  // Ensure backgroundFrame remains visible
-}
-
-QStringList MainWindow::getProjectList()
-{
-    // Example function to return a list of project names
-    // Replace this with actual data fetching logic
-    return QStringList{"Project 1", "Project 2", "Project 3"};
+    ui->stackedWidget->setCurrentIndex(0);
 }

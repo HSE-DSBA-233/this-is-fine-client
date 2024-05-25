@@ -5,7 +5,6 @@
 #include <QStringList>
 #include <QListWidget>
 #include <QVBoxLayout>
-#include "projectswindow.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -28,7 +27,6 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    ProjectsWindow *projectsWindow;
 };
 
 #endif // MAINWINDOW_H

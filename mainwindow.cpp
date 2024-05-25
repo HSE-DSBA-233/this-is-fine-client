@@ -67,8 +67,6 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
-    if (projectsWindow)
-        delete projectsWindow;
 }
 
 void MainWindow::animateButtonPress()

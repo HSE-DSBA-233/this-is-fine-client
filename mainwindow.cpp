@@ -32,34 +32,22 @@ MainWindow::MainWindow(QWidget *parent)
         );
 
     // Add shadows to buttons
-    QList<QPushButton*> buttons = {ui->btn_start, ui->btn_newproject, ui->btn_start_back};
+    QList<QPushButton*> buttons = {ui->btn_page1, ui->btn_page2, ui->btn_page1_back, ui->btn_page2_back};
     foreach (QPushButton* button, buttons) {
-        QGraphicsDropShadowEffect *buttonShadow = new QGraphicsDropShadowEffect;
-        buttonShadow->setBlurRadius(50);
-        buttonShadow->setOffset(0, 5);
-        buttonShadow->setColor(Qt::gray);
-        button->setGraphicsEffect(buttonShadow);
+        addShadow(button);
 
-        // // Add press and release animations
+        // Add press and release animations to buttons
         connect(button, &QPushButton::pressed, this, &MainWindow::animateButtonPress);
         connect(button, &QPushButton::released, this, &MainWindow::animateButtonRelease);
     }
 
-    // Add shadow to text widget
-    QGraphicsDropShadowEffect *textShadow = new QGraphicsDropShadowEffect;
-    textShadow->setBlurRadius(50);
-    textShadow->setOffset(0, 5);
-    textShadow->setColor(Qt::gray);
-    ui->text->setGraphicsEffect(textShadow);
+    // Add shadows to windows
+    addShadow(ui->text);
+    addShadow(ui->projects);
+    // addShadow(ui->models);
+    addShadow(ui->prompt);
 
-    // Add shadow to projects widget
-    QGraphicsDropShadowEffect *projectsShadow = new QGraphicsDropShadowEffect;
-    projectsShadow->setBlurRadius(50);
-    projectsShadow->setOffset(0, 5);
-    projectsShadow->setColor(Qt::gray);
-    ui->projects->setGraphicsEffect(projectsShadow);
-
-    // Add some data to projects
+    // Add some data to projects window
     QStringList items = {"Project 1", "Project 2", "Project 3"};
     ui->projects->addItems(items);
 }
@@ -67,6 +55,14 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::addShadow(QWidget *widget) {
+    QGraphicsDropShadowEffect *shadow = new QGraphicsDropShadowEffect;
+    shadow->setBlurRadius(50);
+    shadow->setOffset(0, 5);
+    shadow->setColor(Qt::gray);
+    widget->setGraphicsEffect(shadow);
 }
 
 void MainWindow::animateButtonPress()
@@ -93,12 +89,23 @@ void MainWindow::animateButtonRelease()
     }
 }
 
-void MainWindow::on_btn_start_clicked()
+void MainWindow::on_btn_page1_clicked()
 {
     ui->stackedWidget->setCurrentIndex(1);
 }
 
-void MainWindow::on_btn_start_back_clicked()
+void MainWindow::on_btn_page1_back_clicked()
 {
     ui->stackedWidget->setCurrentIndex(0);
 }
+
+void MainWindow::on_btn_page2_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(2);
+}
+
+void MainWindow::on_btn_page2_back_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(1);
+}
+

@@ -163,7 +163,7 @@ try {
 
 ```cpp
 int main() {
-    const std::string base_url = "http://217.196.97.29:8000/chat/";
+    const std::string base_url = "http://IP_ADRESS:PORT/chat/";
     ChatClient client(base_url);
 
     // Test /chat/start

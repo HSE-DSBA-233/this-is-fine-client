@@ -21,13 +21,22 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_btn_page1_clicked();
     void animateButtonPress();
     void animateButtonRelease();
-    void on_btn_page1_back_clicked();
-    void on_btn_page2_clicked();
-    void on_btn_page2_back_clicked();
+
+    void on_page1Button_clicked();
+
+    void on_page2Button_clicked();
+    void on_page2BackButton_clicked();
+
+    void on_page3Button_clicked();
+    void on_page3BackButton_clicked();
+
     void addShadow(QWidget *widget);
+
+    void on_page4Button_clicked();
+
+    void on_page4BackButton_clicked();
 
 private:
     Ui::MainWindow *ui;

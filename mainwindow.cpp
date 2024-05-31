@@ -7,6 +7,7 @@
 #include <QVBoxLayout>
 #include <QListWidget>
 #include <QIcon>
+#include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -32,7 +33,7 @@ MainWindow::MainWindow(QWidget *parent)
         );
 
     // Add shadows to buttons
-    QList<QPushButton*> buttons = {ui->btn_page1, ui->btn_page2, ui->btn_page1_back, ui->btn_page2_back};
+    QList<QPushButton*> buttons = {ui->page1Button, ui->page2Button, ui->page2BackButton, ui->page3BackButton, ui->page3Button, ui->page4Button, ui->page4BackButton};
     foreach (QPushButton* button, buttons) {
         addShadow(button);
 
@@ -41,15 +42,15 @@ MainWindow::MainWindow(QWidget *parent)
         connect(button, &QPushButton::released, this, &MainWindow::animateButtonRelease);
     }
 
-    // Add shadows to windows
-    addShadow(ui->text);
-    addShadow(ui->projects);
-    // addShadow(ui->models);
-    addShadow(ui->prompt);
+    // Add shadows to widgets
+    addShadow(ui->widget_page1);
+    addShadow(ui->projectsWidget);
+    addShadow(ui->modelsWidget);
+    addShadow(ui->promptWidget);
 
-    // Add some data to projects window
+    // Add some data to projects widget
     QStringList items = {"Project 1", "Project 2", "Project 3"};
-    ui->projects->addItems(items);
+    ui->projectsWidget->addItems(items);
 }
 
 MainWindow::~MainWindow()
@@ -89,23 +90,46 @@ void MainWindow::animateButtonRelease()
     }
 }
 
-void MainWindow::on_btn_page1_clicked()
+void MainWindow::on_page1Button_clicked()
 {
     ui->stackedWidget->setCurrentIndex(1);
 }
 
-void MainWindow::on_btn_page1_back_clicked()
-{
-    ui->stackedWidget->setCurrentIndex(0);
-}
-
-void MainWindow::on_btn_page2_clicked()
+void MainWindow::on_page2Button_clicked()
 {
     ui->stackedWidget->setCurrentIndex(2);
 }
 
-void MainWindow::on_btn_page2_back_clicked()
+void MainWindow::on_page2BackButton_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(0);
+}
+
+void MainWindow::on_page3Button_clicked()
+{
+    QString selectedModel = ui->modelsWidget->currentText();
+    QString selectedPrompt = ui->promptWidget->toPlainText();
+    if (selectedModel.isEmpty() or selectedPrompt.isEmpty()) {
+        QMessageBox::warning(this, "Input Error", "Please select a model and type a prompt before chatting.");
+        return;
+    }
+    ui->stackedWidget->setCurrentIndex(3);
+    ui->modelLabel->setText(selectedModel);
+    ui->promptLabel->setText(selectedPrompt);
+}
+
+void MainWindow::on_page3BackButton_clicked()
 {
     ui->stackedWidget->setCurrentIndex(1);
+}
+
+void MainWindow::on_page4Button_clicked()
+{
+
+}
+
+void MainWindow::on_page4BackButton_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(2);
 }
 

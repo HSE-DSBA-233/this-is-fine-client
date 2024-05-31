@@ -53,7 +53,7 @@
        <string notr="true"/>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="page1">
        <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -73,7 +73,7 @@
          <number>30</number>
         </property>
         <item alignment="Qt::AlignTop">
-         <widget class="QLabel" name="title_page1">
+         <widget class="QLabel" name="titleLabel">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -110,7 +110,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QWidget" name="text" native="true">
+         <widget class="QWidget" name="widget_page1" native="true">
           <property name="toolTip">
            <string notr="true"/>
           </property>
@@ -141,7 +141,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QLabel" name="welcome">
+               <widget class="QLabel" name="welcomeLabel">
                 <property name="font">
                  <font>
                   <pointsize>16</pointsize>
@@ -170,7 +170,7 @@
             </widget>
            </item>
            <item alignment="Qt::AlignBottom">
-            <widget class="QLabel" name="about">
+            <widget class="QLabel" name="aboutLabel">
              <property name="font">
               <font>
                <italic>true</italic>
@@ -200,7 +200,7 @@
          </widget>
         </item>
         <item alignment="Qt::AlignHCenter">
-         <widget class="QPushButton" name="btn_page1">
+         <widget class="QPushButton" name="page1Button">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -265,7 +265,7 @@
          <number>30</number>
         </property>
         <item alignment="Qt::AlignHCenter">
-         <widget class="QPushButton" name="btn_page2">
+         <widget class="QPushButton" name="page2Button">
           <property name="minimumSize">
            <size>
             <width>300</width>
@@ -296,7 +296,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QListWidget" name="projects">
+         <widget class="QListWidget" name="projectsWidget">
           <property name="font">
            <font>
             <pointsize>20</pointsize>
@@ -332,7 +332,7 @@
          </widget>
         </item>
         <item alignment="Qt::AlignHCenter">
-         <widget class="QPushButton" name="btn_page1_back">
+         <widget class="QPushButton" name="page2BackButton">
           <property name="minimumSize">
            <size>
             <width>150</width>
@@ -373,7 +373,7 @@
          <number>30</number>
         </property>
         <item alignment="Qt::AlignHCenter|Qt::AlignTop">
-         <widget class="QLabel" name="title_model">
+         <widget class="QLabel" name="modeslSelectLabel">
           <property name="font">
            <font>
             <pointsize>45</pointsize>
@@ -386,7 +386,7 @@
          </widget>
         </item>
         <item alignment="Qt::AlignHCenter">
-         <widget class="QComboBox" name="list_models">
+         <widget class="QComboBox" name="modelsWidget">
           <property name="minimumSize">
            <size>
             <width>0</width>
@@ -557,7 +557,7 @@
          </widget>
         </item>
         <item alignment="Qt::AlignHCenter">
-         <widget class="QLabel" name="title_prompt">
+         <widget class="QLabel" name="promptSelectLabel">
           <property name="font">
            <font>
             <pointsize>45</pointsize>
@@ -570,10 +570,10 @@
          </widget>
         </item>
         <item>
-         <widget class="QTextEdit" name="prompt"/>
+         <widget class="QTextEdit" name="promptWidget"/>
         </item>
         <item alignment="Qt::AlignHCenter">
-         <widget class="QPushButton" name="btn_page3">
+         <widget class="QPushButton" name="page3Button">
           <property name="minimumSize">
            <size>
             <width>300</width>
@@ -595,7 +595,7 @@
          </widget>
         </item>
         <item alignment="Qt::AlignHCenter|Qt::AlignBottom">
-         <widget class="QPushButton" name="btn_page2_back">
+         <widget class="QPushButton" name="page3BackButton">
           <property name="minimumSize">
            <size>
             <width>150</width>
@@ -614,6 +614,292 @@
           <property name="text">
            <string>Back</string>
           </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="page4">
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <property name="spacing">
+         <number>30</number>
+        </property>
+        <property name="leftMargin">
+         <number>50</number>
+        </property>
+        <property name="topMargin">
+         <number>30</number>
+        </property>
+        <property name="rightMargin">
+         <number>50</number>
+        </property>
+        <property name="bottomMargin">
+         <number>30</number>
+        </property>
+        <item alignment="Qt::AlignHCenter|Qt::AlignTop">
+         <widget class="QPushButton" name="page4BackButton">
+          <property name="text">
+           <string>&lt;</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QWidget" name="chatWidget" native="true">
+          <property name="styleSheet">
+           <string notr="true">background-color: #F1F1F1; border-radius: 15px; padding: 15px;</string>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_10" stretch="0,0">
+           <property name="spacing">
+            <number>-1</number>
+           </property>
+           <property name="sizeConstraint">
+            <enum>QLayout::SetDefaultConstraint</enum>
+           </property>
+           <property name="leftMargin">
+            <number>12</number>
+           </property>
+           <property name="topMargin">
+            <number>12</number>
+           </property>
+           <property name="rightMargin">
+            <number>12</number>
+           </property>
+           <property name="bottomMargin">
+            <number>12</number>
+           </property>
+           <item>
+            <widget class="QScrollArea" name="chatWindowWidget">
+             <property name="widgetResizable">
+              <bool>true</bool>
+             </property>
+             <widget class="QWidget" name="scrollAreaWidgetContents">
+              <property name="geometry">
+               <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>771</width>
+                <height>718</height>
+               </rect>
+              </property>
+              <layout class="QVBoxLayout" name="verticalLayout_12">
+               <item>
+                <widget class="QLabel" name="label_4">
+                 <property name="text">
+                  <string>TextLabel</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="label_14">
+                 <property name="text">
+                  <string>TextLabel</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="label_13">
+                 <property name="text">
+                  <string>TextLabel</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="label_12">
+                 <property name="text">
+                  <string>TextLabel</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="label_11">
+                 <property name="text">
+                  <string>TextLabel</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="label_10">
+                 <property name="text">
+                  <string>TextLabel</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="label_9">
+                 <property name="text">
+                  <string>TextLabel</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="label_8">
+                 <property name="text">
+                  <string>TextLabel</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="label_7">
+                 <property name="text">
+                  <string>TextLabel</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="label_6">
+                 <property name="text">
+                  <string>TextLabel</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="label_5">
+                 <property name="text">
+                  <string>TextLabel</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="label_3">
+                 <property name="text">
+                  <string>TextLabel</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="label_2">
+                 <property name="text">
+                  <string>TextLabel</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </widget>
+           </item>
+           <item>
+            <widget class="QWidget" name="chatInputWidget" native="true">
+             <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,0">
+              <property name="spacing">
+               <number>30</number>
+              </property>
+              <item>
+               <widget class="QLineEdit" name="chatInput2Widget">
+                <property name="text">
+                 <string/>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="page4Button">
+                <property name="text">
+                 <string>Send</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QWidget" name="chatSetttingsWidget" native="true">
+          <layout class="QVBoxLayout" name="verticalLayout_9">
+           <property name="spacing">
+            <number>50</number>
+           </property>
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
+           <item>
+            <widget class="QWidget" name="chatModelWidget" native="true">
+             <property name="font">
+              <font>
+               <pointsize>20</pointsize>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">background-color: #F1F1F1; border-radius: 15px; padding: 15px;</string>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_7">
+              <property name="spacing">
+               <number>0</number>
+              </property>
+              <property name="bottomMargin">
+               <number>12</number>
+              </property>
+              <item alignment="Qt::AlignHCenter|Qt::AlignTop">
+               <widget class="QLabel" name="modeTitleLabel">
+                <property name="font">
+                 <font>
+                  <pointsize>20</pointsize>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Model:</string>
+                </property>
+               </widget>
+              </item>
+              <item alignment="Qt::AlignHCenter|Qt::AlignTop">
+               <widget class="QLabel" name="modelLabel">
+                <property name="font">
+                 <font>
+                  <pointsize>15</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>TextLabel</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QWidget" name="chatPromptWidget" native="true">
+             <property name="styleSheet">
+              <string notr="true">background-color: #F1F1F1; border-radius: 15px; padding: 15px;</string>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_8">
+              <property name="spacing">
+               <number>0</number>
+              </property>
+              <property name="bottomMargin">
+               <number>100</number>
+              </property>
+              <item alignment="Qt::AlignHCenter|Qt::AlignTop">
+               <widget class="QLabel" name="promptTitleLabel">
+                <property name="font">
+                 <font>
+                  <pointsize>20</pointsize>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Prompt:</string>
+                </property>
+               </widget>
+              </item>
+              <item alignment="Qt::AlignHCenter|Qt::AlignTop">
+               <widget class="QLabel" name="promptLabel">
+                <property name="font">
+                 <font>
+                  <pointsize>15</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>TextLabel</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+          </layout>
          </widget>
         </item>
        </layout>

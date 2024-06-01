@@ -1,0 +1,93 @@
+{
+	"BUILD_DIR" : "/Users/eeleexx/This_is_fine_client/this-is-fine-client/build/extern/googletest/googletest/gtest_autogen",
+	"CMAKE_BINARY_DIR" : "/Users/eeleexx/This_is_fine_client/this-is-fine-client/build",
+	"CMAKE_CURRENT_BINARY_DIR" : "/Users/eeleexx/This_is_fine_client/this-is-fine-client/build/extern/googletest/googletest",
+	"CMAKE_CURRENT_SOURCE_DIR" : "/Users/eeleexx/This_is_fine_client/this-is-fine-client/extern/googletest/googletest",
+	"CMAKE_EXECUTABLE" : "/opt/homebrew/Cellar/cmake/3.28.3/bin/cmake",
+	"CMAKE_LIST_FILES" : 
+	[
+		"/Users/eeleexx/This_is_fine_client/this-is-fine-client/extern/googletest/googletest/CMakeLists.txt",
+		"/Users/eeleexx/This_is_fine_client/this-is-fine-client/extern/googletest/googletest/cmake/internal_utils.cmake",
+		"/opt/homebrew/Cellar/cmake/3.28.3/share/cmake/Modules/FindThreads.cmake",
+		"/opt/homebrew/Cellar/cmake/3.28.3/share/cmake/Modules/CheckLibraryExists.cmake",
+		"/opt/homebrew/Cellar/cmake/3.28.3/share/cmake/Modules/CheckIncludeFile.cmake",
+		"/opt/homebrew/Cellar/cmake/3.28.3/share/cmake/Modules/CheckCSourceCompiles.cmake",
+		"/opt/homebrew/Cellar/cmake/3.28.3/share/cmake/Modules/Internal/CheckSourceCompiles.cmake",
+		"/opt/homebrew/Cellar/cmake/3.28.3/share/cmake/Modules/FindPackageHandleStandardArgs.cmake",
+		"/opt/homebrew/Cellar/cmake/3.28.3/share/cmake/Modules/FindPackageMessage.cmake",
+		"/opt/homebrew/Cellar/cmake/3.28.3/share/cmake/Modules/CMakePackageConfigHelpers.cmake",
+		"/opt/homebrew/Cellar/cmake/3.28.3/share/cmake/Modules/WriteBasicConfigVersionFile.cmake",
+		"/opt/homebrew/Cellar/cmake/3.28.3/share/cmake/Modules/BasicConfigVersion-AnyNewerVersion.cmake.in",
+		"/Users/eeleexx/This_is_fine_client/this-is-fine-client/extern/googletest/googletest/cmake/Config.cmake.in",
+		"/Users/eeleexx/This_is_fine_client/this-is-fine-client/extern/googletest/googletest/cmake/gtest.pc.in",
+		"/Users/eeleexx/This_is_fine_client/this-is-fine-client/extern/googletest/googletest/cmake/gtest_main.pc.in"
+	],
+	"CMAKE_SOURCE_DIR" : "/Users/eeleexx/This_is_fine_client/this-is-fine-client",
+	"DEP_FILE" : "/Users/eeleexx/This_is_fine_client/this-is-fine-client/build/extern/googletest/googletest/gtest_autogen/deps",
+	"DEP_FILE_RULE_NAME" : "gtest_autogen/timestamp",
+	"HEADERS" : [],
+	"HEADER_EXTENSIONS" : [ "h", "hh", "h++", "hm", "hpp", "hxx", "in", "txx" ],
+	"INCLUDE_DIR" : "/Users/eeleexx/This_is_fine_client/this-is-fine-client/build/extern/googletest/googletest/gtest_autogen/include",
+	"MOC_COMPILATION_FILE" : "/Users/eeleexx/This_is_fine_client/this-is-fine-client/build/extern/googletest/googletest/gtest_autogen/mocs_compilation.cpp",
+	"MOC_DEFINITIONS" : [],
+	"MOC_DEPEND_FILTERS" : 
+	[
+		[
+			"Q_PLUGIN_METADATA",
+			"[\n][ \t]*Q_PLUGIN_METADATA[ \t]*\\([^\\)]*FILE[ \t]*\"([^\"]+)\""
+		]
+	],
+	"MOC_INCLUDES" : 
+	[
+		"/Users/eeleexx/This_is_fine_client/this-is-fine-client/extern/googletest/googletest/include",
+		"/Users/eeleexx/This_is_fine_client/this-is-fine-client/extern/googletest/googletest",
+		"/Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include/c++/v1",
+		"/Library/Developer/CommandLineTools/usr/lib/clang/15.0.0/include",
+		"/Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk/usr/include",
+		"/Library/Developer/CommandLineTools/usr/include"
+	],
+	"MOC_MACRO_NAMES" : 
+	[
+		"Q_OBJECT",
+		"Q_GADGET",
+		"Q_NAMESPACE",
+		"Q_NAMESPACE_EXPORT",
+		"Q_GADGET_EXPORT",
+		"Q_ENUM_NS"
+	],
+	"MOC_OPTIONS" : [],
+	"MOC_PATH_PREFIX" : false,
+	"MOC_PREDEFS_CMD" : 
+	[
+		"/usr/bin/clang++",
+		"-std=c++17",
+		"-dM",
+		"-E",
+		"-c",
+		"/opt/homebrew/Cellar/cmake/3.28.3/share/cmake/Modules/CMakeCXXCompilerABI.cpp"
+	],
+	"MOC_PREDEFS_FILE" : "/Users/eeleexx/This_is_fine_client/this-is-fine-client/build/extern/googletest/googletest/gtest_autogen/moc_predefs.h",
+	"MOC_RELAXED_MODE" : false,
+	"MOC_SKIP" : [],
+	"MULTI_CONFIG" : false,
+	"PARALLEL" : 8,
+	"PARSE_CACHE_FILE" : "/Users/eeleexx/This_is_fine_client/this-is-fine-client/build/extern/googletest/googletest/CMakeFiles/gtest_autogen.dir/ParseCache.txt",
+	"QT_MOC_EXECUTABLE" : "/opt/homebrew/share/qt/libexec/moc",
+	"QT_UIC_EXECUTABLE" : "/opt/homebrew/share/qt/libexec/uic",
+	"QT_VERSION_MAJOR" : 6,
+	"QT_VERSION_MINOR" : 7,
+	"SETTINGS_FILE" : "/Users/eeleexx/This_is_fine_client/this-is-fine-client/build/extern/googletest/googletest/CMakeFiles/gtest_autogen.dir/AutogenUsed.txt",
+	"SOURCES" : 
+	[
+		[
+			"/Users/eeleexx/This_is_fine_client/this-is-fine-client/extern/googletest/googletest/src/gtest-all.cc",
+			"MU",
+			null
+		]
+	],
+	"UIC_OPTIONS" : [],
+	"UIC_SEARCH_PATHS" : [],
+	"UIC_SKIP" : [],
+	"UIC_UI_FILES" : [],
+	"VERBOSITY" : 0
+}

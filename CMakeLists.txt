@@ -15,6 +15,9 @@ set(CMAKE_PREFIX_PATH "$ENV{CONDA_PREFIX}/lib/cmake/Qt5")
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets LinguistTools)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets LinguistTools)
 
+# Include spdlog
+include_directories(${CMAKE_SOURCE_DIR}/logger/include)
+
 # Source files
 set(TS_FILES This_is_Fine_en_US.ts)
 set(PROJECT_SOURCES
@@ -42,6 +45,7 @@ else()
     qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 endif()
 
+# Link libraries
 target_link_libraries(This_is_Fine PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
 
 if(${QT_VERSION} VERSION_LESS 6.1.0)

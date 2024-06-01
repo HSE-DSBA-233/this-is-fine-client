@@ -25,6 +25,9 @@ private slots:
     void animateButtonRelease();
 
     void on_page1Button_clicked();
+    void on_page1AboutButton_clicked();
+    void on_page1SettingsButton_clicked();
+    void on_page1ContactButton_clicked();
 
     void on_page2Button_clicked();
     void on_page2BackButton_clicked();
@@ -37,6 +40,12 @@ private slots:
     void on_page4Button_clicked();
 
     void on_page4BackButton_clicked();
+
+    void on_page5BackButton_clicked();
+
+    void on_page6BackButton_clicked();
+
+    void on_page7BackButton_clicked();
 
     void addMessage(bool isUser, const QString &message);
     void loadMessageHistory();

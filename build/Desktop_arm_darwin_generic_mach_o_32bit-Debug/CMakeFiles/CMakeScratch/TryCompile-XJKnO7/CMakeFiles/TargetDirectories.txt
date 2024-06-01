@@ -1,0 +1,3 @@
+/Users/mverzhbitskiy/Documents/GitHub/This-is-Fine-client/build/Desktop_arm_darwin_generic_mach_o_32bit-Debug/CMakeFiles/CMakeScratch/TryCompile-XJKnO7/CMakeFiles/cmTC_10fe1.dir
+/Users/mverzhbitskiy/Documents/GitHub/This-is-Fine-client/build/Desktop_arm_darwin_generic_mach_o_32bit-Debug/CMakeFiles/CMakeScratch/TryCompile-XJKnO7/CMakeFiles/edit_cache.dir
+/Users/mverzhbitskiy/Documents/GitHub/This-is-Fine-client/build/Desktop_arm_darwin_generic_mach_o_32bit-Debug/CMakeFiles/CMakeScratch/TryCompile-XJKnO7/CMakeFiles/rebuild_cache.dir

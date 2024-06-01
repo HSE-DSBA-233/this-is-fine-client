@@ -1,0 +1,26 @@
+[
+{
+  "directory": "/Users/mverzhbitskiy/Documents/GitHub/This-is-Fine-client/build",
+  "command": "/usr/bin/clang++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -I/Users/mverzhbitskiy/Documents/GitHub/This-is-Fine-client/build/This_is_Fine_autogen/include -isystem /opt/homebrew/lib/QtCore.framework/Headers -iframework /opt/homebrew/lib -isystem /opt/homebrew/share/qt/mkspecs/macx-clang -isystem /opt/homebrew/include -isystem /opt/homebrew/lib/QtWidgets.framework/Headers -isystem /opt/homebrew/lib/QtGui.framework/Headers -g -std=gnu++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.0.sdk -fcolor-diagnostics -o CMakeFiles/This_is_Fine.dir/This_is_Fine_autogen/mocs_compilation.cpp.o -c /Users/mverzhbitskiy/Documents/GitHub/This-is-Fine-client/build/This_is_Fine_autogen/mocs_compilation.cpp",
+  "file": "/Users/mverzhbitskiy/Documents/GitHub/This-is-Fine-client/build/This_is_Fine_autogen/mocs_compilation.cpp",
+  "output": "CMakeFiles/This_is_Fine.dir/This_is_Fine_autogen/mocs_compilation.cpp.o"
+},
+{
+  "directory": "/Users/mverzhbitskiy/Documents/GitHub/This-is-Fine-client/build",
+  "command": "/usr/bin/clang++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -I/Users/mverzhbitskiy/Documents/GitHub/This-is-Fine-client/build/This_is_Fine_autogen/include -isystem /opt/homebrew/lib/QtCore.framework/Headers -iframework /opt/homebrew/lib -isystem /opt/homebrew/share/qt/mkspecs/macx-clang -isystem /opt/homebrew/include -isystem /opt/homebrew/lib/QtWidgets.framework/Headers -isystem /opt/homebrew/lib/QtGui.framework/Headers -g -std=gnu++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.0.sdk -fcolor-diagnostics -o CMakeFiles/This_is_Fine.dir/main.cpp.o -c /Users/mverzhbitskiy/Documents/GitHub/This-is-Fine-client/main.cpp",
+  "file": "/Users/mverzhbitskiy/Documents/GitHub/This-is-Fine-client/main.cpp",
+  "output": "CMakeFiles/This_is_Fine.dir/main.cpp.o"
+},
+{
+  "directory": "/Users/mverzhbitskiy/Documents/GitHub/This-is-Fine-client/build",
+  "command": "/usr/bin/clang++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -I/Users/mverzhbitskiy/Documents/GitHub/This-is-Fine-client/build/This_is_Fine_autogen/include -isystem /opt/homebrew/lib/QtCore.framework/Headers -iframework /opt/homebrew/lib -isystem /opt/homebrew/share/qt/mkspecs/macx-clang -isystem /opt/homebrew/include -isystem /opt/homebrew/lib/QtWidgets.framework/Headers -isystem /opt/homebrew/lib/QtGui.framework/Headers -g -std=gnu++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.0.sdk -fcolor-diagnostics -o CMakeFiles/This_is_Fine.dir/mainwindow.cpp.o -c /Users/mverzhbitskiy/Documents/GitHub/This-is-Fine-client/mainwindow.cpp",
+  "file": "/Users/mverzhbitskiy/Documents/GitHub/This-is-Fine-client/mainwindow.cpp",
+  "output": "CMakeFiles/This_is_Fine.dir/mainwindow.cpp.o"
+},
+{
+  "directory": "/Users/mverzhbitskiy/Documents/GitHub/This-is-Fine-client/build",
+  "command": "/usr/bin/clang++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -I/Users/mverzhbitskiy/Documents/GitHub/This-is-Fine-client/build/This_is_Fine_autogen/include -isystem /opt/homebrew/lib/QtCore.framework/Headers -iframework /opt/homebrew/lib -isystem /opt/homebrew/share/qt/mkspecs/macx-clang -isystem /opt/homebrew/include -isystem /opt/homebrew/lib/QtWidgets.framework/Headers -isystem /opt/homebrew/lib/QtGui.framework/Headers -g -std=gnu++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.0.sdk -fcolor-diagnostics -o CMakeFiles/This_is_Fine.dir/This_is_Fine_autogen/EWIEGA46WW/qrc_resources.cpp.o -c /Users/mverzhbitskiy/Documents/GitHub/This-is-Fine-client/build/This_is_Fine_autogen/EWIEGA46WW/qrc_resources.cpp",
+  "file": "/Users/mverzhbitskiy/Documents/GitHub/This-is-Fine-client/build/This_is_Fine_autogen/EWIEGA46WW/qrc_resources.cpp",
+  "output": "CMakeFiles/This_is_Fine.dir/This_is_Fine_autogen/EWIEGA46WW/qrc_resources.cpp.o"
+}
+]

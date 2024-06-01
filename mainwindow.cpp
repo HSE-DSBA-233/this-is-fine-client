@@ -4,6 +4,7 @@
 #include <QDebug>
 #include <QListWidget>
 #include <QIcon>
+#include <QGraphicsDropShadowEffect>
 #include <QMessageBox>
 #include <QString>
 
@@ -25,10 +26,13 @@ MainWindow::MainWindow(QWidget *parent)
     // Apply a style sheet to the entire application
     qApp->setStyleSheet(
         "QLabel {color: black; font-family: 'Montserrat'; }"
+        "QLineEdit {color: black; font-family: 'Montserrat'; }"
+        "QTextEdit {color: black; font-family: 'Montserrat'; }"
         "QPushButton { background-color: #FCCD4A; font-family: 'Montserrat'; color: white; border: 2px solid #FCCD4A; border-radius: 10px; padding: 5px 15px; }"
         "QPushButton:hover { background-color: #FFD971; }"
         "QListWidget { color: black; font-family: 'Montserrat'; border: none; }"
         );
+    ui->promptWidget->setStyleSheet("color: white; font-family: 'Montserrat'");
 
     // Add shadows to buttons
     QList<QPushButton*> buttons = {ui->page1Button, ui->page2Button, ui->page2BackButton, ui->page3BackButton, ui->page3Button, ui->page4Button, ui->page4BackButton};
@@ -45,7 +49,6 @@ MainWindow::MainWindow(QWidget *parent)
     addShadow(ui->projectsWidget);
     addShadow(ui->modelsWidget);
     addShadow(ui->promptWidget);
-
     // Add some data to projects widget
     QStringList items = {"Project 1", "Project 2", "Project 3"};
     ui->projectsWidget->addItems(items);
@@ -94,6 +97,22 @@ void MainWindow::on_page1Button_clicked()
     ui->stackedWidget->setCurrentIndex(1);
 }
 
+void MainWindow::on_page1AboutButton_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(4);
+}
+
+void MainWindow::on_page1ContactButton_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(5);
+}
+
+void MainWindow::on_page1SettingsButton_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(6);
+}
+
+
 void MainWindow::on_page2Button_clicked()
 {
     ui->stackedWidget->setCurrentIndex(2);
@@ -130,6 +149,7 @@ void MainWindow::on_page4Button_clicked()
         addMessage(false, message);
         ui->chatInput2Widget->clear();
     }
+
 }
 
 void MainWindow::on_page4BackButton_clicked()
@@ -142,6 +162,23 @@ void MainWindow::addMessage(bool isUser, const QString &message) {
 
     ui->chatWindowWidget->append(QString("<div style='margin: 10px; padding: 15px;'><b> %1</b><br>%2</div>")
                                                                       .arg(sender, message));
+}
+
+void MainWindow::on_page5BackButton_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(0);
+}
+
+
+void MainWindow::on_page6BackButton_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(0);
+}
+
+
+void MainWindow::on_page7BackButton_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(0);
 }
 
 void MainWindow::loadMessageHistory() {

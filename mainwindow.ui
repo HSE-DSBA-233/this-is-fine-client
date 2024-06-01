@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1301</width>
-    <height>774</height>
+    <height>1072</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -26,22 +26,7 @@
    <property name="styleSheet">
     <string notr="true"/>
    </property>
-   <layout class="QVBoxLayout" name="verticalLayout">
-    <property name="spacing">
-     <number>30</number>
-    </property>
-    <property name="leftMargin">
-     <number>50</number>
-    </property>
-    <property name="topMargin">
-     <number>30</number>
-    </property>
-    <property name="rightMargin">
-     <number>50</number>
-    </property>
-    <property name="bottomMargin">
-     <number>50</number>
-    </property>
+   <layout class="QHBoxLayout" name="horizontalLayout_4">
     <item>
      <widget class="QStackedWidget" name="stackedWidget">
       <property name="font">
@@ -53,26 +38,57 @@
        <string notr="true"/>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>4</number>
       </property>
       <widget class="QWidget" name="page1">
-       <layout class="QVBoxLayout" name="verticalLayout_3" stretch="0,1,0">
-        <property name="spacing">
-         <number>30</number>
-        </property>
-        <property name="leftMargin">
-         <number>50</number>
-        </property>
-        <property name="topMargin">
-         <number>30</number>
-        </property>
-        <property name="rightMargin">
-         <number>50</number>
-        </property>
-        <property name="bottomMargin">
-         <number>30</number>
-        </property>
-        <item alignment="Qt::AlignTop">
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <item>
+         <widget class="QWidget" name="ToolBarButtons1Page" native="true">
+          <layout class="QHBoxLayout" name="horizontalLayout_3">
+           <item>
+            <widget class="QPushButton" name="page1GuideButton">
+             <property name="minimumSize">
+              <size>
+               <width>302</width>
+               <height>32</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>302</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>Guide</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="page1AboutButton">
+             <property name="text">
+              <string>About</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="page1ContactButton">
+             <property name="text">
+              <string>Contact</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="page1SettingsButton">
+             <property name="text">
+              <string>Settings</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
          <widget class="QLabel" name="titleLabel">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -202,7 +218,7 @@
           </layout>
          </widget>
         </item>
-        <item alignment="Qt::AlignHCenter">
+        <item>
          <widget class="QPushButton" name="page1Button">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -638,7 +654,7 @@
         <property name="bottomMargin">
          <number>30</number>
         </property>
-        <item alignment="Qt::AlignHCenter|Qt::AlignTop">
+        <item>
          <widget class="QPushButton" name="page4BackButton">
           <property name="cursor">
            <cursorShape>PointingHandCursor</cursorShape>
@@ -825,7 +841,7 @@
               <property name="bottomMargin">
                <number>12</number>
               </property>
-              <item alignment="Qt::AlignHCenter|Qt::AlignTop">
+              <item>
                <widget class="QLabel" name="modeTitleLabel">
                 <property name="font">
                  <font>
@@ -838,7 +854,7 @@
                 </property>
                </widget>
               </item>
-              <item alignment="Qt::AlignHCenter|Qt::AlignTop">
+              <item>
                <widget class="QLabel" name="modelLabel">
                 <property name="font">
                  <font>
@@ -897,6 +913,108 @@
          </widget>
         </item>
        </layout>
+      </widget>
+      <widget class="QWidget" name="page5">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>1201</width>
+         <height>992</height>
+        </size>
+       </property>
+       <property name="whatsThis">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;settings&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_3">
+        <item>
+         <widget class="QLabel" name="label_3">
+          <property name="text">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:72pt;&quot;&gt;About us:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="page5AboutText">
+          <property name="layoutDirection">
+           <enum>Qt::LeftToRight</enum>
+          </property>
+          <property name="text">
+           <string>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
+          </property>
+          <property name="scaledContents">
+           <bool>false</bool>
+          </property>
+          <property name="wordWrap">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="page5BackButton">
+          <property name="text">
+           <string>Back</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="page6">
+       <widget class="QSplitter" name="splitter_2">
+        <property name="geometry">
+         <rect>
+          <x>350</x>
+          <y>330</y>
+          <width>411</width>
+          <height>131</height>
+         </rect>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>App was created by HSE DSBA students in honor of the C++ project: @gurbanoffn, @pvlppv, @makaroshh, @eeleecc</string>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="page6BackButton">
+         <property name="text">
+          <string>Back</string>
+         </property>
+        </widget>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="page7">
+       <widget class="QPushButton" name="page7BackButton">
+        <property name="geometry">
+         <rect>
+          <x>550</x>
+          <y>410</y>
+          <width>111</width>
+          <height>32</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Back</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_4">
+        <property name="geometry">
+         <rect>
+          <x>470</x>
+          <y>180</y>
+          <width>291</width>
+          <height>91</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:72pt;&quot;&gt;Settings:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
       </widget>
      </widget>
     </item>

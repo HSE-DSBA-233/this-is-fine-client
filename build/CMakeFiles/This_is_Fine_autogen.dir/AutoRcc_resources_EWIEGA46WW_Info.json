@@ -1,0 +1,25 @@
+{
+	"BUILD_DIR" : "/Users/mverzhbitskiy/Documents/GitHub/This-is-Fine-client/build/This_is_Fine_autogen",
+	"CMAKE_BINARY_DIR" : "/Users/mverzhbitskiy/Documents/GitHub/This-is-Fine-client/build",
+	"CMAKE_CURRENT_BINARY_DIR" : "/Users/mverzhbitskiy/Documents/GitHub/This-is-Fine-client/build",
+	"CMAKE_CURRENT_SOURCE_DIR" : "/Users/mverzhbitskiy/Documents/GitHub/This-is-Fine-client",
+	"CMAKE_SOURCE_DIR" : "/Users/mverzhbitskiy/Documents/GitHub/This-is-Fine-client",
+	"GENERATOR" : "Unix Makefiles",
+	"INCLUDE_DIR" : "/Users/mverzhbitskiy/Documents/GitHub/This-is-Fine-client/build/This_is_Fine_autogen/include",
+	"INPUTS" : 
+	[
+		"/Users/mverzhbitskiy/Documents/GitHub/This-is-Fine-client/fonts/Inter-Regular.ttf",
+		"/Users/mverzhbitskiy/Documents/GitHub/This-is-Fine-client/assets/thisisfinelogo.png",
+		"/Users/mverzhbitskiy/Documents/GitHub/This-is-Fine-client/assets/thisisfinelogo2.png"
+	],
+	"LOCK_FILE" : "/Users/mverzhbitskiy/Documents/GitHub/This-is-Fine-client/build/CMakeFiles/This_is_Fine_autogen.dir/AutoRcc_resources_EWIEGA46WW_Lock.lock",
+	"MULTI_CONFIG" : false,
+	"OPTIONS" : [ "-name", "resources" ],
+	"OUTPUT_CHECKSUM" : "EWIEGA46WW",
+	"OUTPUT_NAME" : "qrc_resources.cpp",
+	"RCC_EXECUTABLE" : "/opt/homebrew/share/qt/libexec/rcc",
+	"RCC_LIST_OPTIONS" : [ "--list" ],
+	"SETTINGS_FILE" : "/Users/mverzhbitskiy/Documents/GitHub/This-is-Fine-client/build/CMakeFiles/This_is_Fine_autogen.dir/AutoRcc_resources_EWIEGA46WW_Used.txt",
+	"SOURCE" : "/Users/mverzhbitskiy/Documents/GitHub/This-is-Fine-client/resources.qrc",
+	"VERBOSITY" : 0
+}

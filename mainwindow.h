@@ -6,7 +6,7 @@
 #include <QListWidget>
 #include <QVBoxLayout>
 #include <QWidget>
-
+#include <QString>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -37,6 +37,10 @@ private slots:
     void on_page4Button_clicked();
 
     void on_page4BackButton_clicked();
+
+    void addMessage(bool isUser, const QString &message);
+    void loadMessageHistory();
+    void saveMessageHistory();
 
 private:
     Ui::MainWindow *ui;

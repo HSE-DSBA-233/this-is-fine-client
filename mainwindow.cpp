@@ -1,32 +1,30 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include <QGraphicsDropShadowEffect>
 #include <QFontDatabase>
 #include <QDebug>
-#include <QPropertyAnimation>
-#include <QVBoxLayout>
 #include <QListWidget>
 #include <QIcon>
 #include <QMessageBox>
+#include <QString>
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
+    : QMainWindow(parent),
+    ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
 
     // Customizing
-    this->setWindowTitle("This Is Fine");
-    this->setWindowIcon(QIcon("/Users/pavelpopov/Downloads/thisisfinelogo.png"));
+    setWindowTitle("This Is Fine");
+    setWindowIcon(QIcon(":/assets/thisisfinelogo.png"));
 
     // Apply white background color to the main window
     QPalette palette = this->palette();
     palette.setColor(QPalette::Window, Qt::white);
-    this->setPalette(palette);
+    setPalette(palette);
 
     // Apply a style sheet to the entire application
     qApp->setStyleSheet(
-        "QLabel { color: black; font-family: 'Montserrat'; }"
+        "QLabel {color: black; font-family: 'Montserrat'; }"
         "QPushButton { background-color: #FCCD4A; font-family: 'Montserrat'; color: white; border: 2px solid #FCCD4A; border-radius: 10px; padding: 5px 15px; }"
         "QPushButton:hover { background-color: #FFD971; }"
         "QListWidget { color: black; font-family: 'Montserrat'; border: none; }"
@@ -55,6 +53,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
+    saveMessageHistory();
     delete ui;
 }
 
@@ -110,7 +109,7 @@ void MainWindow::on_page3Button_clicked()
     QString selectedModel = ui->modelsWidget->currentText();
     QString selectedPrompt = ui->promptWidget->toPlainText();
     if (selectedModel.isEmpty() or selectedPrompt.isEmpty()) {
-        QMessageBox::warning(this, "Input Error", "Please select a model and type a prompt before chatting.");
+        QMessageBox::warning(this, "Inpxut Error", "Please select a model and type a prompt before chatting.");
         return;
     }
     ui->stackedWidget->setCurrentIndex(3);
@@ -125,7 +124,12 @@ void MainWindow::on_page3BackButton_clicked()
 
 void MainWindow::on_page4Button_clicked()
 {
-
+    QString message = ui->chatInput2Widget->text();
+    if (!message.isEmpty()) {
+        addMessage(true, message);
+        addMessage(false, message);
+        ui->chatInput2Widget->clear();
+    }
 }
 
 void MainWindow::on_page4BackButton_clicked()
@@ -133,3 +137,17 @@ void MainWindow::on_page4BackButton_clicked()
     ui->stackedWidget->setCurrentIndex(2);
 }
 
+void MainWindow::addMessage(bool isUser, const QString &message) {
+    QString sender = isUser ? "You" : "Bot";
+
+    ui->chatWindowWidget->append(QString("<div style='margin: 10px; padding: 15px;'><b> %1</b><br>%2</div>")
+                                                                      .arg(sender, message));
+}
+
+void MainWindow::loadMessageHistory() {
+
+}
+
+void MainWindow::saveMessageHistory() {
+
+}

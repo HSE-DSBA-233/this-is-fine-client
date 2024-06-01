@@ -44,14 +44,19 @@
     </property>
     <item>
      <widget class="QStackedWidget" name="stackedWidget">
+      <property name="font">
+       <font>
+        <pointsize>13</pointsize>
+       </font>
+      </property>
       <property name="styleSheet">
        <string notr="true"/>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
-      <widget class="QWidget" name="page_1">
-       <layout class="QVBoxLayout" name="verticalLayout_3">
+      <widget class="QWidget" name="page1">
+       <layout class="QVBoxLayout" name="verticalLayout_3" stretch="0,1,0">
         <property name="spacing">
          <number>30</number>
         </property>
@@ -67,8 +72,8 @@
         <property name="bottomMargin">
          <number>30</number>
         </property>
-        <item>
-         <widget class="QLabel" name="title">
+        <item alignment="Qt::AlignTop">
+         <widget class="QLabel" name="titleLabel">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -105,14 +110,14 @@
          </widget>
         </item>
         <item>
-         <widget class="QWidget" name="text" native="true">
+         <widget class="QWidget" name="widget_page1" native="true">
           <property name="toolTip">
            <string notr="true"/>
           </property>
           <property name="styleSheet">
-           <string notr="true">background-color: #F1F1F1; border-radius: 15px; padding: 15px;</string>
+           <string notr="true">background-color: white; border-radius: 15px; padding: 15px;</string>
           </property>
-          <layout class="QVBoxLayout" name="verticalLayout_2">
+          <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,1">
            <item>
             <widget class="QWidget" name="widget" native="true">
              <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -128,15 +133,18 @@
                  <string/>
                 </property>
                 <property name="pixmap">
-                 <pixmap>thisisfinelogo2.png</pixmap>
+                 <pixmap resource="resources.qrc">:/assets/thisisfinelogo2.png</pixmap>
                 </property>
                 <property name="scaledContents">
                  <bool>true</bool>
                 </property>
+                <property name="margin">
+                 <number>1</number>
+                </property>
                </widget>
               </item>
-              <item>
-               <widget class="QLabel" name="welcome">
+              <item alignment="Qt::AlignTop">
+               <widget class="QLabel" name="welcomeLabel">
                 <property name="font">
                  <font>
                   <pointsize>16</pointsize>
@@ -165,7 +173,7 @@
             </widget>
            </item>
            <item alignment="Qt::AlignBottom">
-            <widget class="QLabel" name="about">
+            <widget class="QLabel" name="aboutLabel">
              <property name="font">
               <font>
                <italic>true</italic>
@@ -195,7 +203,7 @@
          </widget>
         </item>
         <item alignment="Qt::AlignHCenter">
-         <widget class="QPushButton" name="btn_start">
+         <widget class="QPushButton" name="page1Button">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -242,7 +250,7 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="page_2">
+      <widget class="QWidget" name="page2">
        <layout class="QVBoxLayout" name="verticalLayout_4">
         <property name="spacing">
          <number>30</number>
@@ -260,7 +268,7 @@
          <number>30</number>
         </property>
         <item alignment="Qt::AlignHCenter">
-         <widget class="QPushButton" name="btn_newproject">
+         <widget class="QPushButton" name="page2Button">
           <property name="minimumSize">
            <size>
             <width>300</width>
@@ -291,7 +299,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QListWidget" name="projects">
+         <widget class="QListWidget" name="projectsWidget">
           <property name="font">
            <font>
             <pointsize>20</pointsize>
@@ -301,7 +309,7 @@
            <cursorShape>ArrowCursor</cursorShape>
           </property>
           <property name="styleSheet">
-           <string notr="true">background-color: #F1F1F1; border-radius: 15px; padding: 15px;</string>
+           <string notr="true">background-color: white; border-radius: 15px; padding: 15px;</string>
           </property>
           <property name="autoScrollMargin">
            <number>16</number>
@@ -327,7 +335,7 @@
          </widget>
         </item>
         <item alignment="Qt::AlignHCenter">
-         <widget class="QPushButton" name="btn_start_back">
+         <widget class="QPushButton" name="page2BackButton">
           <property name="minimumSize">
            <size>
             <width>150</width>
@@ -350,12 +358,553 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="page_3"/>
+      <widget class="QWidget" name="page3">
+       <layout class="QVBoxLayout" name="verticalLayout_6">
+        <property name="spacing">
+         <number>30</number>
+        </property>
+        <property name="leftMargin">
+         <number>50</number>
+        </property>
+        <property name="topMargin">
+         <number>30</number>
+        </property>
+        <property name="rightMargin">
+         <number>50</number>
+        </property>
+        <property name="bottomMargin">
+         <number>30</number>
+        </property>
+        <item alignment="Qt::AlignHCenter|Qt::AlignTop">
+         <widget class="QLabel" name="modeslSelectLabel">
+          <property name="font">
+           <font>
+            <pointsize>45</pointsize>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>Select a model:</string>
+          </property>
+         </widget>
+        </item>
+        <item alignment="Qt::AlignHCenter">
+         <widget class="QComboBox" name="modelsWidget">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>15</pointsize>
+            <bold>false</bold>
+           </font>
+          </property>
+          <item>
+           <property name="text">
+            <string/>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>meta-llama/Meta-Llama-3-70B-Instruct</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>meta-llama/Meta-Llama-3-8B-Instruct</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>mistralai/Mixtral-8x22B-Instruct-v0.1</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>mistralai/Mistral-7B-Instruct-v0.1</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>mistralai/Mixtral-8x22B-v0.1</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>microsoft/WizardLM-2-8x22B</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>microsoft/WizardLM-2-7B</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>google/gemma-1.1-7b-it</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>mistralai/Mixtral-8x7B-Instruct-v0.1</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>mistralai/Mistral-7B-Instruct-v0.2</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>meta-llama/Llama-2-70b-chat-hf</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>cognitivecomputations/dolphin-2.6-mixtral-8x7b</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>lizpreciatior/lzlv_70b_fp16_hf</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>deepinfra/airoboros-70b</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>openchat/openchat_3.5</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>llava-hf/llava-1.5-7b-hf</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>meta-llama/Llama-2-7b-chat-hf</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>01-ai/Yi-34B-Chat</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Austism/chronos-hermes-13b-v2</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Gryphe/MythoMax-L2-13b</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Gryphe/MythoMax-L2-13b-turbo</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>HuggingFaceH4/zephyr-orpo-141b-A35b-v0.1</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Phind/Phind-CodeLlama-34B-v2</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>bigcode/starcoder2-15b</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>bigcode/starcoder2-15b-instruct-v0.1</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>codellama/CodeLlama-34b-Instruct-hf</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>codellama/CodeLlama-70b-Instruct-hf</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>databricks/dbrx-instruct</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>google/codegemma-7b-it</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>meta-llama/Llama-2-13b-chat-hf</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item alignment="Qt::AlignHCenter">
+         <widget class="QLabel" name="promptSelectLabel">
+          <property name="font">
+           <font>
+            <pointsize>45</pointsize>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>Type a prompt:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QTextEdit" name="promptWidget"/>
+        </item>
+        <item alignment="Qt::AlignHCenter">
+         <widget class="QPushButton" name="page3Button">
+          <property name="minimumSize">
+           <size>
+            <width>300</width>
+            <height>70</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>35</pointsize>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="text">
+           <string>Chat</string>
+          </property>
+         </widget>
+        </item>
+        <item alignment="Qt::AlignHCenter|Qt::AlignBottom">
+         <widget class="QPushButton" name="page3BackButton">
+          <property name="minimumSize">
+           <size>
+            <width>150</width>
+            <height>50</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>25</pointsize>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="text">
+           <string>Back</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="page4">
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <property name="spacing">
+         <number>30</number>
+        </property>
+        <property name="leftMargin">
+         <number>50</number>
+        </property>
+        <property name="topMargin">
+         <number>30</number>
+        </property>
+        <property name="rightMargin">
+         <number>50</number>
+        </property>
+        <property name="bottomMargin">
+         <number>30</number>
+        </property>
+        <item alignment="Qt::AlignHCenter|Qt::AlignTop">
+         <widget class="QPushButton" name="page4BackButton">
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="text">
+           <string>&lt;</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QWidget" name="chatWidget" native="true">
+          <property name="styleSheet">
+           <string notr="true">background-color: #F1F1F1; border-radius: 15px; padding: 15px;</string>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_10" stretch="0,0">
+           <property name="spacing">
+            <number>-1</number>
+           </property>
+           <property name="sizeConstraint">
+            <enum>QLayout::SetDefaultConstraint</enum>
+           </property>
+           <property name="leftMargin">
+            <number>12</number>
+           </property>
+           <property name="topMargin">
+            <number>12</number>
+           </property>
+           <property name="rightMargin">
+            <number>12</number>
+           </property>
+           <property name="bottomMargin">
+            <number>12</number>
+           </property>
+           <item>
+            <widget class="QTextEdit" name="chatWindowWidget">
+             <property name="font">
+              <font>
+               <pointsize>15</pointsize>
+              </font>
+             </property>
+             <property name="readOnly">
+              <bool>true</bool>
+             </property>
+             <property name="textInteractionFlags">
+              <set>Qt::TextSelectableByMouse</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QWidget" name="chatInputWidget" native="true">
+             <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,0">
+              <property name="spacing">
+               <number>30</number>
+              </property>
+              <item>
+               <widget class="QLineEdit" name="chatInput2Widget">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="font">
+                 <font>
+                  <pointsize>15</pointsize>
+                 </font>
+                </property>
+                <property name="mouseTracking">
+                 <bool>true</bool>
+                </property>
+                <property name="tabletTracking">
+                 <bool>false</bool>
+                </property>
+                <property name="focusPolicy">
+                 <enum>Qt::StrongFocus</enum>
+                </property>
+                <property name="autoFillBackground">
+                 <bool>false</bool>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">background-color: #fff; border: 1px solid #ccc; padding: 5px;</string>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="frame">
+                 <bool>false</bool>
+                </property>
+                <property name="dragEnabled">
+                 <bool>false</bool>
+                </property>
+                <property name="placeholderText">
+                 <string>Type a message</string>
+                </property>
+                <property name="cursorMoveStyle">
+                 <enum>Qt::VisualMoveStyle</enum>
+                </property>
+                <property name="clearButtonEnabled">
+                 <bool>false</bool>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="page4Button">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="font">
+                 <font>
+                  <pointsize>15</pointsize>
+                  <bold>false</bold>
+                 </font>
+                </property>
+                <property name="cursor">
+                 <cursorShape>PointingHandCursor</cursorShape>
+                </property>
+                <property name="autoFillBackground">
+                 <bool>false</bool>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">background-color: #FCCD4A; color: white;</string>
+                </property>
+                <property name="text">
+                 <string>Send</string>
+                </property>
+                <property name="checkable">
+                 <bool>false</bool>
+                </property>
+                <property name="checked">
+                 <bool>false</bool>
+                </property>
+                <property name="autoRepeat">
+                 <bool>false</bool>
+                </property>
+                <property name="autoExclusive">
+                 <bool>false</bool>
+                </property>
+                <property name="autoDefault">
+                 <bool>false</bool>
+                </property>
+                <property name="default">
+                 <bool>false</bool>
+                </property>
+                <property name="flat">
+                 <bool>false</bool>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QWidget" name="chatSetttingsWidget" native="true">
+          <layout class="QVBoxLayout" name="verticalLayout_9">
+           <property name="spacing">
+            <number>50</number>
+           </property>
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
+           <item>
+            <widget class="QWidget" name="chatModelWidget" native="true">
+             <property name="font">
+              <font>
+               <pointsize>20</pointsize>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">background-color: #F1F1F1; border-radius: 15px; padding: 15px;</string>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_7">
+              <property name="spacing">
+               <number>0</number>
+              </property>
+              <property name="bottomMargin">
+               <number>12</number>
+              </property>
+              <item alignment="Qt::AlignHCenter|Qt::AlignTop">
+               <widget class="QLabel" name="modeTitleLabel">
+                <property name="font">
+                 <font>
+                  <pointsize>20</pointsize>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Model:</string>
+                </property>
+               </widget>
+              </item>
+              <item alignment="Qt::AlignHCenter|Qt::AlignTop">
+               <widget class="QLabel" name="modelLabel">
+                <property name="font">
+                 <font>
+                  <pointsize>15</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>TextLabel</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QWidget" name="chatPromptWidget" native="true">
+             <property name="styleSheet">
+              <string notr="true">background-color: #F1F1F1; border-radius: 15px; padding: 15px;</string>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_8">
+              <property name="spacing">
+               <number>0</number>
+              </property>
+              <property name="bottomMargin">
+               <number>100</number>
+              </property>
+              <item alignment="Qt::AlignHCenter|Qt::AlignTop">
+               <widget class="QLabel" name="promptTitleLabel">
+                <property name="font">
+                 <font>
+                  <pointsize>20</pointsize>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Prompt:</string>
+                </property>
+               </widget>
+              </item>
+              <item alignment="Qt::AlignHCenter|Qt::AlignTop">
+               <widget class="QLabel" name="promptLabel">
+                <property name="font">
+                 <font>
+                  <pointsize>15</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>TextLabel</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </widget>
      </widget>
     </item>
    </layout>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
  <connections/>
 </ui>

@@ -1,5 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>fonts/Inter-Regular.ttf</file>
+        <file>assets/thisisfinelogo.png</file>
+        <file>assets/thisisfinelogo2.png</file>
     </qresource>
 </RCC>

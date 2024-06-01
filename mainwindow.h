@@ -5,6 +5,8 @@
 #include <QStringList>
 #include <QListWidget>
 #include <QVBoxLayout>
+#include <QWidget>
+#include <QString>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -19,11 +21,26 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_btn_start_clicked();
     void animateButtonPress();
     void animateButtonRelease();
 
-    void on_btn_start_back_clicked();
+    void on_page1Button_clicked();
+
+    void on_page2Button_clicked();
+    void on_page2BackButton_clicked();
+
+    void on_page3Button_clicked();
+    void on_page3BackButton_clicked();
+
+    void addShadow(QWidget *widget);
+
+    void on_page4Button_clicked();
+
+    void on_page4BackButton_clicked();
+
+    void addMessage(bool isUser, const QString &message);
+    void loadMessageHistory();
+    void saveMessageHistory();
 
 private:
     Ui::MainWindow *ui;

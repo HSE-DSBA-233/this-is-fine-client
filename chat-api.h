@@ -78,9 +78,9 @@ public:
 #include <filesystem> // C++17 filesystem library
 #include <fstream>
 
-  // `ChatClient` class definition here...
+  // ChatClient class definition here...
 
-  bool end_chat() {
+  bool end_chat(const std::string& title) {
     if (context_id.empty()) {
         throw std::runtime_error("context_id is empty. Cannot end chat.");
     }
@@ -98,7 +98,7 @@ public:
       std::cout << "End Chat: " << json_response["status"] << '\n';
       if (json_response.contains("file")) {
         std::string dir_path = "contexts/";
-        std::string file_path = dir_path + context_id + ".json";
+        std::string file_path = dir_path + title + ".json";
 
         // Ensure the directory exists
         std::filesystem::create_directories(dir_path);
@@ -124,7 +124,6 @@ public:
 private:
   std::string base_url;
   std::string context_id;
-
   cpr::Response post_request(const std::string &endpoint, const json &payload) {
     return cpr::Post(cpr::Url{base_url + endpoint}, cpr::Body{payload.dump()},
                      cpr::Header{{"Content-Type", "application/json"}});

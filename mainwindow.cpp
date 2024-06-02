@@ -139,9 +139,22 @@ void MainWindow::on_page1SettingsButton_clicked()
 
 void MainWindow::on_page2Button_clicked()
 {
-    ui->stackedWidget->setCurrentIndex(2);
-    getLogger()->info("Navigated to page 2");
+    ui->stackedWidget->setCurrentIndex(7);
+    getLogger()->info("Navigated to page 8");
 }
+
+void MainWindow::on_baseModelButton_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(2);
+    getLogger()->info("Navigated to page base model");
+}
+
+void MainWindow::on_ragModelButton_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(8);
+    getLogger()->info("Navigated to page rag");
+}
+
 
 void MainWindow::on_page2BackButton_clicked()
 {
@@ -201,6 +214,16 @@ void MainWindow::on_page5BackButton_clicked()
     getLogger()->info("Navigated back to main page from page 5");
 }
 
+void MainWindow::on_RagChatButton_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(9);
+}
+
+void MainWindow::on_BackButtonToRAG_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(8);
+}
+
 void MainWindow::on_page6BackButton_clicked()
 {
     ui->stackedWidget->setCurrentIndex(0);
@@ -211,6 +234,12 @@ void MainWindow::on_page7BackButton_clicked()
 {
     ui->stackedWidget->setCurrentIndex(0);
     getLogger()->info("Navigated back to main page from page 7");
+}
+
+void MainWindow::on_page9BackButton_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(1);
+    getLogger()->info("Navigated back to page 2");
 }
 
 void MainWindow::loadMessageHistory() {

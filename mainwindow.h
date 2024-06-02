@@ -36,18 +36,19 @@ private slots:
 
     void on_page3Button_clicked();
     void on_page3BackButton_clicked();
-
+    void on_baseModelButton_clicked();
+    void on_ragModelButton_clicked();
+    void on_RagChatButton_clicked();
+    void on_BackButtonToRAG_clicked();
     void addShadow(QWidget *widget);
 
     void on_page4Button_clicked();
 
     void on_page4BackButton_clicked();
-
     void on_page5BackButton_clicked();
-
     void on_page6BackButton_clicked();
-
     void on_page7BackButton_clicked();
+    void on_page9BackButton_clicked();
 
     void addMessage(bool isUser, const QString &message);
     void loadMessageHistory();

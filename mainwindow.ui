@@ -154,8 +154,7 @@
                  <cursorShape>IBeamCursor</cursorShape>
                 </property>
                 <property name="text">
-                 <string>Welcome to the Fine-Tuning/RAG Desktop Application on Qt! This powerful tool is designed to streamline your workflow, offering a comprehensive suite of features to enhance your editing and optimization process. With an intuitive user interface built on the robust Qt framework, our application empowers users to fine-tune their content effortlessly. Whether you're a seasoned professional or new to the field, our app provides a seamless experience for refining text, generating creative outputs, and optimizing your workflow. Dive into a world of possibilities with advanced functionalities such as text summarization, content generation using state-of-the-art models like RAG (Retrieve and Generate), and intelligent suggestions for refining your content. Boost your productivity and creativity with the Fine-Tuning/RAG Desktop App on Qt today!
-
+                 <string>Hello, user! You can use this app to chat with different Large Language Models. It also allows you to set custom system prompts. Consider it an alternative to ChatGPT! This application is made using C++ and Qt framework. Unfortunately, this is only "alpha" version, as we were extremely limited in time, but we hope to improve it in the future! Use navigation buttons in the bottom to switch between different parts of this app. We hope you will find it useful!
 </string>
                 </property>
                 <property name="alignment">

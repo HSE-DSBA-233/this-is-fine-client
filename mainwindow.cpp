@@ -13,11 +13,13 @@
 #include <QPropertyAnimation>
 #include <QSize>
 #include <QString>
+#include <chat-api.h>
+#include <json.hpp>
+
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
   ui->setupUi(this);
-
   // Initialize logger
   auto logger = getLogger();
   spdlog::set_level(spdlog::level::debug);
@@ -122,6 +124,9 @@ MainWindow::MainWindow(QWidget *parent)
     )");
   logger->info("Set style sheet for chatslistWidget");
 }
+
+const std::string base_url = "http://217.196.97.29:8000/chat/";
+ChatClient client(base_url);
 
 MainWindow::~MainWindow() {
   saveMessageHistory();

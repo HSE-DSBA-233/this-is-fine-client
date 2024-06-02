@@ -75,7 +75,7 @@
          </font>
         </property>
         <property name="text">
-         <string>Type a title:</string>
+         <string>Title:</string>
         </property>
        </widget>
       </item>
@@ -120,7 +120,7 @@
          </font>
         </property>
         <property name="text">
-         <string>Type a prompt:</string>
+         <string>System prompt:</string>
         </property>
        </widget>
       </item>
@@ -178,11 +178,11 @@ li.checked::marker { content: &quot;\2612&quot;; }
          </font>
         </property>
         <property name="text">
-         <string>Select a model:</string>
+         <string>Model:</string>
         </property>
        </widget>
       </item>
-      <item>
+      <item alignment="Qt::AlignVCenter">
        <widget class="QComboBox" name="modelSelectWidget">
         <property name="cursor">
          <cursorShape>PointingHandCursor</cursorShape>

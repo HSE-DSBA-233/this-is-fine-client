@@ -102,7 +102,6 @@ MainWindow::MainWindow(QWidget *parent)
   connect(chatCreateWindow, &ChatCreateWindow::createChat, this,
           &MainWindow::handleCreateChat);
   logger->info("Connected chat creation signal");
-
   ui->chatslistWidget->setStyleSheet(R"(
         QListWidget {
             background-color: white;
@@ -212,14 +211,15 @@ void MainWindow::animateButtonRelease() {
                  button->objectName().toStdString());
   }
 }
-
 // Settings page button
 void MainWindow::on_settingsButton_clicked()
 {
     auto logger = getLogger();
+    QString qtitle = ui->chatTitleLabel->text();
+    std::cout << qtitle.toStdString() << std::endl;
     ui->stackedWidget->setCurrentIndex(3);
     try {
-        if (chatclient.end_chat()) {
+        if (chatclient.end_chat(qtitle.toStdString())) {
             logger->info("Chat history saved successfully.");
         }
     } catch (const std::runtime_error &e) {
@@ -239,12 +239,13 @@ void MainWindow::on_settingsUpdateButton_clicked()
 // Home page button
 void MainWindow::on_homeButton_clicked() {
     auto logger = getLogger();
+    QString qtitle = ui->chatTitleLabel->text();
     ui->stackedWidget->setCurrentIndex(0);
     logger->info("Navigated to Home page");
     try {
-        if (chatclient.end_chat()) {
+        if (chatclient.end_chat(qtitle.toStdString())) {
             logger->info("Chat history saved successfully.");
-            }
+        }
     } catch (const std::runtime_error &e) {
         // Skip
     } catch (const std::exception &e) {
@@ -255,17 +256,18 @@ void MainWindow::on_homeButton_clicked() {
 // Chat page button
 void MainWindow::on_chatButton_clicked() {
   auto logger = getLogger();
+  QString qtitle = ui->chatTitleLabel->text();
   ui->stackedWidget->setCurrentIndex(1);
   logger->info("Navigated to Chat page");
-  try {
-    if (chatclient.end_chat()) {
-      logger->info("Chat history saved successfully.");
+    try {
+        if (chatclient.end_chat(qtitle.toStdString())) {
+            logger->info("Chat history saved successfully.");
+        }
+    } catch (const std::runtime_error &e) {
+        // Skip
+    } catch (const std::exception &e) {
+        logger->warn("Error during end_chat: {}", e.what());
     }
-  } catch (const std::runtime_error &e) {
-    // Skip
-  } catch (const std::exception &e) {
-    logger->warn("Error during end_chat: {}", e.what());
-  }
 }
 
 // Add chat
@@ -316,7 +318,6 @@ void MainWindow::on_chatslistWidget_itemClicked(QListWidgetItem *item) {
 //     ui->chatslistWidget->itemAt(chatsItemWidget->pos());
 
 // }
-
 // Delete chat
 void MainWindow::chatDeleteClicked() {
     auto logger = getLogger();

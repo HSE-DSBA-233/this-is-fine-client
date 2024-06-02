@@ -125,10 +125,6 @@ MainWindow::MainWindow(QWidget *parent)
   logger->info("Set style sheet for chatslistWidget");
 }
 
-std::string token = "dum";
-const std::string base_url = token;
-ChatClient client(base_url);
-
 MainWindow::~MainWindow() {
   saveMessageHistory();
   auto logger = getLogger();
@@ -218,6 +214,15 @@ void MainWindow::animateButtonRelease() {
 void MainWindow::on_settingsButton_clicked()
 {
     ui->stackedWidget->setCurrentIndex(3);
+}
+
+// Settings token button
+void MainWindow::on_settingsUpdateButton_clicked()
+{
+    QString qtoken = ui->tokenInputWidget->text();
+    std::string token = qtoken.toStdString();
+    const std::string base_url = token;
+    ChatClient client(base_url);
 }
 
 // Home page button

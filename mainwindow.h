@@ -51,6 +51,8 @@ private slots:
     // void chatEditClicked();
     void chatDeleteClicked();
 
+    void on_settingsUpdateButton_clicked();
+
     void on_settingsButton_clicked();
 
 private:

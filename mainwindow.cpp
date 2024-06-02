@@ -18,6 +18,7 @@
 #include <thread>
 #include <chrono>
 #include <iostream>
+#include "chatclient.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
@@ -84,7 +85,7 @@ MainWindow::MainWindow(QWidget *parent)
   addShadow(ui->chatTitleLabel, 30, 3);
   addShadow(ui->tokenInputWidget, 30, 3);
   logger->info("Added shadows to main widgets");
-
+  
   // Animations to pages
   // connect(ui->createChatButton, &QPushButton::clicked, this, [=]() {
   // animatePageTransition(1); }); connect(ui->page3BackButton,
@@ -258,8 +259,6 @@ void MainWindow::handleCreateChat(const QString &title, const QString &prompt,
   ui->chatslistWidget->setItemWidget(item, chatsItemWidget);
   logger->info("Created new chat: {}", itemText.toStdString());
 
-  const std::string base_url = "http://217.196.97.29:8000/chat/";
-  ChatClient client(base_url);
   json promptJson = {
       {{"role", "system"}, {"content", prompt.toStdString()}}
   };
@@ -267,7 +266,7 @@ void MainWindow::handleCreateChat(const QString &title, const QString &prompt,
       {{"role", "user"}, {"content", "hi"}},
       {{"role", "assistant"}, {"content", "yo wassup"}}
   };
-  client.start_chat(model.toStdString(), promptJson, dialogue);
+  chatclient.start_chat(model.toStdString(), promptJson, dialogue);
 }
 
 // Enter chat
@@ -318,10 +317,8 @@ void MainWindow::on_sendMessageButton_clicked() {
     auto logger = getLogger();
     QString message = ui->chatInput2Widget->text();
 
-    const std::string base_url = "http://217.196.97.29:8000/chat/";
-    ChatClient client(base_url);
     try {
-        std::string response = client.generate_response(message.toStdString());
+        std::string response = chatclient.generate_response(message.toStdString());
         std::cout << "Generated response: " << response << '\n';
         if (!message.isEmpty()) {
             addMessage(true, message);

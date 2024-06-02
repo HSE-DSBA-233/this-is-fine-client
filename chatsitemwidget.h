@@ -15,6 +15,7 @@ class ChatsItemWidget : public QWidget
 public:
     explicit ChatsItemWidget(const QString &title, QWidget *parent = nullptr);
     ~ChatsItemWidget();
+    QString getTitle() const;
 
 signals:
     void editClicked();
@@ -22,7 +23,6 @@ signals:
 
 private:
     Ui::ChatsItemWidget *ui;
-    QLabel *chatsTitleLabel;
 };
 
 #endif // CHATSITEMWIDGET_H

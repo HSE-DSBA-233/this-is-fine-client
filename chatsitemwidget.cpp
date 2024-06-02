@@ -17,3 +17,8 @@ ChatsItemWidget::~ChatsItemWidget()
 {
     delete ui;
 }
+
+QString ChatsItemWidget::getTitle() const
+{
+    return ui->chatsTitleLabel->text();
+}

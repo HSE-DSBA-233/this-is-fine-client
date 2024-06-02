@@ -15,7 +15,7 @@
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
    <item>
-    <widget class="QLabel" name="chatsTitleButton">
+    <widget class="QLabel" name="chatsTitleLabel">
      <property name="text">
       <string>Chat #1</string>
      </property>

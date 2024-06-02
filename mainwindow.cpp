@@ -344,3 +344,8 @@ void MainWindow::chatDeleteClicked() {
         logger->info("Cancelled deletion of chat: {}", chatsItemWidget->getTitle().toStdString());
     }
 }
+
+void MainWindow::on_settingsButton_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(3);
+}

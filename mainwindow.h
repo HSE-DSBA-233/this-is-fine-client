@@ -60,6 +60,8 @@ private slots:
     // void chatEditClicked();
     void chatDeleteClicked();
 
+    void on_settingsButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     ChatCreateWindow *chatCreateWindow = new ChatCreateWindow();

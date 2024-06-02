@@ -13,9 +13,14 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QHBoxLayout" name="horizontalLayout">
+  <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,0">
    <item>
     <widget class="QLabel" name="chatsTitleLabel">
+     <property name="font">
+      <font>
+       <pointsize>15</pointsize>
+      </font>
+     </property>
      <property name="text">
       <string>Chat #1</string>
      </property>
@@ -28,6 +33,9 @@
        <pointsize>15</pointsize>
        <bold>true</bold>
       </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">padding: 10px;</string>
      </property>
      <property name="text">
       <string>Delete</string>

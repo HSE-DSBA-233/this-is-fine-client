@@ -287,8 +287,8 @@ void MainWindow::chatDeleteClicked() {
     }
 }
 
-
-
-
-
+void MainWindow::on_settingsButton_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(3);
+}
 

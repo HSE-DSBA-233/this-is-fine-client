@@ -125,7 +125,7 @@ MainWindow::MainWindow(QWidget *parent)
   logger->info("Set style sheet for chatslistWidget");
 }
 
-std::string token = "dummy";
+std::string token = "dum";
 const std::string base_url = token;
 ChatClient client(base_url);
 

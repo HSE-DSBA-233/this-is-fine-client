@@ -310,12 +310,12 @@ li.checked::marker { content: &quot;\2612&quot;; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="299"/>
+        <location filename="mainwindow.cpp" line="374"/>
         <source>Deleting a chat</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="299"/>
+        <location filename="mainwindow.cpp" line="374"/>
         <source>Are you sure you want to delete this chat?</source>
         <translation type="unfinished"></translation>
     </message>

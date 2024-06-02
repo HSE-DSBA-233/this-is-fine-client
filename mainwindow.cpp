@@ -17,8 +17,12 @@
 #include <json.hpp>
 #include <thread>
 #include <chrono>
-#include <iostream>
 #include "chatclient.h"
+#include <fstream>
+#include <filesystem> // for std::filesystem
+#include <iostream> // for debugging, optional
+
+using json = nlohmann::json;
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
@@ -217,9 +221,10 @@ void MainWindow::animateButtonRelease() {
 void MainWindow::on_settingsButton_clicked()
 {
     auto logger = getLogger();
+    QString qtitle = ui->chatTitleLabel->text();
     ui->stackedWidget->setCurrentIndex(3);
     try {
-        if (chatclient.end_chat()) {
+        if (chatclient.end_chat(qtitle.toStdString())) {
             logger->info("Chat history saved successfully.");
         }
     } catch (const std::runtime_error &e) {
@@ -227,7 +232,8 @@ void MainWindow::on_settingsButton_clicked()
     } catch (const std::exception &e) {
         logger->warn("Error during end_chat: {}", e.what());
     }
-
+    ui->chatWindowWidget->clear();
+    ui->chatslistWidget->clear();
 }
 
 // Settings token button
@@ -239,33 +245,54 @@ void MainWindow::on_settingsUpdateButton_clicked()
 // Home page button
 void MainWindow::on_homeButton_clicked() {
     auto logger = getLogger();
+    QString qtitle = ui->chatTitleLabel->text();
     ui->stackedWidget->setCurrentIndex(0);
     logger->info("Navigated to Home page");
     try {
-        if (chatclient.end_chat()) {
+        if (chatclient.end_chat(qtitle.toStdString())) {
             logger->info("Chat history saved successfully.");
-            }
+        }
     } catch (const std::runtime_error &e) {
         // Skip
     } catch (const std::exception &e) {
         logger->warn("Error during end_chat: {}", e.what());
     }
+    ui->chatWindowWidget->clear();
+    ui->chatslistWidget->clear();
 }
 
 // Chat page button
 void MainWindow::on_chatButton_clicked() {
   auto logger = getLogger();
+  QString qtitle = ui->chatTitleLabel->text();
   ui->stackedWidget->setCurrentIndex(1);
   logger->info("Navigated to Chat page");
-  try {
-    if (chatclient.end_chat()) {
-      logger->info("Chat history saved successfully.");
+    try {
+        if (chatclient.end_chat(qtitle.toStdString())) {
+            logger->info("Chat history saved successfully.");
+        }
+    } catch (const std::runtime_error &e) {
+        // Skip
+    } catch (const std::exception &e) {
+        logger->warn("Error during end_chat: {}", e.what());
     }
-  } catch (const std::runtime_error &e) {
-    // Skip
-  } catch (const std::exception &e) {
-    logger->warn("Error during end_chat: {}", e.what());
-  }
+    ui->chatWindowWidget->clear();
+    ui->chatslistWidget->clear();
+    for (const auto& entry : std::filesystem::directory_iterator("contexts")) {
+        std::ifstream file(entry.path());
+        json context;
+        file >> context;
+        file.close();
+
+        std::string model = context["model"].get<std::string>();
+        std::string title = entry.path().stem();
+        QString itemText = QString("%1 | %2").arg(QString::fromStdString(title), QString::fromStdString(model));
+        QListWidgetItem *item = new QListWidgetItem(ui->chatslistWidget);
+        ChatsItemWidget *chatsItemWidget = new ChatsItemWidget(itemText);
+        item->setSizeHint(chatsItemWidget->sizeHint());
+        ui->chatslistWidget->setItemWidget(item, chatsItemWidget);
+        logger->info("Loaded chat: {}", itemText.toStdString());
+    }
 }
 
 // Add chat
@@ -278,8 +305,7 @@ void MainWindow::handleCreateChat(const QString &title, const QString &prompt,
 
   // connect(chatsItemWidget, &ChatsItemWidget::editClicked, this,
   // &MainWindow::chatEditClicked);
-  connect(chatsItemWidget, &ChatsItemWidget::deleteClicked, this,
-          &MainWindow::chatDeleteClicked);
+  connect(chatsItemWidget, &ChatsItemWidget::deleteClicked, this, &MainWindow::chatDeleteClicked);
 
   item->setSizeHint(chatsItemWidget->sizeHint());
   ui->chatslistWidget->setItemWidget(item, chatsItemWidget);
@@ -297,16 +323,42 @@ void MainWindow::handleCreateChat(const QString &title, const QString &prompt,
 
 // Enter chat
 void MainWindow::on_chatslistWidget_itemClicked(QListWidgetItem *item) {
-  auto logger = getLogger();
-  ChatsItemWidget *chatsItemWidget =
-      qobject_cast<ChatsItemWidget *>(ui->chatslistWidget->itemWidget(item));
+    auto logger = getLogger();
+    ChatsItemWidget *chatsItemWidget = qobject_cast<ChatsItemWidget *>(ui->chatslistWidget->itemWidget(item));
 
-  QString itemTitle = chatsItemWidget->getTitle();
-  QStringList title = itemTitle.split(" | ");
-  ui->stackedWidget->setCurrentIndex(2);
-  ui->chatTitleLabel->setText(title[0]);
-  ui->chatModelLabel->setText(title[1]);
-  logger->info("Entered chat: {}", itemTitle.toStdString());
+    QString itemTitle = chatsItemWidget->getTitle();
+    QStringList title = itemTitle.split(" | ");
+    ui->stackedWidget->setCurrentIndex(2);
+    ui->chatTitleLabel->setText(title[0]);
+    ui->chatModelLabel->setText(title[1]);
+
+    logger->info("Entered chat: {}", itemTitle.toStdString());
+
+    std::ifstream ifs(fmt::format("contexts/{}.json", title[0].toStdString()));
+    if (!ifs.is_open()) {
+        logger->warn("Error opening file.");
+    }
+    else {
+        json context;
+        ifs >> context;
+        if (context.is_null()) {
+            context = json::array();
+        }
+
+        for (const auto& message : context["dialogue"]) {
+            QString content = QString::fromStdString(message["content"]);
+            QString role = QString::fromStdString(message["role"]);
+            
+            bool isUser = (role == "user");
+
+            addMessage(isUser, content);
+
+            logger->info("Added message from {}: {}", role.toStdString(), content.toStdString());
+        }
+
+        ifs.close();
+        chatclient.start_chat(title[1].toStdString(), context["prompt"], context["dialogue"]);
+    }
 }
 
 // Edit chat

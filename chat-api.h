@@ -80,7 +80,7 @@ public:
 
   // `ChatClient` class definition here...
 
-  bool end_chat() {
+  bool end_chat(const std::string& title) {
     if (context_id.empty()) {
         throw std::runtime_error("context_id is empty. Cannot end chat.");
     }
@@ -98,7 +98,7 @@ public:
       std::cout << "End Chat: " << json_response["status"] << '\n';
       if (json_response.contains("file")) {
         std::string dir_path = "contexts/";
-        std::string file_path = dir_path + context_id + ".json";
+        std::string file_path = dir_path + title + ".json";
 
         // Ensure the directory exists
         std::filesystem::create_directories(dir_path);

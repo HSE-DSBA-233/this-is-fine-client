@@ -155,7 +155,6 @@ void MainWindow::on_ragModelButton_clicked()
     getLogger()->info("Navigated to page rag");
 }
 
-
 void MainWindow::on_page2BackButton_clicked()
 {
     ui->stackedWidget->setCurrentIndex(0);
@@ -217,11 +216,13 @@ void MainWindow::on_page5BackButton_clicked()
 void MainWindow::on_RagChatButton_clicked()
 {
     ui->stackedWidget->setCurrentIndex(9);
+    getLogger()->info("Navigated to Rag Chat page");
 }
 
 void MainWindow::on_BackButtonToRAG_clicked()
 {
     ui->stackedWidget->setCurrentIndex(8);
+    getLogger()->info("Navigated back to Rag Model page");
 }
 
 void MainWindow::on_page6BackButton_clicked()

@@ -216,16 +216,24 @@ void MainWindow::animateButtonRelease() {
 // Settings page button
 void MainWindow::on_settingsButton_clicked()
 {
+    auto logger = getLogger();
     ui->stackedWidget->setCurrentIndex(3);
+    try {
+        if (chatclient.end_chat()) {
+            logger->info("Chat history saved successfully.");
+        }
+    } catch (const std::runtime_error &e) {
+        // Skip
+    } catch (const std::exception &e) {
+        logger->warn("Error during end_chat: {}", e.what());
+    }
+
 }
 
 // Settings token button
 void MainWindow::on_settingsUpdateButton_clicked()
 {
     QString qtoken = ui->tokenInputWidget->text();
-    std::string token = qtoken.toStdString();
-    const std::string base_url = token;
-    ChatClient client(base_url);
 }
 
 // Home page button
@@ -233,6 +241,15 @@ void MainWindow::on_homeButton_clicked() {
     auto logger = getLogger();
     ui->stackedWidget->setCurrentIndex(0);
     logger->info("Navigated to Home page");
+    try {
+        if (chatclient.end_chat()) {
+            logger->info("Chat history saved successfully.");
+            }
+    } catch (const std::runtime_error &e) {
+        // Skip
+    } catch (const std::exception &e) {
+        logger->warn("Error during end_chat: {}", e.what());
+    }
 }
 
 // Chat page button
@@ -240,6 +257,15 @@ void MainWindow::on_chatButton_clicked() {
   auto logger = getLogger();
   ui->stackedWidget->setCurrentIndex(1);
   logger->info("Navigated to Chat page");
+  try {
+    if (chatclient.end_chat()) {
+      logger->info("Chat history saved successfully.");
+    }
+  } catch (const std::runtime_error &e) {
+    // Skip
+  } catch (const std::exception &e) {
+    logger->warn("Error during end_chat: {}", e.what());
+  }
 }
 
 // Add chat
@@ -331,7 +357,6 @@ void MainWindow::on_sendMessageButton_clicked() {
     } catch (const std::exception &e) {
         std::cerr << "Error during generate_response: " << e.what() << '\n';
     }
-
 }
 
 // Chat add message

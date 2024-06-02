@@ -2,70 +2,56 @@ cmake_minimum_required(VERSION 3.5)
 
 project(This_is_Fine VERSION 0.1 LANGUAGES CXX)
 
+# Basic settings
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(QT_DIR "/Users/pavelpopov/Qt/6.7.1/macos/lib/cmake/Qt6")
+set(CMAKE_PREFIX_PATH "$ENV{CONDA_PREFIX}/lib/cmake/Qt5")
 
+# Find Qt packages
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets LinguistTools)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets LinguistTools)
 
+# Source files
 set(TS_FILES This_is_Fine_en_US.ts)
-
 set(PROJECT_SOURCES
-        main.cpp
-        mainwindow.cpp
-        mainwindow.h
-        mainwindow.ui
-        resources.qrc
-        ${TS_FILES}
+    main.cpp
+    mainwindow.cpp
+    mainwindow.h
+    mainwindow.ui
+    chatcreatewindow.cpp
+    chatcreatewindow.h
+    chatcreatewindow.ui
+    chatsitemwidget.cpp
+    chatsitemwidget.h
+    chatsitemwidget.ui
+    resources.qrc
+    ${TS_FILES}
 )
 
-if(${QT_VERSION_MAJOR} GREATER_EQUAL 5)
+# Main executable
+if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(This_is_Fine
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
-        chatcreatewindow.h
-        chatcreatewindow.cpp
-        chatcreatewindow.ui
-        chatsitemwidget.h chatsitemwidget.cpp chatsitemwidget.ui
-
     )
-# Define target properties for Android with Qt 6 as:
-#    set_property(TARGET This_is_Fine APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
-#                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
-# For more information, see https://doc.qt.io/qt-6/qt-add-executable.html#target-creation
-
     qt_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 else()
     if(ANDROID)
-        add_library(This_is_Fine SHARED
-            ${PROJECT_SOURCES}
-        )
-# Define properties for Android with Qt 5 after find_package() calls as:
-#    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
+        add_library(This_is_Fine SHARED ${PROJECT_SOURCES})
     else()
-        add_executable(This_is_Fine
-            ${PROJECT_SOURCES}
-
-
-
-        )
+        add_executable(This_is_Fine ${PROJECT_SOURCES})
     endif()
-
     qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 endif()
 
 target_link_libraries(This_is_Fine PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
 
-# Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
-# If you are developing for iOS or macOS you should consider setting an
-# explicit, fixed bundle identifier manually though.
 if(${QT_VERSION} VERSION_LESS 6.1.0)
-  set(BUNDLE_ID_OPTION MACOSX_BUNDLE_GUI_IDENTIFIER com.example.This_is_Fine)
+    set(BUNDLE_ID_OPTION MACOSX_BUNDLE_GUI_IDENTIFIER com.example.This_is_Fine)
 endif()
 set_target_properties(This_is_Fine PROPERTIES
     ${BUNDLE_ID_OPTION}
@@ -85,3 +71,31 @@ install(TARGETS This_is_Fine
 if(QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(This_is_Fine)
 endif()
+
+# Google Test Mambo-Jambo
+enable_testing()
+
+add_subdirectory(extern/googletest)
+include_directories(extern/googletest/googletest/include)
+
+include_directories(${CMAKE_SOURCE_DIR})
+
+add_executable(runTests
+    tests/test_mainwindow.cpp
+    mainwindow.cpp
+    chatcreatewindow.cpp
+    chatcreatewindow.h
+    chatcreatewindow.ui
+    chatsitemwidget.cpp
+    chatsitemwidget.h
+    chatsitemwidget.ui
+)
+
+target_link_libraries(runTests gtest gtest_main Qt${QT_VERSION_MAJOR}::Widgets)
+
+# Register the test
+add_test(NAME runTests COMMAND runTests)
+
+
+# Include spdlog
+include_directories(${CMAKE_SOURCE_DIR}/logger/include)

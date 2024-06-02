@@ -16,7 +16,7 @@ public:
     ~ChatCreateWindow();
 
 signals:
-    void createChat(const QString &title, const QString &datetime, const QString &model);
+    void createChat(const QString &title, const QString &prompt, const QString &model);
 
 private slots:
     void addShadow(QWidget *widget, int blur, int offset);

@@ -15,7 +15,9 @@
 #include <QString>
 #include <chat-api.h>
 #include <json.hpp>
-
+#include <thread>
+#include <chrono>
+#include <iostream>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
@@ -240,10 +242,10 @@ void MainWindow::on_chatButton_clicked() {
 }
 
 // Add chat
-void MainWindow::handleCreateChat(const QString &title, const QString &datetime,
+void MainWindow::handleCreateChat(const QString &title, const QString &prompt,
                                   const QString &model) {
   auto logger = getLogger();
-  QString itemText = QString("%1 | %2 | %3").arg(title, datetime, model);
+  QString itemText = QString("%1 | %2").arg(title, model);
   QListWidgetItem *item = new QListWidgetItem(ui->chatslistWidget);
   ChatsItemWidget *chatsItemWidget = new ChatsItemWidget(itemText);
 
@@ -255,6 +257,17 @@ void MainWindow::handleCreateChat(const QString &title, const QString &datetime,
   item->setSizeHint(chatsItemWidget->sizeHint());
   ui->chatslistWidget->setItemWidget(item, chatsItemWidget);
   logger->info("Created new chat: {}", itemText.toStdString());
+
+  const std::string base_url = "http://217.196.97.29:8000/chat/";
+  ChatClient client(base_url);
+  json promptJson = {
+      {{"role", "system"}, {"content", prompt.toStdString()}}
+  };
+  json dialogue = {
+      {{"role", "user"}, {"content", "hi"}},
+      {{"role", "assistant"}, {"content", "yo wassup"}}
+  };
+  client.start_chat(model.toStdString(), promptJson, dialogue);
 }
 
 // Enter chat
@@ -267,7 +280,7 @@ void MainWindow::on_chatslistWidget_itemClicked(QListWidgetItem *item) {
   QStringList title = itemTitle.split(" | ");
   ui->stackedWidget->setCurrentIndex(2);
   ui->chatTitleLabel->setText(title[0]);
-  ui->chatModelLabel->setText(title[2]);
+  ui->chatModelLabel->setText(title[1]);
   logger->info("Entered chat: {}", itemTitle.toStdString());
 }
 
@@ -297,21 +310,31 @@ void MainWindow::chatDeleteClicked() {
 void MainWindow::on_createChatButton_clicked() {
     auto logger = getLogger();
     chatCreateWindow->show();
-    logger->info("Chat create window shown");
+    logger->info("Chat create window shown");    
 }
 
 // Chat send button
 void MainWindow::on_sendMessageButton_clicked() {
     auto logger = getLogger();
     QString message = ui->chatInput2Widget->text();
-    if (!message.isEmpty()) {
-        addMessage(true, message);
-        addMessage(false, message);
-        ui->chatInput2Widget->clear();
-        logger->info("Message added: {}", message.toStdString());
-    } else {
-        logger->warn("Attempted to add an empty message");
+
+    const std::string base_url = "http://217.196.97.29:8000/chat/";
+    ChatClient client(base_url);
+    try {
+        std::string response = client.generate_response(message.toStdString());
+        std::cout << "Generated response: " << response << '\n';
+        if (!message.isEmpty()) {
+            addMessage(true, message);
+            addMessage(false, QString::fromStdString(response));
+            ui->chatInput2Widget->clear();
+            logger->info("Message added: {}", message.toStdString());
+        } else {
+            logger->warn("Attempted to add an empty message");
+        }
+    } catch (const std::exception &e) {
+        std::cerr << "Error during generate_response: " << e.what() << '\n';
     }
+
 }
 
 // Chat add message

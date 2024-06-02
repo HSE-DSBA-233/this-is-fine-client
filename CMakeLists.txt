@@ -9,7 +9,7 @@ set(CMAKE_AUTORCC ON)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_PREFIX_PATH "$ENV{CONDA_PREFIX}/lib/cmake/Qt5")
+set(QT_DIR "/Users/pavelpopov/Qt/6.7.1/macos/lib/cmake/Qt6")
 
 # Find Qt packages
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets LinguistTools)
@@ -29,11 +29,15 @@ set(PROJECT_SOURCES
     ${TS_FILES}
 )
 
-# Main executable
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(This_is_Fine
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
+        chatcreatewindow.h
+        chatcreatewindow.cpp
+        chatcreatewindow.ui
+        chatsitemwidget.h chatsitemwidget.cpp chatsitemwidget.ui
+
     )
     qt_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 else()

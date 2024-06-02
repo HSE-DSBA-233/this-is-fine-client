@@ -3,5 +3,11 @@
         <file>fonts/Inter-Regular.ttf</file>
         <file>assets/thisisfinelogo.png</file>
         <file>assets/thisisfinelogo2.png</file>
+        <file>assets/home.png</file>
+        <file>assets/chat.png</file>
+        <file>assets/settings.png</file>
+        <file>assets/send.png</file>
+        <file>assets/plus.png</file>
+        <file>assets/down-arrow.png</file>
     </qresource>
 </RCC>

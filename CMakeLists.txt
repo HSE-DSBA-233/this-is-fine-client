@@ -95,3 +95,7 @@ target_link_libraries(runTests gtest gtest_main Qt${QT_VERSION_MAJOR}::Widgets)
 
 # Register the test
 add_test(NAME runTests COMMAND runTests)
+
+
+# Include spdlog
+include_directories(${CMAKE_SOURCE_DIR}/logger/include)

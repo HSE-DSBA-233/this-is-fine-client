@@ -106,7 +106,6 @@ MainWindow::MainWindow(QWidget *parent)
   connect(chatCreateWindow, &ChatCreateWindow::createChat, this,
           &MainWindow::handleCreateChat);
   logger->info("Connected chat creation signal");
-
   ui->chatslistWidget->setStyleSheet(R"(
         QListWidget {
             background-color: white;
@@ -216,7 +215,6 @@ void MainWindow::animateButtonRelease() {
                  button->objectName().toStdString());
   }
 }
-
 // Settings page button
 void MainWindow::on_settingsButton_clicked()
 {
@@ -368,7 +366,6 @@ void MainWindow::on_chatslistWidget_itemClicked(QListWidgetItem *item) {
 //     ui->chatslistWidget->itemAt(chatsItemWidget->pos());
 
 // }
-
 // Delete chat
 void MainWindow::chatDeleteClicked() {
     auto logger = getLogger();

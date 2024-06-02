@@ -78,7 +78,7 @@ public:
 #include <filesystem> // C++17 filesystem library
 #include <fstream>
 
-  // `ChatClient` class definition here...
+  // ChatClient class definition here...
 
   bool end_chat(const std::string& title) {
     if (context_id.empty()) {
@@ -124,7 +124,6 @@ public:
 private:
   std::string base_url;
   std::string context_id;
-
   cpr::Response post_request(const std::string &endpoint, const json &payload) {
     return cpr::Post(cpr::Url{base_url + endpoint}, cpr::Body{payload.dump()},
                      cpr::Header{{"Content-Type", "application/json"}});

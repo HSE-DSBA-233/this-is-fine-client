@@ -96,6 +96,8 @@ include_directories(${CMAKE_SOURCE_DIR})
 # Ensure all necessary source files are included in the test executable
 add_executable(runTests
     tests/test_mainwindow.cpp
+    tests/test_chatcreate.cpp
+    tests/test_chatsitemwidget.cpp
     mainwindow.cpp
     chatcreatewindow.cpp
     chatsitemwidget.cpp

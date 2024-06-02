@@ -26,8 +26,3 @@ TEST(MainWindowTest, Page1ButtonClick) {
     // Assuming you have a label named label in the UI that should change text
     // EXPECT_EQ(w.getUi()->label->text(), "Expected Text");
 }
-
-int main(int argc, char **argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

@@ -42,7 +42,7 @@ private slots:
 
     void on_chatButton_clicked();
 
-    void handleCreateChat(const QString &title, const QString &datetime, const QString &model);
+    void handleCreateChat(const QString &title, const QString &prompt, const QString &model);
 
     // void animatePageTransition(int newIndex);
 

@@ -1,3 +1,7 @@
+#ifndef CHAT_API_H
+#define CHAT_API_H
+
+
 #include <chrono>
 #include <cpr/cpr.h>
 #include <iostream>
@@ -145,3 +149,5 @@ private:
     return print_status(response, operation);
   }
 };
+
+#endif // CHAT_API_H

@@ -31,6 +31,8 @@ set(PROJECT_SOURCES
     chatsitemwidget.cpp
     chatsitemwidget.h
     chatsitemwidget.ui
+    chatclient.h
+    chatclient.cpp
     chat-api.h
     json.hpp
     resources.qrc
@@ -91,21 +93,20 @@ include_directories(extern/googletest/googletest/include)
 
 include_directories(${CMAKE_SOURCE_DIR})
 
+# Ensure all necessary source files are included in the test executable
 add_executable(runTests
     tests/test_mainwindow.cpp
     mainwindow.cpp
     chatcreatewindow.cpp
-    chatcreatewindow.h
-    chatcreatewindow.ui
     chatsitemwidget.cpp
-    chatsitemwidget.h
-    chatsitemwidget.ui
+    chatclient.cpp  # Include chatclient.cpp
 )
 
 target_include_directories(runTests PRIVATE
     ${PROJECT_SOURCE_DIR}/include
 )
 
+# Link libraries
 target_link_libraries(runTests gtest gtest_main Qt${QT_VERSION_MAJOR}::Widgets cpr::cpr)
 
 # Register the test

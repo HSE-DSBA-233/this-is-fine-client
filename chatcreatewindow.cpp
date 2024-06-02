@@ -88,7 +88,7 @@ void ChatCreateWindow::addShadow(QWidget *widget, int blur, int offset) {
 void ChatCreateWindow::on_createButton_clicked()
 {
     QString title = ui->titleSelectWidget->text();
-    QString datetime = QDateTime::currentDateTime().toString("dd.MM.yyyy HH:mm");
+    QString prompt  = ui->promptSelectWidget->toPlainText();
     QString model = ui->modelSelectWidget->currentText();
 
     if (title.isEmpty()) {
@@ -96,7 +96,7 @@ void ChatCreateWindow::on_createButton_clicked()
         return;
     }
 
-    emit createChat(title, datetime, model);
+    emit createChat(title, prompt, model);
 
     accept();
 

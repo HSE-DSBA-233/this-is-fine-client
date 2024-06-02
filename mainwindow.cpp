@@ -51,8 +51,12 @@ MainWindow::MainWindow(QWidget *parent)
 
   // Add shadows to buttons
   QList<QPushButton *> buttons = {
-      ui->page2Button,    ui->homeButton,  ui->chatButton,
-      ui->settingsButton, ui->page4Button,
+      ui->createChatButton,
+      ui->homeButton,
+      ui->chatButton,
+      ui->settingsButton,
+      ui->sendMessageButton,
+      ui->settingsUpdateButton,
   };
   foreach (QPushButton *button, buttons) {
     addShadow(button, 20, 3);
@@ -74,9 +78,11 @@ MainWindow::MainWindow(QWidget *parent)
   addShadow(ui->titleLabel, 30, 3);
   addShadow(ui->chatsTitleLabel, 30, 3);
   addShadow(ui->chatTitleLabel, 30, 3);
+  addShadow(ui->tokenInputWidget, 30, 3);
   logger->info("Added shadows to main widgets");
 
-  // connect(ui->page2Button, &QPushButton::clicked, this, [=]() {
+  // Animations to pages
+  // connect(ui->createChatButton, &QPushButton::clicked, this, [=]() {
   // animatePageTransition(1); }); connect(ui->page3BackButton,
   // &QPushButton::clicked, this, [=]() { animatePageTransition(0); });
   // connect(ui->page3Button, &QPushButton::clicked, this, [=]() {
@@ -124,7 +130,7 @@ MainWindow::~MainWindow() {
   delete ui;
 }
 
-//  Animations
+//  Animations to pages
 // void MainWindow::animatePageTransition(int newIndex) {
 //     QWidget* currentWidget = ui->stackedWidget->currentWidget();
 //     QWidget* nextWidget = ui->stackedWidget->widget(newIndex);
@@ -159,6 +165,7 @@ MainWindow::~MainWindow() {
 //     group->start(QAbstractAnimation::DeleteWhenStopped);
 // }
 
+// Add shadow to elements
 void MainWindow::addShadow(QWidget *widget, int blur, int offset) {
   auto logger = getLogger();
   QGraphicsDropShadowEffect *shadow = new QGraphicsDropShadowEffect;
@@ -170,6 +177,7 @@ void MainWindow::addShadow(QWidget *widget, int blur, int offset) {
                widget->objectName().toStdString());
 }
 
+// Animate buttons
 void MainWindow::animateButtonPress() {
   auto logger = getLogger();
   QPushButton *button = qobject_cast<QPushButton *>(sender());
@@ -200,91 +208,20 @@ void MainWindow::animateButtonRelease() {
   }
 }
 
-void MainWindow::on_page1AboutButton_clicked() {
-  auto logger = getLogger();
-  ui->stackedWidget->setCurrentIndex(4);
-  logger->info("Navigated to About page");
+// Settings page button
+void MainWindow::on_settingsButton_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(3);
 }
 
-void MainWindow::on_page1ContactButton_clicked() {
-  auto logger = getLogger();
-  ui->stackedWidget->setCurrentIndex(5);
-  logger->info("Navigated to Contact page");
-}
-
-void MainWindow::on_page1SettingsButton_clicked() {
-  auto logger = getLogger();
-  ui->stackedWidget->setCurrentIndex(6);
-  logger->info("Navigated to Settings page");
-}
-
-void MainWindow::on_page2Button_clicked() {
-  auto logger = getLogger();
-  chatCreateWindow->show();
-  logger->info("Chat create window shown");
-}
-
-void MainWindow::on_page4Button_clicked() {
-  auto logger = getLogger();
-  QString message = ui->chatInput2Widget->text();
-  if (!message.isEmpty()) {
-    addMessage(true, message);
-    addMessage(false, message);
-    ui->chatInput2Widget->clear();
-    logger->info("Message added: {}", message.toStdString());
-  } else {
-    logger->warn("Attempted to add an empty message");
-  }
-}
-
+// Home page button
 void MainWindow::on_homeButton_clicked() {
-  auto logger = getLogger();
-  ui->stackedWidget->setCurrentIndex(0);
-  logger->info("Navigated to Home page");
+    auto logger = getLogger();
+    ui->stackedWidget->setCurrentIndex(0);
+    logger->info("Navigated to Home page");
 }
 
-void MainWindow::addMessage(bool isUser, const QString &message) {
-  auto logger = getLogger();
-  QString sender = isUser ? "You" : "Bot";
-
-  ui->chatWindowWidget->append(
-      QString(
-          "<div style='margin: 10px; padding: 15px;'><b> %1</b><br>%2</div>")
-          .arg(sender, message));
-  logger->info("Added message from {}: {}", sender.toStdString(),
-               message.toStdString());
-}
-
-void MainWindow::on_page5BackButton_clicked() {
-  auto logger = getLogger();
-  ui->stackedWidget->setCurrentIndex(0);
-  logger->info("Navigated back to Home page from Page 5");
-}
-
-void MainWindow::on_page6BackButton_clicked() {
-  auto logger = getLogger();
-  ui->stackedWidget->setCurrentIndex(0);
-  logger->info("Navigated back to Home page from Page 6");
-}
-
-void MainWindow::on_page7BackButton_clicked() {
-  auto logger = getLogger();
-  ui->stackedWidget->setCurrentIndex(0);
-  logger->info("Navigated back to Home page from Page 7");
-}
-
-void MainWindow::loadMessageHistory() {
-  auto logger = getLogger();
-  // Implement loading logic here
-  logger->info("Loaded message history");
-}
-
-void MainWindow::saveMessageHistory() {
-  auto logger = getLogger();
-  // Implement saving logic here
-  logger->info("Saved message history");
-}
-
+// Chat page button
 void MainWindow::on_chatButton_clicked() {
   auto logger = getLogger();
   ui->stackedWidget->setCurrentIndex(1);
@@ -345,7 +282,49 @@ void MainWindow::chatDeleteClicked() {
     }
 }
 
-void MainWindow::on_settingsButton_clicked()
-{
-    ui->stackedWidget->setCurrentIndex(3);
+// Chat create button
+void MainWindow::on_createChatButton_clicked() {
+    auto logger = getLogger();
+    chatCreateWindow->show();
+    logger->info("Chat create window shown");
+}
+
+// Chat send button
+void MainWindow::on_sendMessageButton_clicked() {
+    auto logger = getLogger();
+    QString message = ui->chatInput2Widget->text();
+    if (!message.isEmpty()) {
+        addMessage(true, message);
+        addMessage(false, message);
+        ui->chatInput2Widget->clear();
+        logger->info("Message added: {}", message.toStdString());
+    } else {
+        logger->warn("Attempted to add an empty message");
+    }
+}
+
+// Chat add message
+void MainWindow::addMessage(bool isUser, const QString &message) {
+    auto logger = getLogger();
+    QString sender = isUser ? "You" : "Bot";
+
+    ui->chatWindowWidget->append(
+        QString(
+            "<div style='margin: 10px; padding: 15px;'><b> %1</b><br>%2</div>")
+            .arg(sender, message));
+    logger->info("Added message from {}: {}", sender.toStdString(),
+                 message.toStdString());
+}
+
+// History
+void MainWindow::loadMessageHistory() {
+    auto logger = getLogger();
+    // Implement loading logic here
+    logger->info("Loaded message history");
+}
+
+void MainWindow::saveMessageHistory() {
+    auto logger = getLogger();
+    // Implement saving logic here
+    logger->info("Saved message history");
 }

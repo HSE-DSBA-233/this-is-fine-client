@@ -53,9 +53,9 @@
        <string notr="true"/>
       </property>
       <property name="currentIndex">
-       <number>3</number>
+       <number>2</number>
       </property>
-      <widget class="QWidget" name="page1">
+      <widget class="QWidget" name="welcomePageWidget">
        <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0">
         <property name="spacing">
          <number>20</number>
@@ -205,7 +205,7 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="page2">
+      <widget class="QWidget" name="chatsPageWidget">
        <layout class="QVBoxLayout" name="verticalLayout_4">
         <property name="spacing">
          <number>20</number>
@@ -257,7 +257,7 @@
             <number>0</number>
            </property>
            <item>
-            <widget class="QPushButton" name="page2Button">
+            <widget class="QPushButton" name="createChatButton">
              <property name="minimumSize">
               <size>
                <width>0</width>
@@ -341,7 +341,7 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="page4">
+      <widget class="QWidget" name="chatPageWidget">
        <property name="styleSheet">
         <string notr="true"/>
        </property>
@@ -538,7 +538,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QPushButton" name="page4Button">
+               <widget class="QPushButton" name="sendMessageButton">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
                   <horstretch>0</horstretch>
@@ -604,7 +604,7 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="page7">
+      <widget class="QWidget" name="settingsPageWidget">
        <layout class="QVBoxLayout" name="verticalLayout_3" stretch="0,1,0">
         <property name="spacing">
          <number>20</number>
@@ -622,7 +622,7 @@
          <number>30</number>
         </property>
         <item alignment="Qt::AlignHCenter|Qt::AlignTop">
-         <widget class="QLabel" name="label_4">
+         <widget class="QLabel" name="settingsTitleLabel">
           <property name="font">
            <font>
             <pointsize>30</pointsize>
@@ -635,8 +635,11 @@
          </widget>
         </item>
         <item>
-         <widget class="QWidget" name="widget_2" native="true">
+         <widget class="QWidget" name="settingsTokenWidget" native="true">
           <layout class="QHBoxLayout" name="horizontalLayout_2">
+           <property name="spacing">
+            <number>30</number>
+           </property>
            <property name="leftMargin">
             <number>50</number>
            </property>
@@ -650,7 +653,7 @@
             <number>0</number>
            </property>
            <item>
-            <widget class="QLabel" name="label_2">
+            <widget class="QLabel" name="tokenLabel">
              <property name="font">
               <font>
                <pointsize>15</pointsize>
@@ -658,12 +661,12 @@
               </font>
              </property>
              <property name="text">
-              <string>My token:</string>
+              <string>Deepinfra token:</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QLineEdit" name="lineEdit">
+            <widget class="QLineEdit" name="tokenInputWidget">
              <property name="minimumSize">
               <size>
                <width>0</width>
@@ -690,7 +693,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton">
+         <widget class="QPushButton" name="settingsUpdateButton">
           <property name="font">
            <font>
             <pointsize>15</pointsize>
@@ -701,7 +704,7 @@
            <cursorShape>PointingHandCursor</cursorShape>
           </property>
           <property name="styleSheet">
-           <string notr="true">margin-right: 50px; margin-left: 50px;</string>
+           <string notr="true"/>
           </property>
           <property name="text">
            <string>Update</string>

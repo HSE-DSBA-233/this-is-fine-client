@@ -27,25 +27,16 @@ private slots:
     void animateButtonPress();
     void animateButtonRelease();
 
-    void on_page1AboutButton_clicked();
-    void on_page1SettingsButton_clicked();
-    void on_page1ContactButton_clicked();
-
-    void on_page2Button_clicked();
+    void on_sendMessageButton_clicked();
 
     void addShadow(QWidget *widget, int blur, int offset);
 
-    void on_page4Button_clicked();
+    void on_createChatButton_clicked();
 
     void on_homeButton_clicked();
 
-    void on_page5BackButton_clicked();
-
-    void on_page6BackButton_clicked();
-
-    void on_page7BackButton_clicked();
-
     void addMessage(bool isUser, const QString &message);
+
     void loadMessageHistory();
     void saveMessageHistory();
 

@@ -42,6 +42,8 @@ private slots:
     void on_BackButtonToRAG_clicked();
     void addShadow(QWidget *widget);
 
+    void on_getTokenButton_clicked();
+
     void on_page4Button_clicked();
 
     void on_page4BackButton_clicked();

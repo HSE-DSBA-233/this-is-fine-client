@@ -38,7 +38,7 @@
        <string notr="true"/>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>6</number>
       </property>
       <widget class="QWidget" name="page01">
        <layout class="QVBoxLayout" name="verticalLayout">
@@ -999,64 +999,44 @@
        </widget>
       </widget>
       <widget class="QWidget" name="page07">
-       <widget class="QWidget" name="layoutWidget">
+       <widget class="QSplitter" name="splitter_3">
         <property name="geometry">
          <rect>
-          <x>170</x>
-          <y>160</y>
-          <width>911</width>
-          <height>451</height>
+          <x>430</x>
+          <y>250</y>
+          <width>411</width>
+          <height>301</height>
          </rect>
         </property>
-        <layout class="QGridLayout" name="gridLayout">
-         <item row="1" column="1">
-          <widget class="QSplitter" name="splitter_3">
-           <property name="orientation">
-            <enum>Qt::Vertical</enum>
-           </property>
-           <widget class="QLabel" name="label_6">
-            <property name="text">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:36pt;&quot;&gt;Enter token&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-           </widget>
-           <widget class="QLineEdit" name="tokenLine"/>
-          </widget>
-         </item>
-         <item row="1" column="0">
-          <widget class="QSplitter" name="splitter">
-           <property name="orientation">
-            <enum>Qt::Vertical</enum>
-           </property>
-           <widget class="QLabel" name="label_5">
-            <property name="text">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:36pt;&quot;&gt;Select a provider&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-           </widget>
-           <widget class="QComboBox" name="chooseProviderBox"/>
-          </widget>
-         </item>
-         <item row="0" column="0" colspan="2" alignment="Qt::AlignHCenter">
-          <widget class="QLabel" name="label_4">
-           <property name="text">
-            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:72pt;&quot;&gt;Settings:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-           </property>
-          </widget>
-         </item>
-         <item row="5" column="0" colspan="2">
-          <widget class="QPushButton" name="page7BackButton">
-           <property name="text">
-            <string>Back</string>
-           </property>
-          </widget>
-         </item>
-         <item row="4" column="0">
-          <widget class="QPushButton" name="pushButton">
-           <property name="text">
-            <string>Submit</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:72pt;&quot;&gt;Settings:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+        </widget>
+        <widget class="QSplitter" name="splitter">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <widget class="QLabel" name="label_6">
+          <property name="text">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:36pt;&quot;&gt;Enter token&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+         </widget>
+         <widget class="QLineEdit" name="tokenLine"/>
+        </widget>
+        <widget class="QPushButton" name="getTokenButton">
+         <property name="text">
+          <string>Submit</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="page7BackButton">
+         <property name="text">
+          <string>Back</string>
+         </property>
+        </widget>
        </widget>
       </widget>
       <widget class="QWidget" name="page08">

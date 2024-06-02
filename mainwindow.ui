@@ -183,7 +183,7 @@
               <cursorShape>IBeamCursor</cursorShape>
              </property>
              <property name="text">
-              <string>App was created by HSE DSBA students in honor of the C++ project: @gurbanoffn, @pvlppv, @makaroshh, @eeleecc</string>
+              <string>Sincerely brought to you by the modest students of HSE DSBA. Our Telegram nicknames: @gurbanoffn, @pvlppv, @makaroshh, @eeleecc</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>

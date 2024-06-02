@@ -125,7 +125,8 @@ MainWindow::MainWindow(QWidget *parent)
   logger->info("Set style sheet for chatslistWidget");
 }
 
-const std::string base_url = "http://217.196.97.29:8000/chat/";
+std::string token = "dum";
+const std::string base_url = token;
 ChatClient client(base_url);
 
 MainWindow::~MainWindow() {

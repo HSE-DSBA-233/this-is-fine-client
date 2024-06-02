@@ -28,6 +28,8 @@ set(PROJECT_SOURCES
     chatsitemwidget.cpp
     chatsitemwidget.h
     chatsitemwidget.ui
+    chat-api.h
+    json.hpp
     resources.qrc
     ${TS_FILES}
 )
@@ -47,6 +49,11 @@ else()
     endif()
     qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 endif()
+
+# Add include directories
+target_include_directories(This_is_Fine PRIVATE
+    ${PROJECT_SOURCE_DIR}/include
+)
 
 target_link_libraries(This_is_Fine PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
 
@@ -91,11 +98,14 @@ add_executable(runTests
     chatsitemwidget.ui
 )
 
+target_include_directories(runTests PRIVATE
+    ${PROJECT_SOURCE_DIR}/include
+)
+
 target_link_libraries(runTests gtest gtest_main Qt${QT_VERSION_MAJOR}::Widgets)
 
 # Register the test
 add_test(NAME runTests COMMAND runTests)
-
 
 # Include spdlog
 include_directories(${CMAKE_SOURCE_DIR}/logger/include)

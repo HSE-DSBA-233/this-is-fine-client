@@ -15,6 +15,9 @@ set(CMAKE_PREFIX_PATH "$ENV{CONDA_PREFIX}/lib/cmake/Qt5")
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets LinguistTools)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets LinguistTools)
 
+# Find CPR package
+find_package(cpr REQUIRED)
+
 # Source files
 set(TS_FILES This_is_Fine_en_US.ts)
 set(PROJECT_SOURCES
@@ -55,7 +58,8 @@ target_include_directories(This_is_Fine PRIVATE
     ${PROJECT_SOURCE_DIR}/include
 )
 
-target_link_libraries(This_is_Fine PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+# Link libraries
+target_link_libraries(This_is_Fine PRIVATE Qt${QT_VERSION_MAJOR}::Widgets cpr::cpr)
 
 if(${QT_VERSION} VERSION_LESS 6.1.0)
     set(BUNDLE_ID_OPTION MACOSX_BUNDLE_GUI_IDENTIFIER com.example.This_is_Fine)
@@ -79,7 +83,7 @@ if(QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(This_is_Fine)
 endif()
 
-# Google Test Mambo-Jambo
+# Google Test setup
 enable_testing()
 
 add_subdirectory(extern/googletest)
@@ -102,7 +106,7 @@ target_include_directories(runTests PRIVATE
     ${PROJECT_SOURCE_DIR}/include
 )
 
-target_link_libraries(runTests gtest gtest_main Qt${QT_VERSION_MAJOR}::Widgets)
+target_link_libraries(runTests gtest gtest_main Qt${QT_VERSION_MAJOR}::Widgets cpr::cpr)
 
 # Register the test
 add_test(NAME runTests COMMAND runTests)

@@ -8,7 +8,7 @@ set(CMAKE_AUTORCC ON)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_PREFIX_PATH "$ENV{CONDA_PREFIX}/lib/cmake/Qt5")
+set(QT_DIR "/Users/pavelpopov/Qt/6.7.1/macos/lib/cmake/Qt6")
 
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets LinguistTools)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets LinguistTools)
@@ -24,10 +24,15 @@ set(PROJECT_SOURCES
         ${TS_FILES}
 )
 
-if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
+if(${QT_VERSION_MAJOR} GREATER_EQUAL 5)
     qt_add_executable(This_is_Fine
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
+        chatcreatewindow.h
+        chatcreatewindow.cpp
+        chatcreatewindow.ui
+        chatsitemwidget.h chatsitemwidget.cpp chatsitemwidget.ui
+
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET This_is_Fine APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

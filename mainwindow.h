@@ -7,6 +7,7 @@
 #include <QVBoxLayout>
 #include <QWidget>
 #include <QString>
+#include "chatcreatewindow.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -24,22 +25,17 @@ private slots:
     void animateButtonPress();
     void animateButtonRelease();
 
-    void on_page1Button_clicked();
     void on_page1AboutButton_clicked();
     void on_page1SettingsButton_clicked();
     void on_page1ContactButton_clicked();
 
     void on_page2Button_clicked();
-    void on_page2BackButton_clicked();
 
-    void on_page3Button_clicked();
-    void on_page3BackButton_clicked();
-
-    void addShadow(QWidget *widget);
+    void addShadow(QWidget *widget, int blur, int offset);
 
     void on_page4Button_clicked();
 
-    void on_page4BackButton_clicked();
+    void on_homeButton_clicked();
 
     void on_page5BackButton_clicked();
 
@@ -51,8 +47,20 @@ private slots:
     void loadMessageHistory();
     void saveMessageHistory();
 
+    void on_chatButton_clicked();
+
+    void handleCreateChat(const QString &title, const QString &datetime, const QString &model);
+
+    // void animatePageTransition(int newIndex);
+
+    void on_chatslistWidget_itemClicked(QListWidgetItem *item);
+
+    // void chatEditClicked();
+    void chatDeleteClicked();
+
 private:
     Ui::MainWindow *ui;
+    ChatCreateWindow *chatCreateWindow = new ChatCreateWindow();
 };
 
 #endif // MAINWINDOW_H

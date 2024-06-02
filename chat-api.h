@@ -81,6 +81,10 @@ public:
   // `ChatClient` class definition here...
 
   bool end_chat() {
+    if (context_id.empty()) {
+        throw std::runtime_error("context_id is empty. Cannot end chat.");
+    }
+
     json payload = {{"id", context_id}};
     cpr::Response response = post_request("end", payload);
 

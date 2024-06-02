@@ -7,6 +7,10 @@
 #include <QGraphicsDropShadowEffect>
 #include <QMessageBox>
 #include <QString>
+#include <QFile>
+#include <QTextStream>
+#include <QCoreApplication>
+#include <QDir>
 #include "logger_util.h" // Include the logger utility
 
 MainWindow::MainWindow(QWidget *parent)
@@ -42,7 +46,8 @@ MainWindow::MainWindow(QWidget *parent)
         "QPushButton:hover { background-color: #FFD971; }"
         "QListWidget { color: black; font-family: 'Montserrat'; border: none; }"
         );
-    ui->promptWidget->setStyleSheet("color: white; font-family: 'Montserrat'");
+    ui->tokenLine->setStyleSheet("background-color: white; color: black; font-family: 'Montserrat'");
+    ui->promptWidget->setStyleSheet("background-color: white; color: black; font-family: 'Montserrat'");
     logger->info("Applied application-wide stylesheet");
 
     // Add shadows to buttons
@@ -177,6 +182,28 @@ void MainWindow::on_page3Button_clicked()
     getLogger()->info("Navigated to page 3 with model {} and prompt {}", selectedModel.toStdString(), selectedPrompt.toStdString());
 }
 
+//get token
+void MainWindow::on_getTokenButton_clicked()
+{
+    QString token = ui->tokenLine->text();
+
+    QFile file("/Users/mverzhbitskiy/Documents/GitHub/This-is-Fine-client/token.txt");
+
+    if (file.open(QIODevice::WriteOnly | QIODevice::Text))
+    {
+        QTextStream out(&file);
+        out << token;
+        file.close();
+        QMessageBox::information(this, "Success", "Token was successfully saved");
+        getLogger()->info("Token saved to token.txt");
+    }
+    else
+    {
+        QMessageBox::warning(this, "Error", "Could not open file for writing");
+        getLogger()->error("Failed to open token.txt for writing");
+    }
+}
+
 void MainWindow::on_page3BackButton_clicked()
 {
     ui->stackedWidget->setCurrentIndex(1);
@@ -242,12 +269,14 @@ void MainWindow::on_page9BackButton_clicked()
     getLogger()->info("Navigated back to page 2");
 }
 
-void MainWindow::loadMessageHistory() {
+void MainWindow::loadMessageHistory()
+{
     // Log loading message history
     getLogger()->info("Loaded message history");
 }
 
-void MainWindow::saveMessageHistory() {
+void MainWindow::saveMessageHistory()
+{
     // Log saving message history
     getLogger()->info("Saved message history");
 }

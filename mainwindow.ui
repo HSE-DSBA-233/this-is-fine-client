@@ -693,6 +693,223 @@
         </item>
        </layout>
       </widget>
+      <widget class="QWidget" name="chatSettings">
+       <layout class="QVBoxLayout" name="verticalLayout_12">
+        <item>
+         <widget class="QWidget" name="verticalWidget" native="true">
+          <layout class="QVBoxLayout" name="verticalLayout_6">
+           <item>
+            <widget class="QLabel" name="label_2">
+             <property name="text">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:48pt; font-weight:700;&quot;&gt;Chat Settings&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="titleChange">
+             <property name="styleSheet">
+              <string notr="true">background-color: white; border: 1px solid lightgray; padding: 5px; border-radius: 10px;</string>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QTextEdit" name="promptChange">
+             <property name="styleSheet">
+              <string notr="true">background-color: white; border: 1px solid lightgray; padding: 5px; border-radius: 10px;</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QComboBox" name="modelChange">
+             <property name="cursor">
+              <cursorShape>PointingHandCursor</cursorShape>
+             </property>
+             <property name="styleSheet">
+              <string notr="true"/>
+             </property>
+             <property name="editable">
+              <bool>false</bool>
+             </property>
+             <item>
+              <property name="text">
+               <string>mistralai/Mixtral-8x22B-Instruct-v0.1</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>mistralai/Mixtral-8x22B-v0.1</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>mistralai/Mixtral-8x7B-Instruct-v0.1</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>mistralai/Mistral-7B-Instruct-v0.3</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>mistralai/Mistral-7B-Instruct-v0.2</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>mistralai/Mistral-7B-Instruct-v0.1</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>meta-llama/Meta-Llama-3-70B-Instruct</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>meta-llama/Meta-Llama-3-8B-Instruct</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>meta-llama/Llama-2-70b-chat-hf</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>meta-llama/Llama-2-13b-chat-hf</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>meta-llama/Llama-2-7b-chat-hf</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>codellama/CodeLlama-70b-Instruct-hf</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>codellama/CodeLlama-34b-Instruct-hf</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>microsoft/WizardLM-2-8x22B</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>microsoft/WizardLM-2-7B</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>google/gemma-1.1-7b-it</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>google/codegemma-7b-it</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>cognitivecomputations/dolphin-2.6-mixtral-8x7b</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>lizpreciatior/lzlv_70b_fp16_hf</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>openchat/openchat-3.6-8b</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>openchat/openchat_3.5</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>llava-hf/llava-1.5-7b-hf</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>01-ai/Yi-34B-Chat</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Austism/chronos-hermes-13b-v2</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Gryphe/MythoMax-L2-13b-turbo</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Gryphe/MythoMax-L2-13b</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>HuggingFaceH4/zephyr-orpo-141b-A35b-v0.1</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Phind/Phind-CodeLlama-34B-v2</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>bigcode/starcoder2-15b-instruct-v0.1</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>bigcode/starcoder2-15b</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>databricks/dbrx-instruct</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>deepinfra/airoboros-70b</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="submitChange">
+             <property name="styleSheet">
+              <string notr="true">background-color: #FCCD4A; color: white; padding: 12px 12px; border-radius: 15px; font-weight: 700;</string>
+             </property>
+             <property name="text">
+              <string>Submit</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </widget>
      </widget>
     </item>
     <item alignment="Qt::AlignHCenter">

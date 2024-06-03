@@ -79,6 +79,47 @@ MainWindow::MainWindow(QWidget *parent)
                  button->objectName().toStdString());
   }
 
+  //Combo box style
+  QString comboBoxStyle = R"(
+        QComboBox {
+            background-color: white;
+            padding: 5px;
+            border: 1px solid lightgray;
+            border-radius: 10px;
+            color: black;
+        }
+        QComboBox:on {
+            padding-top: 3px;
+            padding-left: 4px;
+        }
+        QComboBox::drop-down {
+            subcontrol-origin: padding;
+            subcontrol-position: top right;
+            width: 30px;
+            border-left: 1px solid lightgray;
+        }
+        QComboBox::down-arrow {
+            image: url(:/assets/down-arrow.png);
+            width: 12px;
+            height: 12px;
+        }
+        QComboBox::down-arrow:on {
+            top: 1px;
+            left: 1px;
+        }
+        QComboBox QAbstractItemView {
+            background-color: white;
+            border: 1px solid lightgray;
+        }
+        QComboBox::item {
+            selection-color: #FCCD4A;
+            color: black;
+        }
+    )";
+
+  ui->modelChange->setStyleSheet(comboBoxStyle);
+
+
   // Add shadows to widgets
   addShadow(ui->welcomeWidget, 30, 3);
   addShadow(ui->chatsWidget, 30, 3);
@@ -436,3 +477,49 @@ void MainWindow::on_clearChatButton_clicked(){
         logger->warn("Error during clear_context");
     }
 }
+
+//Settings in Chat page
+void MainWindow::on_settingsChatButton_clicked()
+{
+    auto logger = getLogger();
+    QString title = ui->chatTitleLabel->text();
+    ui->stackedWidget->setCurrentIndex(4);
+    ui->titleChange->setText(title);
+}
+
+
+void MainWindow::on_submitChange_clicked()
+{
+    auto logger = getLogger();
+    QString title = ui->titleChange->text();
+    QString prompt  = ui->promptChange->toPlainText();
+    QString model = ui->modelChange->currentText();
+
+    json promptJson = {
+        {{"role", "system"}, {"content", prompt.toStdString()}}
+    };
+
+    if (chatclient.change_model(model.toStdString()))
+    {
+        logger->info("Model was changed");
+    }
+    else {
+        logger->warn("Error with a model");
+    }
+
+    if (chatclient.change_prompt(promptJson)) {
+        logger->info("Prompt was changed");
+    }
+    else {
+        logger->warn("Error with a prompt change");
+    }
+
+
+    if (title.isEmpty()) {
+        QMessageBox::warning(this, tr("Warning"), tr("Please enter a title."));
+        return;
+    }
+
+    ui->stackedWidget->setCurrentIndex(2);
+}
+

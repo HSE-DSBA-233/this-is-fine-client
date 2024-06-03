@@ -39,6 +39,7 @@ ChatCreateWindow::ChatCreateWindow(QWidget *parent) :
             padding: 5px;
             border: 1px solid lightgray;
             border-radius: 10px;
+            color: black;
         }
         QComboBox:on {
             padding-top: 3px;
@@ -65,6 +66,7 @@ ChatCreateWindow::ChatCreateWindow(QWidget *parent) :
         }
         QComboBox::item {
             selection-color: #FCCD4A;
+            color: black;
         }
     )";
 

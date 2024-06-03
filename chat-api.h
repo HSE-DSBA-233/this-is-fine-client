@@ -1,9 +1,10 @@
 #ifndef CHAT_API_H
 #define CHAT_API_H
 
-
 #include <chrono>
 #include <cpr/cpr.h>
+#include <filesystem> // C++17 filesystem library
+#include <fstream>
 #include <iostream>
 #include <json.hpp>
 #include <thread>
@@ -75,18 +76,69 @@ public:
     return perform_operation("delete-message", payload, "Delete Message");
   }
 
-#include <filesystem> // C++17 filesystem library
-#include <fstream>
+  bool end_chat(const std::string &title = "") {
+    std::string url = "end/" + context_id;
+    cpr::Response response = get_request(url);
 
-  // ChatClient class definition here...
+    if (response.status_code == 200) {
+      std::cout << "End Chat: SUCCESSFUL\n";
+      std::string dir_path = "contexts/";
+      std::string file_path =
+          dir_path + (title.empty() ? context_id : title) + ".zip";
 
-  bool end_chat(const std::string& title) {
-    if (context_id.empty()) {
-        throw std::runtime_error("context_id is empty. Cannot end chat.");
+      // Ensure the directory exists
+      std::filesystem::create_directories(dir_path);
+
+      // Open and write to the file
+      std::ofstream out(file_path, std::ios::binary);
+      if (!out) {
+        throw std::runtime_error("Failed to open file: " + file_path);
+      }
+      out.write(response.text.data(), response.text.size());
+      out.close();
+      std::cout << "Chat history saved to " << file_path << '\n';
+      return true;
+    } else {
+      throw std::runtime_error("End Chat operation failed with status code: " +
+                               std::to_string(response.status_code));
+    }
+  }
+
+  bool load_chat(const std::string &zip_path) {
+    json payload = {{"zip_path", zip_path}};
+    cpr::Response response = post_request("load", payload);
+
+    auto json_response = parse_json(response);
+    if (json_response.is_discarded()) {
+      return false;
     }
 
-    json payload = {{"id", context_id}};
-    cpr::Response response = post_request("end", payload);
+    print_status(response, "Load Chat");
+    if (!json_response.contains("id")) {
+      std::cerr << "Received invalid 'id' in load response\n";
+      return false;
+    }
+
+    context_id = std::to_string(json_response["id"].get<int>());
+    return true;
+  }
+
+  bool add_rag(const std::string &doc_file_path) {
+    cpr::Multipart multipart{{"id", context_id},
+                             {"doc_file", cpr::File{doc_file_path}}};
+
+    cpr::Response response =
+        cpr::Post(cpr::Url{base_url + "add_rag"}, multipart);
+    auto json_response = parse_json(response);
+
+    std::cout << "Add RAG Response: " << response.text << '\n';
+
+    return print_status(response, "Add RAG");
+  }
+
+  std::string rag_generate(const std::string &message) {
+    json payload = {{"id", std::stoi(context_id)}, {"msg", message}};
+    cpr::Response response = post_request("rag_generate", payload);
 
     auto json_response = parse_json(response);
     if (json_response.is_discarded()) {
@@ -94,39 +146,30 @@ public:
     }
 
     if (json_response.contains("status") &&
-        json_response["status"] == "SUCCESSFUL") {
-      std::cout << "End Chat: " << json_response["status"] << '\n';
-      if (json_response.contains("file")) {
-        std::string dir_path = "contexts/";
-        std::string file_path = dir_path + title + ".json";
-
-        // Ensure the directory exists
-        std::filesystem::create_directories(dir_path);
-
-        // Open and write to the file
-        std::ofstream out(file_path);
-        if (!out) {
-          throw std::runtime_error("Failed to open file: " + file_path);
-        }
-        out << json_response["file"].dump(4); // Save with pretty-print
-        out.close();
-        std::cout << "Chat history saved to " << file_path << '\n';
-        return true;
-      } else {
-        throw std::runtime_error("File field missing in response");
-      }
+        json_response["status"] == "SUCCESSFUL" &&
+        json_response.contains("response")) {
+      std::cout << "RAG Generate: " << json_response["status"] << '\n';
+      return json_response["response"].get<std::string>();
     } else {
-      throw std::runtime_error("End Chat operation failed with response: " +
+      throw std::runtime_error("RAG Generate operation failed with response: " +
                                response.text);
     }
   }
 
+  // Provide getter for context_id to maintain encapsulation
+  std::string get_context_id() const { return context_id; }
+
 private:
   std::string base_url;
   std::string context_id;
+
   cpr::Response post_request(const std::string &endpoint, const json &payload) {
     return cpr::Post(cpr::Url{base_url + endpoint}, cpr::Body{payload.dump()},
                      cpr::Header{{"Content-Type", "application/json"}});
+  }
+
+  cpr::Response get_request(const std::string &endpoint) {
+    return cpr::Get(cpr::Url{base_url + endpoint});
   }
 
   json parse_json(const cpr::Response &response) {

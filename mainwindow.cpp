@@ -318,42 +318,30 @@ void MainWindow::handleCreateChat(const QString &title, const QString &prompt,
 
 // Enter chat
 void MainWindow::on_chatslistWidget_itemClicked(QListWidgetItem *item) {
-    auto logger = getLogger();
-    ChatsItemWidget *chatsItemWidget = qobject_cast<ChatsItemWidget *>(ui->chatslistWidget->itemWidget(item));
+  auto logger = getLogger();
+  ChatsItemWidget *chatsItemWidget =
+      qobject_cast<ChatsItemWidget *>(ui->chatslistWidget->itemWidget(item));
 
-    QString itemTitle = chatsItemWidget->getTitle();
-    QStringList title = itemTitle.split(" | ");
-    ui->stackedWidget->setCurrentIndex(2);
-    ui->chatTitleLabel->setText(title[0]);
-    ui->chatModelLabel->setText(title[1]);
+  QString itemTitle = chatsItemWidget->getTitle();
+  QStringList title = itemTitle.split(" | ");
+  ui->stackedWidget->setCurrentIndex(2);
+  ui->chatTitleLabel->setText(title[0]);
+  ui->chatModelLabel->setText(title[1]);
 
-    logger->info("Entered chat: {}", itemTitle.toStdString());
+  logger->info("Entered chat: {}", itemTitle.toStdString());
 
-    std::ifstream ifs(fmt::format("contexts/{}.json", title[0].toStdString()));
-    if (!ifs.is_open()) {
-        logger->warn("Error opening file.");
+  QString zipFilePath = QString("contexts/%1.zip").arg(title[0]);
+  if (QFile::exists(zipFilePath)) {
+    if (chatclient.load_chat(zipFilePath.toStdString())) {
+      logger->info("Loaded chat history from {}", zipFilePath.toStdString());
+    } else {
+      logger->warn("Failed to load chat history from {}",
+                   zipFilePath.toStdString());
     }
-    else {
-        json context;
-        ifs >> context;
-        if (context.is_null()) {
-            context = json::array();
-        }
-
-        for (const auto& message : context["dialogue"]) {
-            QString content = QString::fromStdString(message["content"]);
-            QString role = QString::fromStdString(message["role"]);
-            
-            bool isUser = (role == "user");
-
-            addMessage(isUser, content);
-
-            logger->info("Added message from {}: {}", role.toStdString(), content.toStdString());
-        }
-
-        ifs.close();
-        chatclient.start_chat(title[1].toStdString(), context["prompt"], context["dialogue"]);
-    }
+  } else {
+    logger->warn("Chat history file does not exist: {}",
+                 zipFilePath.toStdString());
+  }
 }
 
 // Edit chat

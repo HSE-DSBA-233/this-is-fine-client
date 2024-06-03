@@ -65,6 +65,7 @@ MainWindow::MainWindow(QWidget *parent)
       ui->settingsButton,
       ui->sendMessageButton,
       ui->clearChatButton,
+      ui->settingsChatButton,
   };
   foreach (QPushButton *button, buttons) {
     addShadow(button, 20, 3);

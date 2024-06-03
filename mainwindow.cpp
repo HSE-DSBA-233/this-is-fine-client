@@ -15,12 +15,10 @@
 #include <QString>
 #include <chat-api.h>
 #include <json.hpp>
-#include <thread>
-#include <chrono>
 #include "chatclient.h"
 #include <fstream>
-#include <filesystem> // for std::filesystem
-#include <iostream> // for debugging, optional
+#include <filesystem>
+#include <iostream>
 
 using json = nlohmann::json;
 
@@ -49,13 +47,14 @@ MainWindow::MainWindow(QWidget *parent)
   qApp->setStyleSheet(
       "QLabel {color: black; font-family: 'Montserrat'; }"
       "QLineEdit {color: black; font-family: 'Montserrat'; }"
+      "QLineEdit:focus { border: 1px solid black; }"
       "QTextEdit {color: black; font-family: 'Montserrat'; }"
       "QPushButton { background-color: #FCCD4A; font-family: 'Montserrat'; "
       "color: white; border: 2px solid #FCCD4A; border-radius: 10px; padding: "
       "5px 15px; }"
       "QPushButton:hover { background-color: #FFD971; }"
       "QListWidget { color: black; font-family: 'Montserrat'; border: none; }"
-      "QLineEdit:focus { border: 1px solid black; }");
+      );
   logger->info("Applied application-wide stylesheet");
 
   // Add shadows to buttons
@@ -132,7 +131,6 @@ MainWindow::MainWindow(QWidget *parent)
 }
 
 MainWindow::~MainWindow() {
-  saveMessageHistory();
   auto logger = getLogger();
   logger->info("MainWindow destroyed and message history saved");
   delete ui;
@@ -276,20 +274,23 @@ void MainWindow::on_chatButton_clicked() {
     }
     ui->chatWindowWidget->clear();
     ui->chatslistWidget->clear();
-    for (const auto& entry : std::filesystem::directory_iterator("contexts")) {
-        std::ifstream file(entry.path());
-        json context;
-        file >> context;
-        file.close();
+    if (std::filesystem::exists("contexts") && std::filesystem::is_directory("contexts")) {
+        for (const auto& entry : std::filesystem::directory_iterator("contexts")) {
+            std::ifstream file(entry.path());
+            json context;
+            file >> context;
+            file.close();
 
-        std::string model = context["model"].get<std::string>();
-        std::string title = entry.path().stem();
-        QString itemText = QString("%1 | %2").arg(QString::fromStdString(title), QString::fromStdString(model));
-        QListWidgetItem *item = new QListWidgetItem(ui->chatslistWidget);
-        ChatsItemWidget *chatsItemWidget = new ChatsItemWidget(itemText);
-        item->setSizeHint(chatsItemWidget->sizeHint());
-        ui->chatslistWidget->setItemWidget(item, chatsItemWidget);
-        logger->info("Loaded chat: {}", itemText.toStdString());
+            std::string model = context["model"].get<std::string>();
+            std::string title = entry.path().stem();
+            QString itemText = QString("%1 | %2").arg(QString::fromStdString(title), QString::fromStdString(model));
+            QListWidgetItem *item = new QListWidgetItem(ui->chatslistWidget);
+            ChatsItemWidget *chatsItemWidget = new ChatsItemWidget(itemText);
+            connect(chatsItemWidget, &ChatsItemWidget::deleteClicked, this, &MainWindow::chatDeleteClicked);
+            item->setSizeHint(chatsItemWidget->sizeHint());
+            ui->chatslistWidget->setItemWidget(item, chatsItemWidget);
+            logger->info("Loaded chat: {}", itemText.toStdString());
+        }
     }
 }
 
@@ -366,17 +367,22 @@ void MainWindow::on_chatslistWidget_itemClicked(QListWidgetItem *item) {
 //     ui->chatslistWidget->itemAt(chatsItemWidget->pos());
 
 // }
+
 // Delete chat
 void MainWindow::chatDeleteClicked() {
     auto logger = getLogger();
     ChatsItemWidget *chatsItemWidget = qobject_cast<ChatsItemWidget *>(sender());
     QListWidgetItem *item = ui->chatslistWidget->itemAt(chatsItemWidget->pos());
+    QString qtitle = chatsItemWidget->getTitle().split(" | ").first();
+    std::string title = qtitle.toStdString();
     if (QMessageBox::question(this, tr("Deleting a chat"), tr("Are you sure you want to delete this chat?")) == QMessageBox::Yes) {
-        logger->info("Deleted chat: {}", chatsItemWidget->getTitle().toStdString());
+        logger->info("Deleted chat: {}", title);
         delete item;
         delete chatsItemWidget;
+        std::string filePath = "contexts/" + title + ".json";
+        std::filesystem::remove(filePath);
     } else {
-        logger->info("Cancelled deletion of chat: {}", chatsItemWidget->getTitle().toStdString());
+        logger->info("Cancelled deletion of chat: {}", title);
     }
 }
 
@@ -419,17 +425,4 @@ void MainWindow::addMessage(bool isUser, const QString &message) {
             .arg(sender, message));
     logger->info("Added message from {}: {}", sender.toStdString(),
                  message.toStdString());
-}
-
-// History
-void MainWindow::loadMessageHistory() {
-    auto logger = getLogger();
-    // Implement loading logic here
-    logger->info("Loaded message history");
-}
-
-void MainWindow::saveMessageHistory() {
-    auto logger = getLogger();
-    // Implement saving logic here
-    logger->info("Saved message history");
 }

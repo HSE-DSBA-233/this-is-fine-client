@@ -37,9 +37,6 @@ private slots:
 
     void addMessage(bool isUser, const QString &message);
 
-    void loadMessageHistory();
-    void saveMessageHistory();
-
     void on_chatButton_clicked();
 
     void handleCreateChat(const QString &title, const QString &prompt, const QString &model);

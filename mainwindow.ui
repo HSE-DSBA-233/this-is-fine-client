@@ -53,7 +53,7 @@
        <string notr="true"/>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="welcomePageWidget">
        <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0">
@@ -125,7 +125,7 @@
                <widget class="QLabel" name="label">
                 <property name="maximumSize">
                  <size>
-                  <width>300</width>
+                  <width>500</width>
                   <height>300</height>
                  </size>
                 </property>
@@ -273,7 +273,7 @@
               <cursorShape>PointingHandCursor</cursorShape>
              </property>
              <property name="styleSheet">
-              <string notr="true">padding: 0px;</string>
+              <string notr="true">padding: 0px; margin: 0px;</string>
              </property>
              <property name="text">
               <string/>

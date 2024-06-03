@@ -263,59 +263,57 @@ li.checked::marker { content: &quot;\2612&quot;; }
     </message>
     <message>
         <location filename="mainwindow.ui" line="157"/>
-        <source>Welcome to the Fine-Tuning/RAG Desktop Application on Qt! This powerful tool is designed to streamline your workflow, offering a comprehensive suite of features to enhance your editing and optimization process. With an intuitive user interface built on the robust Qt framework, our application empowers users to fine-tune their content effortlessly. Whether you&apos;re a seasoned professional or new to the field, our app provides a seamless experience for refining text, generating creative outputs, and optimizing your workflow. Dive into a world of possibilities with advanced functionalities such as text summarization, content generation using state-of-the-art models like RAG (Retrieve and Generate), and intelligent suggestions for refining your content. Boost your productivity and creativity with the Fine-Tuning/RAG Desktop App on Qt today!
-
+        <source>Hello, user! You can use this app to chat with different Large Language Models. It also allows you to set custom system prompts. Consider it an alternative to ChatGPT! This application is made using C++ and Qt framework. Unfortunately, this is only &quot;alpha&quot; version, as we were extremely limited in time, but we hope to improve it in the future! Use navigation buttons in the bottom to switch between different parts of this app. We hope you will find it useful!
 </source>
-        <oldsource>Here you can learn about the history of mathematics in Russia, or get some theoretical knowledge. Yuri will gladly share some books form his personal library. Additionaly, you can challenge yourself by some tasks with various levels of difficulty and compete with others. Your progress will be displayed in the leaderboard. Along with the history of programming, you can learn the basics of some Soviet languages: REFAL-5, EL-76 and RAPIRA. There is a contest with the programming tasks, featuring a leaderboard as well. Additionaly, you can try our experimental feature: code translator. You just send code in Python or C++ and bot gives you its equivalent in Soviet programming language.</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="187"/>
-        <source>App was created by HSE DSBA students in honor of the C++ project: @gurbanoffn, @pvlppv, @makaroshh, @eeleecc</source>
+        <location filename="mainwindow.ui" line="186"/>
+        <source>Sincerely brought to you by the modest students of HSE DSBA. Our Telegram nicknames: @gurbanoffn, @pvlppv, @makaroshh, @eeleecc</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="234"/>
+        <location filename="mainwindow.ui" line="233"/>
         <source>My chats</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="388"/>
+        <location filename="mainwindow.ui" line="387"/>
         <source>Chat #1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="410"/>
+        <location filename="mainwindow.ui" line="409"/>
         <source>Model #1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="633"/>
+        <location filename="mainwindow.ui" line="632"/>
         <source>My settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="664"/>
+        <location filename="mainwindow.ui" line="663"/>
         <source>Deepinfra token:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="710"/>
+        <location filename="mainwindow.ui" line="709"/>
         <source>Update</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="530"/>
+        <location filename="mainwindow.ui" line="529"/>
         <source>Type a message</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="374"/>
+        <location filename="mainwindow.cpp" line="376"/>
         <source>Deleting a chat</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="374"/>
+        <location filename="mainwindow.cpp" line="376"/>
         <source>Are you sure you want to delete this chat?</source>
         <translation type="unfinished"></translation>
     </message>

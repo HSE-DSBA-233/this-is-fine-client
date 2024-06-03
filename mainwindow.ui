@@ -53,7 +53,7 @@
        <string notr="true"/>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="welcomePageWidget">
        <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0">
@@ -418,7 +418,7 @@
           <property name="styleSheet">
            <string notr="true">background-color: white; border-radius: 15px; padding: 15px;</string>
           </property>
-          <layout class="QVBoxLayout" name="verticalLayout_10" stretch="0,0">
+          <layout class="QVBoxLayout" name="verticalLayout_10" stretch="0,0,0">
            <property name="spacing">
             <number>0</number>
            </property>
@@ -437,6 +437,16 @@
            <property name="bottomMargin">
             <number>12</number>
            </property>
+           <item alignment="Qt::AlignRight">
+            <widget class="QPushButton" name="clearChatButton">
+             <property name="styleSheet">
+              <string notr="true">background-color: #FCCD4A; color: white; padding: 12px 12px; border-radius: 15px; font-weight: 700;</string>
+             </property>
+             <property name="text">
+              <string>Clear chat</string>
+             </property>
+            </widget>
+           </item>
            <item>
             <widget class="QTextEdit" name="chatWindowWidget">
              <property name="font">
@@ -604,7 +614,7 @@
        </layout>
       </widget>
       <widget class="QWidget" name="settingsPageWidget">
-       <layout class="QVBoxLayout" name="verticalLayout_3" stretch="0,1,0">
+       <layout class="QVBoxLayout" name="verticalLayout_3" stretch="0,1">
         <property name="spacing">
          <number>20</number>
         </property>
@@ -629,7 +639,7 @@
            </font>
           </property>
           <property name="text">
-           <string>My settings</string>
+           <string>Guide page</string>
           </property>
          </widget>
         </item>
@@ -660,54 +670,11 @@
               </font>
              </property>
              <property name="text">
-              <string>Deepinfra token:</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLineEdit" name="tokenInputWidget">
-             <property name="minimumSize">
-              <size>
-               <width>0</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>16777215</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <property name="font">
-              <font>
-               <pointsize>15</pointsize>
-              </font>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">background-color: white; border: 1px solid lightgray; padding: 5px; border-radius: 10px;</string>
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Guide&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
             </widget>
            </item>
           </layout>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="settingsUpdateButton">
-          <property name="font">
-           <font>
-            <pointsize>15</pointsize>
-            <bold>true</bold>
-           </font>
-          </property>
-          <property name="cursor">
-           <cursorShape>PointingHandCursor</cursorShape>
-          </property>
-          <property name="styleSheet">
-           <string notr="true"/>
-          </property>
-          <property name="text">
-           <string>Update</string>
-          </property>
          </widget>
         </item>
        </layout>
@@ -745,35 +712,6 @@
         <number>10</number>
        </property>
        <item>
-        <widget class="QPushButton" name="settingsButton">
-         <property name="maximumSize">
-          <size>
-           <width>45</width>
-           <height>16777215</height>
-          </size>
-         </property>
-         <property name="cursor">
-          <cursorShape>PointingHandCursor</cursorShape>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">border-radius: 12px;</string>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-         <property name="icon">
-          <iconset resource="resources.qrc">
-           <normaloff>:/assets/settings.png</normaloff>:/assets/settings.png</iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>30</width>
-           <height>30</height>
-          </size>
-         </property>
-        </widget>
-       </item>
-       <item>
         <widget class="QPushButton" name="homeButton">
          <property name="maximumSize">
           <size>
@@ -792,7 +730,7 @@
          </property>
          <property name="icon">
           <iconset resource="resources.qrc">
-           <normaloff>:/assets/home.png</normaloff>:/assets/home.png</iconset>
+           <normaloff>:/assets/questionMark.png</normaloff>:/assets/questionMark.png</iconset>
          </property>
          <property name="iconSize">
           <size>
@@ -839,6 +777,35 @@
          </property>
          <property name="autoRepeatDelay">
           <number>300</number>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="settingsButton">
+         <property name="maximumSize">
+          <size>
+           <width>45</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="cursor">
+          <cursorShape>PointingHandCursor</cursorShape>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">border-radius: 12px;</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset resource="resources.qrc">
+           <normaloff>:/assets/guide.png</normaloff>:/assets/guide.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>30</width>
+           <height>30</height>
+          </size>
          </property>
         </widget>
        </item>

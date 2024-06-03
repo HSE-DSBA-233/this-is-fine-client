@@ -9,5 +9,9 @@
         <file>assets/send.png</file>
         <file>assets/plus.png</file>
         <file>assets/down-arrow.png</file>
+        <file>assets/guide.png</file>
+        <file>assets/info.png</file>
+        <file>assets/question.png</file>
+        <file>assets/questionMark.png</file>
     </qresource>
 </RCC>

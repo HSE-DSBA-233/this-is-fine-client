@@ -48,9 +48,9 @@ private slots:
     // void chatEditClicked();
     void chatDeleteClicked();
 
-    void on_settingsUpdateButton_clicked();
-
     void on_settingsButton_clicked();
+
+    void on_clearChatButton_clicked();
 
 private:
     Ui::MainWindow *ui;

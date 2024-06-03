@@ -64,7 +64,7 @@ MainWindow::MainWindow(QWidget *parent)
       ui->chatButton,
       ui->settingsButton,
       ui->sendMessageButton,
-      ui->settingsUpdateButton,
+      ui->clearChatButton,
   };
   foreach (QPushButton *button, buttons) {
     addShadow(button, 20, 3);
@@ -86,7 +86,6 @@ MainWindow::MainWindow(QWidget *parent)
   addShadow(ui->titleLabel, 30, 3);
   addShadow(ui->chatsTitleLabel, 30, 3);
   addShadow(ui->chatTitleLabel, 30, 3);
-  addShadow(ui->tokenInputWidget, 30, 3);
   logger->info("Added shadows to main widgets");
   
   // Animations to pages
@@ -233,10 +232,6 @@ void MainWindow::on_settingsButton_clicked()
 }
 
 // Settings token button
-void MainWindow::on_settingsUpdateButton_clicked()
-{
-    QString qtoken = ui->tokenInputWidget->text();
-}
 
 // Home page button
 void MainWindow::on_homeButton_clicked() {
@@ -425,4 +420,18 @@ void MainWindow::addMessage(bool isUser, const QString &message) {
             .arg(sender, message));
     logger->info("Added message from {}: {}", sender.toStdString(),
                  message.toStdString());
+}
+
+
+// Clear chat
+void MainWindow::on_clearChatButton_clicked(){
+
+    auto logger = getLogger();
+    if(chatclient.clear_context()) {
+        logger->info("The context was cleared");
+        ui->chatWindowWidget->setText("");
+    }
+    else {
+        logger->warn("Error during clear_context");
+    }
 }

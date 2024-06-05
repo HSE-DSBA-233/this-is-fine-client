@@ -5,7 +5,8 @@
 #include <chat-api.h>
 #include <json.hpp>
 
-// Declare the global ChatClient instance
 extern ChatClient chatclient;
+
+void initializeChatClient(const std::string& filename);
 
 #endif // CHATCLIENT_H

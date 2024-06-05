@@ -512,6 +512,22 @@ void MainWindow::on_submitChange_clicked()
     QString prompt  = ui->promptChange->toPlainText();
     QString model = ui->modelChange->currentText();
 
+    std::string filePathJson = "contexts/" + title.toStdString() + ".json";
+
+    std::ifstream inFile(filePathJson);
+
+    json jsonObject;
+    inFile >> jsonObject;
+    inFile.close();
+
+    jsonObject["model"] = model.toStdString(); 
+    jsonObject["prompt"] = prompt.toStdString(); 
+    // jsonObject["title"] = title.toStdString();
+
+    std::ofstream outFile(filePathJson);
+    outFile << jsonObject.dump(4);
+    outFile.close();
+
     json promptJson = {
         {{"role", "system"}, {"content", prompt.toStdString()}}
     };
@@ -524,7 +540,7 @@ void MainWindow::on_submitChange_clicked()
         logger->warn("Error with a model");
     }
 
-    if (chatclient.change_prompt(promptJson)) {
+    if (chatclient.change_prompt(promptJson)) { 
         logger->info("Prompt was changed");
     }
     else {

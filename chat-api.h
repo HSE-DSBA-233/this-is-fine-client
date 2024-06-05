@@ -111,9 +111,10 @@ public:
   }
 
   bool load_chat(const std::string &zip_path) {
-    json payload = {{"zip_path", zip_path}};
-    cpr::Response response = post_request("load", payload);
+    // Create a multipart request
+    cpr::Multipart payload = {{"chat_file", cpr::File{zip_path}}};
 
+    cpr::Response response = cpr::Post(cpr::Url{base_url + "load"}, payload);
     auto json_response = parse_json(response);
     if (json_response.is_discarded()) {
       return false;

@@ -313,22 +313,29 @@ void MainWindow::on_chatButton_clicked() {
     }
     ui->chatWindowWidget->clear();
     ui->chatslistWidget->clear();
+
     if (std::filesystem::exists("contexts") && std::filesystem::is_directory("contexts")) {
         for (const auto& entry : std::filesystem::directory_iterator("contexts")) {
-            std::ifstream file(entry.path());
-            json context;
-            file >> context;
-            file.close();
+            if (entry.path().extension() == ".json") {
+                std::ifstream file(entry.path());
+                if (file.is_open()) {
+                    json context;
+                    file >> context;
+                    file.close();
 
-            std::string model = context["model"].get<std::string>();
-            std::string title = entry.path().stem();
-            QString itemText = QString("%1 | %2").arg(QString::fromStdString(title), QString::fromStdString(model));
-            QListWidgetItem *item = new QListWidgetItem(ui->chatslistWidget);
-            ChatsItemWidget *chatsItemWidget = new ChatsItemWidget(itemText);
-            connect(chatsItemWidget, &ChatsItemWidget::deleteClicked, this, &MainWindow::chatDeleteClicked);
-            item->setSizeHint(chatsItemWidget->sizeHint());
-            ui->chatslistWidget->setItemWidget(item, chatsItemWidget);
-            logger->info("Loaded chat: {}", itemText.toStdString());
+                    std::string model = context["model"].get<std::string>();
+                    std::string title = entry.path().stem().string();
+                    QString itemText = QString("%1 | %2").arg(QString::fromStdString(title), QString::fromStdString(model));
+                    QListWidgetItem *item = new QListWidgetItem(ui->chatslistWidget);
+                    ChatsItemWidget *chatsItemWidget = new ChatsItemWidget(itemText);
+                    connect(chatsItemWidget, &ChatsItemWidget::deleteClicked, this, &MainWindow::chatDeleteClicked);
+                    item->setSizeHint(chatsItemWidget->sizeHint());
+                    ui->chatslistWidget->setItemWidget(item, chatsItemWidget);
+                    logger->info("Loaded chat: {}", itemText.toStdString());
+                } else {
+                    logger->warn("Could not open file: {}", entry.path().string());
+                }
+            }
         }
     }
 }
@@ -340,7 +347,6 @@ void MainWindow::handleCreateChat(const QString &title, const QString &prompt,
   QString itemText = QString("%1 | %2").arg(title, model);
   QListWidgetItem *item = new QListWidgetItem(ui->chatslistWidget);
   ChatsItemWidget *chatsItemWidget = new ChatsItemWidget(itemText);
-
   // connect(chatsItemWidget, &ChatsItemWidget::editClicked, this,
   // &MainWindow::chatEditClicked);
   connect(chatsItemWidget, &ChatsItemWidget::deleteClicked, this, &MainWindow::chatDeleteClicked);
@@ -357,6 +363,20 @@ void MainWindow::handleCreateChat(const QString &title, const QString &prompt,
       {{"role", "assistant"}, {"content", "yo wassup"}}
   };
   chatclient.start_chat(model.toStdString(), promptJson, dialogue);
+
+  json chat_json = {{"model", model.toStdString()}, {"prompt", prompt.toStdString()}, {"title", title.toStdString()}};
+  
+    std::string dir_path = "contexts/";
+    std::string file_path = dir_path + title.toStdString() + ".json";
+
+    // Ensure the directory exists
+    std::filesystem::create_directories(dir_path);
+
+    // Open and write to the file
+    std::ofstream out(file_path);
+    out << chat_json.dump(4); // Save with pretty-print
+    out.close();
+    std::cout << "Chat history saved to " << file_path << '\n';
 }
 
 // Enter chat
@@ -371,41 +391,34 @@ void MainWindow::on_chatslistWidget_itemClicked(QListWidgetItem *item) {
     ui->chatModelLabel->setText(title[1]);
 
     logger->info("Entered chat: {}", itemTitle.toStdString());
+    chatclient.load_chat(fmt::format("contexts/{}.zip", title[0].toStdString()));
 
-    std::ifstream ifs(fmt::format("contexts/{}.json", title[0].toStdString()));
-    if (!ifs.is_open()) {
-        logger->warn("Error opening file.");
-    }
-    else {
-        json context;
-        ifs >> context;
-        if (context.is_null()) {
-            context = json::array();
-        }
+    // std::ifstream ifs(fmt::format("contexts/{}.json", title[0].toStdString()));
+    // if (!ifs.is_open()) {
+    //     logger->warn("Error opening file.");
+    // }
+    // else {
+    //     json context;
+    //     ifs >> context;
+    //     if (context.is_null()) {
+    //         context = json::array();
+    //     }
 
-        for (const auto& message : context["dialogue"]) {
-            QString content = QString::fromStdString(message["content"]);
-            QString role = QString::fromStdString(message["role"]);
+    //     for (const auto& message : context["dialogue"]) {
+    //         QString content = QString::fromStdString(message["content"]);
+    //         QString role = QString::fromStdString(message["role"]);
             
-            bool isUser = (role == "user");
+    //         bool isUser = (role == "user");
 
-            addMessage(isUser, content);
+    //          
 
-            logger->info("Added message from {}: {}", role.toStdString(), content.toStdString());
-        }
+    //         logger->info("Added message from {}: {}", role.toStdString(), content.toStdString());
+    //     }
 
-        ifs.close();
-        chatclient.start_chat(title[1].toStdString(), context["prompt"], context["dialogue"]);
-    }
+    //     ifs.close();
+    //     chatclient.start_chat(title[1].toStdString(), context["prompt"], context["dialogue"]);
+    // }
 }
-
-// Edit chat
-// void MainWindow::chatEditClicked() {
-//     ChatsItemWidget *chatsItemWidget = qobject_cast<ChatsItemWidget
-//     *>(sender()); QListWidgetItem *item =
-//     ui->chatslistWidget->itemAt(chatsItemWidget->pos());
-
-// }
 
 // Delete chat
 void MainWindow::chatDeleteClicked() {
@@ -418,8 +431,10 @@ void MainWindow::chatDeleteClicked() {
         logger->info("Deleted chat: {}", title);
         delete item;
         delete chatsItemWidget;
-        std::string filePath = "contexts/" + title + ".json";
-        std::filesystem::remove(filePath);
+        std::string filePathJson = "contexts/" + title + ".json";
+        std::string filePathZip = "contexts/" + title + ".zip";
+        std::filesystem::remove(filePathJson);
+        std::filesystem::remove(filePathZip);
     } else {
         logger->info("Cancelled deletion of chat: {}", title);
     }

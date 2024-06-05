@@ -2,34 +2,34 @@
 #include <fstream>
 #include <iostream>
 
-std::string base_url = "";
+std::string base_url = "http://redivo.ru:1205/chat/";
 
-void initializeChatClient(const std::string& filename) {
-    std::ifstream file(filename);
-    if (!file.is_open()) {
-        std::cerr << "Unable to open file: " << filename << std::endl;
-        return;
-    }
+// void initializeChatClient(const std::string& filename) {
+//     std::ifstream file(filename);
+//     if (!file.is_open()) {
+//         std::cerr << "Unable to open file: " << filename << std::endl;
+//         return;
+//     }
 
-    std::string ip_address;
-    std::getline(file, ip_address);
-    file.close();
+//     std::string ip_address;
+//     std::getline(file, ip_address);
+//     file.close();
 
-    if (ip_address.empty()) {
-        std::cerr << "IP address is empty in file: " << filename << std::endl;
-        return;
-    }
+//     if (ip_address.empty()) {
+//         std::cerr << "IP address is empty in file: " << filename << std::endl;
+//         return;
+//     }
 
-    base_url = "http://" + ip_address + "/chat/";
-    chatclient = ChatClient(base_url);
-}
+//     base_url = "http://" + ip_address + "/chat/";
+//     chatclient = ChatClient(base_url);
+// }
 
 ChatClient chatclient(base_url);
 
-struct ChatClientInitializer {
-    ChatClientInitializer() {
-        initializeChatClient("ip_address.txt");
-    }
-};
+// struct ChatClientInitializer {
+//     ChatClientInitializer() {
+//         initializeChatClient("ip_address.txt");
+//     }
+// };
 
-static ChatClientInitializer initializer;
+//  static ChatClientInitializer initializer;

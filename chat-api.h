@@ -96,7 +96,7 @@ public:
       std::ofstream file(file_path, std::ios::binary);
       if (file.is_open()) {
         // Write the response body to the file
-        file.write(response.text.c_str(), r.text.size());
+        file.write(response.text.c_str(), response.text.size());
         file.close();
         std::cout << "File downloaded successfully!" << std::endl;
       } else {
@@ -104,7 +104,7 @@ public:
       }
     } else {
       std::cerr << "Failed to download file. HTTP Status Code: "
-                << r.status_code << std::endl;
+                << response.status_code << std::endl;
     }
 
     return 0;

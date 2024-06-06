@@ -393,31 +393,6 @@ void MainWindow::on_chatslistWidget_itemClicked(QListWidgetItem *item) {
     logger->info("Entered chat: {}", itemTitle.toStdString());
     chatclient.load_chat(fmt::format("contexts/{}.zip", title[0].toStdString()));
 
-    // std::ifstream ifs(fmt::format("contexts/{}.json", title[0].toStdString()));
-    // if (!ifs.is_open()) {
-    //     logger->warn("Error opening file.");
-    // }
-    // else {
-    //     json context;
-    //     ifs >> context;
-    //     if (context.is_null()) {
-    //         context = json::array();
-    //     }
-
-    //     for (const auto& message : context["dialogue"]) {
-    //         QString content = QString::fromStdString(message["content"]);
-    //         QString role = QString::fromStdString(message["role"]);
-            
-    //         bool isUser = (role == "user");
-
-    //          
-
-    //         logger->info("Added message from {}: {}", role.toStdString(), content.toStdString());
-    //     }
-
-    //     ifs.close();
-    //     chatclient.start_chat(title[1].toStdString(), context["prompt"], context["dialogue"]);
-    // }
 }
 
 // Delete chat
@@ -533,6 +508,9 @@ void MainWindow::on_submitChange_clicked()
     std::string oldFilePathJson = "contexts/" + title.toStdString() + ".json";
     std::string newFilePathJson = "contexts/" + titlechange.toStdString() + ".json";
 
+    std::string oldFilePathZip = "contexts/" + title.toStdString() + ".zip";
+    std::string newFilePathZip = "contexts/" + titlechange.toStdString() + ".zip";
+
     std::ifstream inputFile(oldFilePathJson);
 
     if (!inputFile) {
@@ -593,6 +571,14 @@ void MainWindow::on_submitChange_clicked()
         QMessageBox::warning(this, tr("Warning"), tr("Error renaming file."));
     } else {
         logger->info("File renamed successfully from {} to {}", oldFilePathJson, newFilePathJson);
+    }
+
+    // Rename the ZIP file to the new title
+    if (std::rename(oldFilePathZip.c_str(), newFilePathZip.c_str()) != 0) {
+        logger->error("Error renaming file from {} to {}", oldFilePathZip, newFilePathZip);
+        QMessageBox::warning(this, tr("Warning"), tr("Error renaming file."));
+    } else {
+        logger->info("File renamed successfully from {} to {}", oldFilePathZip, newFilePathZip);
     }
 
     ui->stackedWidget->setCurrentIndex(2);

@@ -576,7 +576,7 @@ void MainWindow::on_submitChange_clicked()
     // Rename the ZIP file to the new title
     if (std::rename(oldFilePathZip.c_str(), newFilePathZip.c_str()) != 0) {
         logger->error("Error renaming file from {} to {}", oldFilePathZip, newFilePathZip);
-        QMessageBox::warning(this, tr("Warning"), tr("Error renaming file."));
+        // QMessageBox::warning(this, tr("Warning"), tr("Error renaming file."));
     } else {
         logger->info("File renamed successfully from {} to {}", oldFilePathZip, newFilePathZip);
     }

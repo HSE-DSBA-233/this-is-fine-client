@@ -3,6 +3,8 @@
 
 #include <chrono>
 #include <cpr/cpr.h>
+#include <filesystem> // C++17 filesystem library
+#include <fstream>
 #include <iostream>
 #include <json.hpp>
 #include <thread>
@@ -74,11 +76,6 @@ public:
     return perform_operation("delete-message", payload, "Delete Message");
   }
 
-#include <filesystem> // C++17 filesystem library
-#include <fstream>
-
-  // ChatClient class definition here...
-
   bool end_chat(const std::string &title = "") {
     std::string url = "end/" + context_id;
     cpr::Response response = get_request(url);
@@ -93,28 +90,24 @@ public:
       std::filesystem::create_directories(dir_path);
 
       // Open and write to the file
-      std::ofstream file(file_path, std::ios::binary);
-      if (file.is_open()) {
-        // Write the response body to the file
-        file.write(response.text.c_str(), response.text.size());
-        file.close();
-        std::cout << "File downloaded successfully!" << std::endl;
-      } else {
-        std::cerr << "Failed to open file for writing." << std::endl;
+      std::ofstream out(file_path, std::ios::binary);
+      if (!out) {
+        throw std::runtime_error("Failed to open file: " + file_path);
       }
+      out.write(response.text.data(), response.text.size());
+      out.close();
+      std::cout << "Chat history saved to " << file_path << '\n';
+      return true;
     } else {
-      std::cerr << "Failed to download file. HTTP Status Code: "
-                << response.status_code << std::endl;
+      throw std::runtime_error("End Chat operation failed with status code: " +
+                               std::to_string(response.status_code));
     }
-
-    return 0;
   }
 
   bool load_chat(const std::string &zip_path) {
-    // Create a multipart request
-    cpr::Multipart payload = {{"chat_file", cpr::File{zip_path}}};
+    json payload = {{"zip_path", zip_path}};
+    cpr::Response response = post_request("load", payload);
 
-    cpr::Response response = cpr::Post(cpr::Url{base_url + "load"}, payload);
     auto json_response = parse_json(response);
     if (json_response.is_discarded()) {
       return false;
@@ -131,7 +124,7 @@ public:
   }
 
   bool add_rag(const std::string &doc_file_path) {
-    cpr::Multipart multipart{{"id", std::stoi(context_id)},
+    cpr::Multipart multipart{{"id", context_id},
                              {"doc_file", cpr::File{doc_file_path}}};
 
     cpr::Response response =
@@ -163,9 +156,13 @@ public:
     }
   }
 
+  // Provide getter for context_id to maintain encapsulation
+  std::string get_context_id() const { return context_id; }
+
 private:
   std::string base_url;
   std::string context_id;
+
   cpr::Response post_request(const std::string &endpoint, const json &payload) {
     return cpr::Post(cpr::Url{base_url + endpoint}, cpr::Body{payload.dump()},
                      cpr::Header{{"Content-Type", "application/json"}});

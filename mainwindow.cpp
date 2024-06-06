@@ -171,6 +171,37 @@ MainWindow::MainWindow(QWidget *parent)
         }
     )");
   logger->info("Set style sheet for chatslistWidget");
+
+  ui->chatWindowWidget->clear();
+  ui->chatslistWidget->clear();
+
+    if (std::filesystem::exists("contexts") && std::filesystem::is_directory("contexts")) {
+        for (const auto& entry : std::filesystem::directory_iterator("contexts")) {
+            if (entry.path().extension() == ".json") {
+                std::ifstream file(entry.path());
+                if (file.is_open()) {
+                    json context;
+                    file >> context;
+                    file.close();
+
+                    std::string model = context["model"].get<std::string>();
+                    std::string title = entry.path().stem().string();
+                    QString itemText = QString("%1 | %2").arg(QString::fromStdString(title), QString::fromStdString(model));
+                    QListWidgetItem *item = new QListWidgetItem(ui->chatslistWidget);
+                    ChatsItemWidget *chatsItemWidget = new ChatsItemWidget(itemText);
+                    connect(chatsItemWidget, &ChatsItemWidget::deleteClicked, this, &MainWindow::chatDeleteClicked);
+                    item->setSizeHint(chatsItemWidget->sizeHint());
+                    ui->chatslistWidget->setItemWidget(item, chatsItemWidget);
+                    logger->info("Loaded chat: {}", itemText.toStdString());
+                } else {
+                    logger->warn("Could not open file: {}", entry.path().string());
+                }
+            }
+        }
+    }
+
+  ui->stackedWidget->setCurrentIndex(1);
+
 }
 
 MainWindow::~MainWindow() {

@@ -306,7 +306,6 @@ void MainWindow::on_settingsButton_clicked()
     ui->chatslistWidget->clear();
 }
 
-// Settings token button
 
 // Home page button
 void MainWindow::on_homeButton_clicked() {
@@ -389,13 +388,12 @@ void MainWindow::handleCreateChat(const QString &title, const QString &prompt,
   json promptJson = {
       {{"role", "system"}, {"content", prompt.toStdString()}}
   };
-  json dialogue = {
-      {{"role", "user"}, {"content", "hi"}},
-      {{"role", "assistant"}, {"content", "yo wassup"}}
-  };
+
+  json dialogue = json::array();
+  
   chatclient.start_chat(model.toStdString(), promptJson, dialogue);
 
-  json chat_json = {{"model", model.toStdString()}, {"prompt", prompt.toStdString()}, {"title", title.toStdString()}};
+  json chat_json = {{"model", model.toStdString()}, {"prompt", prompt.toStdString()}, {"title", title.toStdString()},{"dialogue", dialogue}};
   
     std::string dir_path = "contexts/";
     std::string file_path = dir_path + title.toStdString() + ".json";
@@ -422,8 +420,24 @@ void MainWindow::on_chatslistWidget_itemClicked(QListWidgetItem *item) {
     ui->chatModelLabel->setText(title[1]);
 
     logger->info("Entered chat: {}", itemTitle.toStdString());
-    chatclient.load_chat(fmt::format("contexts/{}.zip", title[0].toStdString()));
 
+    std::ifstream ifs(fmt::format("contexts/{}.json", title[0].toStdString()));
+    json context;
+        ifs >> context;
+        ifs.close();
+
+        if (!context.is_null()) {
+            for (const auto &message : context["dialogue"]) {
+                QString content = QString::fromStdString(message["content"]);
+                QString role = QString::fromStdString(message["role"]);
+                bool isUser = (role == "user");
+                addMessage(isUser, content);
+                logger->info("Added message from {}: {}", role.toStdString(), content.toStdString());
+            }
+        }
+
+    chatclient.load_chat(fmt::format("contexts/{}.zip", title[0].toStdString()));
+    
 }
 
 // Delete chat
@@ -466,6 +480,27 @@ void MainWindow::on_sendMessageButton_clicked() {
             addMessage(false, QString::fromStdString(response));
             ui->chatInput2Widget->clear();
             logger->info("Message added: {}", message.toStdString());
+
+            QString title = ui->chatTitleLabel->text();
+            std::string file_path = "contexts/" + title.toStdString() + ".json";
+
+            // Load existing chat JSON
+            std::ifstream ifs(file_path);
+            json chat_json;
+            ifs >> chat_json;
+            ifs.close();
+
+            // Update dialogue
+            json user_message = {{"role", "user"}, {"content", message.toStdString()}};
+            json bot_response = {{"role", "assistant"}, {"content", response}};
+            chat_json["dialogue"].push_back(user_message);
+            chat_json["dialogue"].push_back(bot_response);
+
+            // Save updated chat JSON
+            std::ofstream ofs(file_path);
+            ofs << chat_json.dump(4);
+            ofs.close();
+
         } else {
             logger->warn("Attempted to add an empty message");
         }
@@ -495,6 +530,28 @@ void MainWindow::on_clearChatButton_clicked(){
     if(chatclient.clear_context()) {
         logger->info("The context was cleared");
         ui->chatWindowWidget->setText("");
+              QString title = ui->chatTitleLabel->text();
+        std::string file_path = "contexts/" + title.toStdString() + ".json";
+
+        // Load existing chat JSON
+        std::ifstream ifs(file_path);
+        if (ifs.is_open()) {
+            json chat_json;
+            ifs >> chat_json;
+            ifs.close();
+
+            // Clear dialogue
+            chat_json["dialogue"] = json::array();
+
+            // Save updated chat JSON
+            std::ofstream ofs(file_path);
+            ofs << chat_json.dump(4); // Save with pretty-print
+            ofs.close();
+
+            logger->info("Cleared dialogue in JSON file: {}", file_path);
+        } else {
+            logger->warn("Could not open file for clearing dialogue: {}", file_path);
+        }
     }
     else {
         logger->warn("Error during clear_context");

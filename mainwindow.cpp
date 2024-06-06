@@ -495,62 +495,104 @@ void MainWindow::on_clearChatButton_clicked(){
     }
 }
 
-//Settings in Chat page
+// Settings in Chat page
 void MainWindow::on_settingsChatButton_clicked()
 {
     auto logger = getLogger();
     QString title = ui->chatTitleLabel->text();
-    ui->stackedWidget->setCurrentIndex(4);
+
+    std::string filePathJson = "contexts/" + title.toStdString() + ".json";
+    std::ifstream inputFile(filePathJson);
+
+    json jsonChat;
+    inputFile >> jsonChat;
+    inputFile.close();
+
+    QString prompt = QString::fromStdString(jsonChat["prompt"]);
+    QString model = QString::fromStdString(jsonChat["model"]);
+
+    int index = ui->modelChange->findText(model);
+
     ui->titleChange->setText(title);
+    ui->promptChange->setText(prompt);
+    ui->modelChange->setCurrentIndex(index);
+
+    ui->stackedWidget->setCurrentIndex(4);
 }
 
 
+// Settings in Chat Submit
 void MainWindow::on_submitChange_clicked()
 {
     auto logger = getLogger();
-    QString title = ui->titleChange->text();
+    QString title = ui->chatTitleLabel->text();
+    QString titlechange = ui->titleChange->text();
     QString prompt  = ui->promptChange->toPlainText();
     QString model = ui->modelChange->currentText();
 
-    std::string filePathJson = "contexts/" + title.toStdString() + ".json";
+    std::string oldFilePathJson = "contexts/" + title.toStdString() + ".json";
+    std::string newFilePathJson = "contexts/" + titlechange.toStdString() + ".json";
 
-    std::ifstream inFile(filePathJson);
+    std::ifstream inputFile(oldFilePathJson);
 
-    json jsonObject;
-    inFile >> jsonObject;
-    inFile.close();
+    if (!inputFile) {
+        logger->error("Could not open the file for reading: {}", oldFilePathJson);
+        QMessageBox::warning(this, tr("Warning"), tr("Could not open the file for reading: ") + QString::fromStdString(oldFilePathJson));
+        return;
+    }
 
-    jsonObject["model"] = model.toStdString(); 
-    jsonObject["prompt"] = prompt.toStdString(); 
-    // jsonObject["title"] = title.toStdString();
+    json jsonChat;
+    inputFile >> jsonChat;
+    inputFile.close();
 
-    std::ofstream outFile(filePathJson);
-    outFile << jsonObject.dump(4);
-    outFile.close();
+    jsonChat["model"] = model.toStdString();
+    jsonChat["prompt"] = prompt.toStdString();
+    jsonChat["title"] = titlechange.toStdString();
+
+    std::ofstream outputFile(oldFilePathJson);
+    if (!outputFile) {
+        logger->error("Could not open the file for writing: {}", oldFilePathJson);
+        QMessageBox::warning(this, tr("Warning"), tr("Could not open the file for writing: ") + QString::fromStdString(oldFilePathJson));
+        return;
+    }
+    outputFile << jsonChat.dump(4);
+    outputFile.close();
 
     json promptJson = {
         {{"role", "system"}, {"content", prompt.toStdString()}}
     };
 
-    if (chatclient.change_model(model.toStdString()))
-    {
+    if (chatclient.change_model(model.toStdString())) {
         logger->info("Model was changed");
-    }
-    else {
+    } else {
         logger->warn("Error with a model");
     }
 
-    if (chatclient.change_prompt(promptJson)) { 
+    if (chatclient.change_prompt(promptJson)) {
         logger->info("Prompt was changed");
-    }
-    else {
+    } else {
         logger->warn("Error with a prompt change");
     }
 
-
-    if (title.isEmpty()) {
+    if (titlechange.isEmpty()) {
         QMessageBox::warning(this, tr("Warning"), tr("Please enter a title."));
         return;
+    }
+
+    if (prompt.isEmpty()) {
+        QMessageBox::warning(this, tr("Warning"), tr("Please enter a prompt."));
+        return;
+    }
+
+    ui->chatTitleLabel->setText(titlechange);
+    ui->chatModelLabel->setText(model);
+
+    // Rename the JSON file to the new title
+    if (std::rename(oldFilePathJson.c_str(), newFilePathJson.c_str()) != 0) {
+        logger->error("Error renaming file from {} to {}", oldFilePathJson, newFilePathJson);
+        QMessageBox::warning(this, tr("Warning"), tr("Error renaming file."));
+    } else {
+        logger->info("File renamed successfully from {} to {}", oldFilePathJson, newFilePathJson);
     }
 
     ui->stackedWidget->setCurrentIndex(2);

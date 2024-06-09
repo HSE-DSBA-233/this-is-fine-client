@@ -473,8 +473,8 @@ void MainWindow::on_sendMessageButton_clicked() {
     auto logger = getLogger();
     QString message = ui->chatInput2Widget->text();
     if (!message.isEmpty()) {
-        addMessage(true, message);
         try {
+            addMessage(true, message);
             std::string response = chatclient.generate_response(message.toStdString());
             std::cout << "Generated response: " << response << '\n';
             addMessage(false, QString::fromStdString(response));

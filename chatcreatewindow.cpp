@@ -3,6 +3,8 @@
 #include <QString>
 #include <QGraphicsDropShadowEffect>
 #include <QMessageBox>
+#include <QFileDialog>
+#include <QTextStream>
 
 ChatCreateWindow::ChatCreateWindow(QWidget *parent) :
     QDialog(parent),
@@ -27,6 +29,10 @@ ChatCreateWindow::ChatCreateWindow(QWidget *parent) :
         ui->modelSelectWidget,
         ui->cancelButton,
         ui->createButton,
+        ui->ragButton,
+        ui->ragFileWidget,
+        ui->ragIconLabel,
+        ui->ragTitleLabel,
     };
     foreach (QWidget* element, elements) {
         addShadow(element, 20, 3);
@@ -109,5 +115,27 @@ void ChatCreateWindow::on_createButton_clicked()
 void ChatCreateWindow::on_cancelButton_clicked()
 {
     reject();
+    ui->titleSelectWidget->clear();
+    ui->ragFileWidget->clear();
+}
+
+void ChatCreateWindow::on_ragButton_clicked()
+{
+    QString filePath = QFileDialog::getOpenFileName(this, tr("Open File"), "", tr("Text Files (*.txt);;All Files (*)"));
+    QString fileContent;
+
+    if (!filePath.isEmpty()) {
+        QFile file(filePath);
+        if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+            QTextStream in(&file);
+            fileContent = in.readAll();
+            QFileInfo fileName(filePath);
+            QString baseName = fileName.fileName();
+            ui->ragFileWidget->setPlainText(baseName);
+        }
+    }
+
+    // Here is the text from the file:
+    qDebug() << fileContent;
 }
 

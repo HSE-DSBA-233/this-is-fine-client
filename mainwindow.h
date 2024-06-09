@@ -9,6 +9,8 @@
 #include <QString>
 #include "chatcreatewindow.h"
 
+class chatsettingswindow;
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -22,6 +24,9 @@ public:
     ~MainWindow();
 
     Ui::MainWindow* getUi() const { return ui; }
+
+signals:
+    void passChatSettings(const QString &title, const QString &prompt, const QString &model);
 
 private slots:
     void animateButtonPress();
@@ -41,11 +46,10 @@ private slots:
 
     void handleCreateChat(const QString &title, const QString &prompt, const QString &model);
 
-    // void animatePageTransition(int newIndex);
+    void handleUpdateChat(const QString &title, const QString &prompt, const QString &model);
 
     void on_chatslistWidget_itemClicked(QListWidgetItem *item);
 
-    // void chatEditClicked();
     void chatDeleteClicked();
 
     void on_settingsButton_clicked();
@@ -54,11 +58,10 @@ private slots:
 
     void on_settingsChatButton_clicked();
 
-    void on_submitChange_clicked();
-
 private:
     Ui::MainWindow *ui;
     ChatCreateWindow *chatCreateWindow = new ChatCreateWindow();
+    chatsettingswindow *chatSettingsWindow;
 };
 
 #endif // MAINWINDOW_H

@@ -1,3 +1,5 @@
 .vscode
 build/
 .DS_Store
+mainwindow.ui.autosave
+CMakeLists.txt.user

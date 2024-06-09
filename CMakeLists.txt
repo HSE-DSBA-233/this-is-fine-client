@@ -36,6 +36,9 @@ set(PROJECT_SOURCES
     chat-api.h
     json.hpp
     resources.qrc
+    chatsettingswindow.cpp
+    chatsettingswindow.h
+    chatsettingswindow.ui
     ${TS_FILES}
 )
 
@@ -101,7 +104,8 @@ add_executable(runTests
     mainwindow.cpp
     chatcreatewindow.cpp
     chatsitemwidget.cpp
-    chatclient.cpp  # Include chatclient.cpp
+    chatclient.cpp
+    chatsettingswindow.cpp
 )
 
 target_include_directories(runTests PRIVATE

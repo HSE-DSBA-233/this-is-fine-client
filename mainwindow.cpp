@@ -19,11 +19,12 @@
 #include <fstream>
 #include <filesystem>
 #include <iostream>
+#include "chatsettingswindow.h"
 
 using json = nlohmann::json;
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent), ui(new Ui::MainWindow) {
+    : QMainWindow(parent), ui(new Ui::MainWindow), chatSettingsWindow(new chatsettingswindow(this)) {
   ui->setupUi(this);
   // Initialize logger
   auto logger = getLogger();
@@ -66,7 +67,7 @@ MainWindow::MainWindow(QWidget *parent)
       ui->sendMessageButton,
       ui->clearChatButton,
       ui->settingsChatButton,
-      ui->submitChange,
+      ui->chatRagButton,
   };
   foreach (QPushButton *button, buttons) {
     addShadow(button, 20, 3);
@@ -80,47 +81,6 @@ MainWindow::MainWindow(QWidget *parent)
                  button->objectName().toStdString());
   }
 
-  //Combo box style
-  QString comboBoxStyle = R"(
-        QComboBox {
-            background-color: white;
-            padding: 5px;
-            border: 1px solid lightgray;
-            border-radius: 10px;
-            color: black;
-        }
-        QComboBox:on {
-            padding-top: 3px;
-            padding-left: 4px;
-        }
-        QComboBox::drop-down {
-            subcontrol-origin: padding;
-            subcontrol-position: top right;
-            width: 30px;
-            border-left: 1px solid lightgray;
-        }
-        QComboBox::down-arrow {
-            image: url(:/assets/down-arrow.png);
-            width: 12px;
-            height: 12px;
-        }
-        QComboBox::down-arrow:on {
-            top: 1px;
-            left: 1px;
-        }
-        QComboBox QAbstractItemView {
-            background-color: white;
-            border: 1px solid lightgray;
-        }
-        QComboBox::item {
-            selection-color: #FCCD4A;
-            color: black;
-        }
-    )";
-
-  ui->modelChange->setStyleSheet(comboBoxStyle);
-
-
   // Add shadows to widgets
   addShadow(ui->tokenLabel, 30, 3);
   addShadow(ui->welcomeWidget, 30, 3);
@@ -132,22 +92,12 @@ MainWindow::MainWindow(QWidget *parent)
   addShadow(ui->chatTitleLabel, 30, 3);
   logger->info("Added shadows to main widgets");
   
-  // Animations to pages
-  // connect(ui->createChatButton, &QPushButton::clicked, this, [=]() {
-  // animatePageTransition(1); }); connect(ui->page3BackButton,
-  // &QPushButton::clicked, this, [=]() { animatePageTransition(0); });
-  // connect(ui->page3Button, &QPushButton::clicked, this, [=]() {
-  // animatePageTransition(2); }); connect(ui->homeButton,
-  // &QPushButton::clicked, this, [=]() { animatePageTransition(0); });
-  // connect(ui->chatButton, &QPushButton::clicked, this, [=]() {
-  // animatePageTransition(3); }); connect(ui->settingsButton,
-  // &QPushButton::clicked, this, [=]() { animatePageTransition(4); });
-  // connect(ui->page4Button, &QPushButton::clicked, this, [=]() {
-  // animatePageTransition(5); });
-
   connect(chatCreateWindow, &ChatCreateWindow::createChat, this,
           &MainWindow::handleCreateChat);
   logger->info("Connected chat creation signal");
+  connect(chatSettingsWindow, &chatsettingswindow::updateChat, this,
+          &MainWindow::handleUpdateChat);
+  logger->info("Connected chat updating signal");
   ui->chatslistWidget->setStyleSheet(R"(
         QListWidget {
             background-color: white;
@@ -208,42 +158,8 @@ MainWindow::~MainWindow() {
   auto logger = getLogger();
   logger->info("MainWindow destroyed and message history saved");
   delete ui;
+  delete chatSettingsWindow;
 }
-
-//  Animations to pages
-// void MainWindow::animatePageTransition(int newIndex) {
-//     QWidget* currentWidget = ui->stackedWidget->currentWidget();
-//     QWidget* nextWidget = ui->stackedWidget->widget(newIndex);
-
-//     int duration = 1000; // Duration of the animation in milliseconds
-//     QEasingCurve curve = QEasingCurve::InOutQuad;
-
-//     // Set the new index
-//     ui->stackedWidget->setCurrentIndex(newIndex);
-
-//     // Slide out the current widget
-//     QPropertyAnimation* slideOut = new QPropertyAnimation(currentWidget,
-//     "pos"); slideOut->setDuration(duration);
-//     slideOut->setStartValue(currentWidget->pos());
-//     slideOut->setEndValue(QPoint(-currentWidget->width(),
-//     currentWidget->pos().y())); slideOut->setEasingCurve(curve);
-
-//     // Slide in the next widget
-//     nextWidget->move(nextWidget->width(), nextWidget->pos().y());
-//     QPropertyAnimation* slideIn = new QPropertyAnimation(nextWidget, "pos");
-//     slideIn->setDuration(duration);
-//     slideIn->setStartValue(QPoint(nextWidget->width(),
-//     nextWidget->pos().y())); slideIn->setEndValue(QPoint(0,
-//     nextWidget->pos().y())); slideIn->setEasingCurve(curve);
-
-//     // Create an animation group to run both animations in parallel
-//     QParallelAnimationGroup* group = new QParallelAnimationGroup;
-//     group->addAnimation(slideOut);
-//     group->addAnimation(slideIn);
-
-//     // Start the animation
-//     group->start(QAbstractAnimation::DeleteWhenStopped);
-// }
 
 // Add shadow to elements
 void MainWindow::addShadow(QWidget *widget, int blur, int offset) {
@@ -408,6 +324,91 @@ void MainWindow::handleCreateChat(const QString &title, const QString &prompt,
     std::cout << "Chat history saved to " << file_path << '\n';
 }
 
+// Update chat
+void MainWindow::handleUpdateChat(const QString &title, const QString &prompt,
+                                  const QString &model) {
+    auto logger = getLogger();
+    QString titleOld = ui->chatTitleLabel->text();
+
+    std::string oldFilePathJson = "contexts/" + titleOld.toStdString() + ".json";
+    std::string newFilePathJson = "contexts/" + title.toStdString() + ".json";
+
+    std::string oldFilePathZip = "contexts/" + titleOld.toStdString() + ".zip";
+    std::string newFilePathZip = "contexts/" + title.toStdString() + ".zip";
+
+    std::ifstream inputFile(oldFilePathJson);
+
+    if (!inputFile) {
+        logger->error("Could not open the file for reading: {}", oldFilePathJson);
+        QMessageBox::warning(this, tr("Warning"), tr("Could not open the file for reading: ") + QString::fromStdString(oldFilePathJson));
+        return;
+    }
+
+    json jsonChat;
+    inputFile >> jsonChat;
+    inputFile.close();
+
+    jsonChat["model"] = model.toStdString();
+    jsonChat["prompt"] = prompt.toStdString();
+    jsonChat["title"] = title.toStdString();
+
+    std::ofstream outputFile(oldFilePathJson);
+    if (!outputFile) {
+        logger->error("Could not open the file for writing: {}", oldFilePathJson);
+        QMessageBox::warning(this, tr("Warning"), tr("Could not open the file for writing: ") + QString::fromStdString(oldFilePathJson));
+        return;
+    }
+    outputFile << jsonChat.dump(4);
+    outputFile.close();
+
+    json promptJson = {
+        {{"role", "system"}, {"content", prompt.toStdString()}}
+    };
+
+    if (chatclient.change_model(model.toStdString())) {
+        logger->info("Model was changed");
+    } else {
+        logger->warn("Error with a model");
+    }
+
+    if (chatclient.change_prompt(promptJson)) {
+        logger->info("Prompt was changed");
+    } else {
+        logger->warn("Error with a prompt change");
+    }
+
+    if (title.isEmpty()) {
+        QMessageBox::warning(this, tr("Warning"), tr("Please enter a title."));
+        return;
+    }
+
+    if (prompt.isEmpty()) {
+        QMessageBox::warning(this, tr("Warning"), tr("Please enter a prompt."));
+        return;
+    }
+
+    ui->chatTitleLabel->setText(title);
+    ui->chatModelLabel->setText(model);
+
+    // Rename the JSON file to the new title
+    if (std::rename(oldFilePathJson.c_str(), newFilePathJson.c_str()) != 0) {
+        logger->error("Error renaming file from {} to {}", oldFilePathJson, newFilePathJson);
+        QMessageBox::warning(this, tr("Warning"), tr("Error renaming file."));
+    } else {
+        logger->info("File renamed successfully from {} to {}", oldFilePathJson, newFilePathJson);
+    }
+
+    // Rename the ZIP file to the new title
+    if (std::rename(oldFilePathZip.c_str(), newFilePathZip.c_str()) != 0) {
+        logger->error("Error renaming file from {} to {}", oldFilePathZip, newFilePathZip);
+        // QMessageBox::warning(this, tr("Warning"), tr("Error renaming file."));
+    } else {
+        logger->info("File renamed successfully from {} to {}", oldFilePathZip, newFilePathZip);
+    }
+
+    ui->stackedWidget->setCurrentIndex(2);
+}
+
 // Enter chat
 void MainWindow::on_chatslistWidget_itemClicked(QListWidgetItem *item) {
     auto logger = getLogger();
@@ -471,12 +472,11 @@ void MainWindow::on_createChatButton_clicked() {
 void MainWindow::on_sendMessageButton_clicked() {
     auto logger = getLogger();
     QString message = ui->chatInput2Widget->text();
-
-    try {
-        std::string response = chatclient.generate_response(message.toStdString());
-        std::cout << "Generated response: " << response << '\n';
-        if (!message.isEmpty()) {
-            addMessage(true, message);
+    if (!message.isEmpty()) {
+        addMessage(true, message);
+        try {
+            std::string response = chatclient.generate_response(message.toStdString());
+            std::cout << "Generated response: " << response << '\n';
             addMessage(false, QString::fromStdString(response));
             ui->chatInput2Widget->clear();
             logger->info("Message added: {}", message.toStdString());
@@ -500,12 +500,11 @@ void MainWindow::on_sendMessageButton_clicked() {
             std::ofstream ofs(file_path);
             ofs << chat_json.dump(4);
             ofs.close();
-
-        } else {
-            logger->warn("Attempted to add an empty message");
+        } catch (const std::exception &e) {
+            std::cerr << "Error during generate_response: " << e.what() << '\n';
         }
-    } catch (const std::exception &e) {
-        std::cerr << "Error during generate_response: " << e.what() << '\n';
+    } else {
+        logger->warn("Attempted to add an empty message");
     }
 }
 
@@ -574,101 +573,9 @@ void MainWindow::on_settingsChatButton_clicked()
     QString prompt = QString::fromStdString(jsonChat["prompt"]);
     QString model = QString::fromStdString(jsonChat["model"]);
 
-    int index = ui->modelChange->findText(model);
+    emit passChatSettings(title, prompt, model);
 
-    ui->titleChange->setText(title);
-    ui->promptChange->setText(prompt);
-    ui->modelChange->setCurrentIndex(index);
+    chatSettingsWindow->show();
 
-    ui->stackedWidget->setCurrentIndex(4);
+    logger->info("Chat settings window shown");
 }
-
-
-// Settings in Chat Submit
-void MainWindow::on_submitChange_clicked()
-{
-    auto logger = getLogger();
-    QString title = ui->chatTitleLabel->text();
-    QString titlechange = ui->titleChange->text();
-    QString prompt  = ui->promptChange->toPlainText();
-    QString model = ui->modelChange->currentText();
-
-    std::string oldFilePathJson = "contexts/" + title.toStdString() + ".json";
-    std::string newFilePathJson = "contexts/" + titlechange.toStdString() + ".json";
-
-    std::string oldFilePathZip = "contexts/" + title.toStdString() + ".zip";
-    std::string newFilePathZip = "contexts/" + titlechange.toStdString() + ".zip";
-
-    std::ifstream inputFile(oldFilePathJson);
-
-    if (!inputFile) {
-        logger->error("Could not open the file for reading: {}", oldFilePathJson);
-        QMessageBox::warning(this, tr("Warning"), tr("Could not open the file for reading: ") + QString::fromStdString(oldFilePathJson));
-        return;
-    }
-
-    json jsonChat;
-    inputFile >> jsonChat;
-    inputFile.close();
-
-    jsonChat["model"] = model.toStdString();
-    jsonChat["prompt"] = prompt.toStdString();
-    jsonChat["title"] = titlechange.toStdString();
-
-    std::ofstream outputFile(oldFilePathJson);
-    if (!outputFile) {
-        logger->error("Could not open the file for writing: {}", oldFilePathJson);
-        QMessageBox::warning(this, tr("Warning"), tr("Could not open the file for writing: ") + QString::fromStdString(oldFilePathJson));
-        return;
-    }
-    outputFile << jsonChat.dump(4);
-    outputFile.close();
-
-    json promptJson = {
-        {{"role", "system"}, {"content", prompt.toStdString()}}
-    };
-
-    if (chatclient.change_model(model.toStdString())) {
-        logger->info("Model was changed");
-    } else {
-        logger->warn("Error with a model");
-    }
-
-    if (chatclient.change_prompt(promptJson)) {
-        logger->info("Prompt was changed");
-    } else {
-        logger->warn("Error with a prompt change");
-    }
-
-    if (titlechange.isEmpty()) {
-        QMessageBox::warning(this, tr("Warning"), tr("Please enter a title."));
-        return;
-    }
-
-    if (prompt.isEmpty()) {
-        QMessageBox::warning(this, tr("Warning"), tr("Please enter a prompt."));
-        return;
-    }
-
-    ui->chatTitleLabel->setText(titlechange);
-    ui->chatModelLabel->setText(model);
-
-    // Rename the JSON file to the new title
-    if (std::rename(oldFilePathJson.c_str(), newFilePathJson.c_str()) != 0) {
-        logger->error("Error renaming file from {} to {}", oldFilePathJson, newFilePathJson);
-        QMessageBox::warning(this, tr("Warning"), tr("Error renaming file."));
-    } else {
-        logger->info("File renamed successfully from {} to {}", oldFilePathJson, newFilePathJson);
-    }
-
-    // Rename the ZIP file to the new title
-    if (std::rename(oldFilePathZip.c_str(), newFilePathZip.c_str()) != 0) {
-        logger->error("Error renaming file from {} to {}", oldFilePathZip, newFilePathZip);
-        // QMessageBox::warning(this, tr("Warning"), tr("Error renaming file."));
-    } else {
-        logger->info("File renamed successfully from {} to {}", oldFilePathZip, newFilePathZip);
-    }
-
-    ui->stackedWidget->setCurrentIndex(2);
-}
-

@@ -1,16 +1,18 @@
-#include "chatcreatewindow.h"
-#include "ui_chatcreatewindow.h"
+#include "chatsettingswindow.h"
+#include "ui_chatsettingswindow.h"
 #include <QString>
 #include <QGraphicsDropShadowEffect>
 #include <QMessageBox>
+#include "mainwindow.h"
 
-ChatCreateWindow::ChatCreateWindow(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::ChatCreateWindow)
+chatsettingswindow::chatsettingswindow(MainWindow *parent)
+    : QDialog(parent),
+    ui(new Ui::chatsettingswindow),
+    mainWindow(parent)
 {
     ui->setupUi(this);
 
-    setWindowTitle("Creating a chat");
+    setWindowTitle("Chat settings");
 
     QPalette palette = this->palette();
     palette.setColor(QPalette::Window, Qt::white);
@@ -26,7 +28,7 @@ ChatCreateWindow::ChatCreateWindow(QWidget *parent) :
         ui->modelTitleLabel,
         ui->modelSelectWidget,
         ui->cancelButton,
-        ui->createButton,
+        ui->submitButton,
     };
     foreach (QWidget* element, elements) {
         addShadow(element, 20, 3);
@@ -71,14 +73,16 @@ ChatCreateWindow::ChatCreateWindow(QWidget *parent) :
 
     ui->modelSelectWidget->setStyleSheet(comboBoxStyle);
 
+    connect(mainWindow, &MainWindow::passChatSettings, this,
+            &chatsettingswindow::handleChatSettings);
 }
 
-ChatCreateWindow::~ChatCreateWindow()
+chatsettingswindow::~chatsettingswindow()
 {
     delete ui;
 }
 
-void ChatCreateWindow::addShadow(QWidget *widget, int blur, int offset) {
+void chatsettingswindow::addShadow(QWidget *widget, int blur, int offset) {
     QGraphicsDropShadowEffect *shadow = new QGraphicsDropShadowEffect;
     shadow->setBlurRadius(blur);
     shadow->setOffset(0, offset);
@@ -86,7 +90,7 @@ void ChatCreateWindow::addShadow(QWidget *widget, int blur, int offset) {
     widget->setGraphicsEffect(shadow);
 }
 
-void ChatCreateWindow::on_createButton_clicked()
+void chatsettingswindow::on_submitButton_clicked()
 {
     QString title = ui->titleSelectWidget->text();
     QString prompt  = ui->promptSelectWidget->toPlainText();
@@ -97,7 +101,7 @@ void ChatCreateWindow::on_createButton_clicked()
         return;
     }
 
-    emit createChat(title, prompt, model);
+    emit updateChat(title, prompt, model);
 
     accept();
 
@@ -106,8 +110,15 @@ void ChatCreateWindow::on_createButton_clicked()
     ui->modelSelectWidget->setCurrentIndex(0);
 }
 
-void ChatCreateWindow::on_cancelButton_clicked()
+
+void chatsettingswindow::on_cancelButton_clicked()
 {
     reject();
 }
 
+void chatsettingswindow::handleChatSettings(const QString &title, const QString &prompt, const QString &model) {
+    ui->titleSelectWidget->setText(title);
+    ui->promptSelectWidget->setText(prompt);
+    int index = ui->modelSelectWidget->findText(model);
+    ui->modelSelectWidget->setCurrentIndex(index);
+}

@@ -97,19 +97,21 @@ void ChatCreateWindow::on_createButton_clicked()
     QString title = ui->titleSelectWidget->text();
     QString prompt  = ui->promptSelectWidget->toPlainText();
     QString model = ui->modelSelectWidget->currentText();
+    QString rag = ui->ragFileWidget->toPlainText();
 
     if (title.isEmpty()) {
         QMessageBox::warning(this, tr("Warning"), tr("Please enter a title."));
         return;
     }
 
-    emit createChat(title, prompt, model);
+    emit createChat(title, prompt, model, rag);
 
     accept();
 
     ui->titleSelectWidget->clear();
     ui->promptSelectWidget->setText("You are a helpful assistant.");
     ui->modelSelectWidget->setCurrentIndex(0);
+    ui->ragFileWidget->setText("");
 }
 
 void ChatCreateWindow::on_cancelButton_clicked()
@@ -125,14 +127,15 @@ void ChatCreateWindow::on_ragButton_clicked()
     QString fileContent;
 
     if (!filePath.isEmpty()) {
-        QFile file(filePath);
-        if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-            QTextStream in(&file);
-            fileContent = in.readAll();
-            QFileInfo fileName(filePath);
-            QString baseName = fileName.fileName();
-            ui->ragFileWidget->setPlainText(baseName);
-        }
+        ui->ragFileWidget->setPlainText(filePath);
+        // QFile file(filePath);
+        // if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        //     QTextStream in(&file);
+        //     fileContent = in.readAll();
+        //     QFileInfo fileName(filePath);
+        //     QString baseName = fileName.fileName();
+        //     ui->ragFileWidget->setPlainText(baseName);
+        // }
     }
 
     // Here is the text from the file:

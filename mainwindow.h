@@ -44,7 +44,7 @@ private slots:
 
     void on_chatButton_clicked();
 
-    void handleCreateChat(const QString &title, const QString &prompt, const QString &model);
+    void handleCreateChat(const QString &title, const QString &prompt, const QString &model, const QString &rag);
 
     void handleUpdateChat(const QString &title, const QString &prompt, const QString &model);
 
@@ -57,6 +57,9 @@ private slots:
     void on_clearChatButton_clicked();
 
     void on_settingsChatButton_clicked();
+
+    void on_chatRagButton_clicked();
+
 
 private:
     Ui::MainWindow *ui;

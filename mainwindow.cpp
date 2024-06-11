@@ -288,7 +288,7 @@ void MainWindow::on_chatButton_clicked() {
 
 // Add chat
 void MainWindow::handleCreateChat(const QString &title, const QString &prompt,
-                                  const QString &model) {
+                                  const QString &model, const QString &rag) {
   auto logger = getLogger();
   QString itemText = QString("%1 | %2").arg(title, model);
   QListWidgetItem *item = new QListWidgetItem(ui->chatslistWidget);
@@ -306,10 +306,17 @@ void MainWindow::handleCreateChat(const QString &title, const QString &prompt,
   };
 
   json dialogue = json::array();
-  
+
   chatclient.start_chat(model.toStdString(), promptJson, dialogue);
 
-  json chat_json = {{"model", model.toStdString()}, {"prompt", prompt.toStdString()}, {"title", title.toStdString()},{"dialogue", dialogue}};
+  if(!rag.isEmpty()) {
+      chatclient.add_rag(rag.toStdString());
+      ui->chatRagButton->setText("RAG");
+  } else {
+      ui->chatRagButton->setText("NO RAG LOCKED");
+  }
+  
+  json chat_json = {{"model", model.toStdString()}, {"prompt", prompt.toStdString()}, {"title", title.toStdString()}, {"dialogue", dialogue}};
   
     std::string dir_path = "contexts/";
     std::string file_path = dir_path + title.toStdString() + ".json";
@@ -319,7 +326,7 @@ void MainWindow::handleCreateChat(const QString &title, const QString &prompt,
 
     // Open and write to the file
     std::ofstream out(file_path);
-    out << chat_json.dump(4); // Save with pretty-print
+    out << chat_json.dump(4);
     out.close();
     std::cout << "Chat history saved to " << file_path << '\n';
 }
@@ -473,9 +480,18 @@ void MainWindow::on_sendMessageButton_clicked() {
     auto logger = getLogger();
     QString message = ui->chatInput2Widget->text();
     if (!message.isEmpty()) {
-        addMessage(true, message);
-        try {
-            std::string response = chatclient.generate_response(message.toStdString());
+            addMessage(true, message);
+
+            QString rag_status = ui->chatRagButton->text();
+            std::string response;
+            if (rag_status.toStdString() == "NO RAG" or rag_status.toStdString() == "NO RAG LOCKED") {
+                response = chatclient.generate_response(message.toStdString());
+            } else if (rag_status.toStdString() == "RAG") {
+                response = chatclient.rag_generate(message.toStdString());
+            } else {
+                logger->warn("Rag status error");
+            }
+
             std::cout << "Generated response: " << response << '\n';
             addMessage(false, QString::fromStdString(response));
             ui->chatInput2Widget->clear();
@@ -500,13 +516,22 @@ void MainWindow::on_sendMessageButton_clicked() {
             std::ofstream ofs(file_path);
             ofs << chat_json.dump(4);
             ofs.close();
-        } catch (const std::exception &e) {
-            std::cerr << "Error during generate_response: " << e.what() << '\n';
-        }
     } else {
         logger->warn("Attempted to add an empty message");
     }
 }
+
+// Rag change
+void MainWindow::on_chatRagButton_clicked()
+{
+    std::string rag_status =  ui->chatRagButton->text().toStdString();
+    if (rag_status == "RAG") {
+        ui->chatRagButton->setText("NO RAG");
+    } else if (rag_status == "NO RAG") {
+        ui->chatRagButton->setText("RAG");
+    }
+}
+
 
 // Chat add message
 void MainWindow::addMessage(bool isUser, const QString &message) {

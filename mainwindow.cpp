@@ -82,7 +82,6 @@ MainWindow::MainWindow(QWidget *parent)
   }
 
   // Add shadows to widgets
-  addShadow(ui->tokenLabel, 30, 3);
   addShadow(ui->welcomeWidget, 30, 3);
   addShadow(ui->chatsWidget, 30, 3);
   addShadow(ui->chatWidget, 30, 3);
@@ -90,6 +89,8 @@ MainWindow::MainWindow(QWidget *parent)
   addShadow(ui->titleLabel, 30, 3);
   addShadow(ui->chatsTitleLabel, 30, 3);
   addShadow(ui->chatTitleLabel, 30, 3);
+  addShadow(ui->settingsTokenWidget, 30, 3);
+  addShadow(ui->settingsTitleLabel, 30, 3);
   logger->info("Added shadows to main widgets");
   
   connect(chatCreateWindow, &ChatCreateWindow::createChat, this,
@@ -315,8 +316,8 @@ void MainWindow::handleCreateChat(const QString &title, const QString &prompt,
   } else {
       ui->chatRagButton->setText("NO RAG LOCKED");
   }
-  
-  json chat_json = {{"model", model.toStdString()}, {"prompt", prompt.toStdString()}, {"title", title.toStdString()}, {"dialogue", dialogue}};
+
+  json chat_json = {{"model", model.toStdString()}, {"prompt", prompt.toStdString()}, {"title", title.toStdString()}, {"dialogue", dialogue}, {"rag", rag.toStdString()}};
   
     std::string dir_path = "contexts/";
     std::string file_path = dir_path + title.toStdString() + ".json";
@@ -333,7 +334,7 @@ void MainWindow::handleCreateChat(const QString &title, const QString &prompt,
 
 // Update chat
 void MainWindow::handleUpdateChat(const QString &title, const QString &prompt,
-                                  const QString &model) {
+                                  const QString &model, const QString &rag) {
     auto logger = getLogger();
     QString titleOld = ui->chatTitleLabel->text();
 
@@ -358,6 +359,7 @@ void MainWindow::handleUpdateChat(const QString &title, const QString &prompt,
     jsonChat["model"] = model.toStdString();
     jsonChat["prompt"] = prompt.toStdString();
     jsonChat["title"] = title.toStdString();
+    jsonChat["rag"] = rag.toStdString();
 
     std::ofstream outputFile(oldFilePathJson);
     if (!outputFile) {
@@ -384,6 +386,12 @@ void MainWindow::handleUpdateChat(const QString &title, const QString &prompt,
         logger->warn("Error with a prompt change");
     }
 
+    if (chatclient.add_rag(rag.toStdString())) {
+        logger->info("RAG was changed");
+    } else {
+        logger->warn("Error with a RAG");
+    }
+
     if (title.isEmpty()) {
         QMessageBox::warning(this, tr("Warning"), tr("Please enter a title."));
         return;
@@ -391,6 +399,11 @@ void MainWindow::handleUpdateChat(const QString &title, const QString &prompt,
 
     if (prompt.isEmpty()) {
         QMessageBox::warning(this, tr("Warning"), tr("Please enter a prompt."));
+        return;
+    }
+
+    if (rag.isEmpty()) {
+        QMessageBox::warning(this, tr("Warning"), tr("Please pin a file for RAG."));
         return;
     }
 
@@ -597,8 +610,9 @@ void MainWindow::on_settingsChatButton_clicked()
 
     QString prompt = QString::fromStdString(jsonChat["prompt"]);
     QString model = QString::fromStdString(jsonChat["model"]);
+    QString rag = QString::fromStdString(jsonChat["rag"]);
 
-    emit passChatSettings(title, prompt, model);
+    emit passChatSettings(title, prompt, model, rag);
 
     chatSettingsWindow->show();
 

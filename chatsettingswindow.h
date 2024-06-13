@@ -18,7 +18,7 @@ public:
     ~chatsettingswindow();
 
 signals:
-    void updateChat(const QString &title, const QString &prompt, const QString &model);
+    void updateChat(const QString &title, const QString &prompt, const QString &model, const QString &rag);
 
 private slots:
     void addShadow(QWidget *widget, int blur, int offset);
@@ -27,7 +27,9 @@ private slots:
 
     void on_cancelButton_clicked();
 
-    void handleChatSettings(const QString &title, const QString &prompt, const QString &model);
+    void handleChatSettings(const QString &title, const QString &prompt, const QString &model, const QString &rag);
+
+    void on_ragButton_clicked();
 
 private:
     Ui::chatsettingswindow *ui;

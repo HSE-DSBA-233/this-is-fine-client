@@ -26,7 +26,7 @@ public:
     Ui::MainWindow* getUi() const { return ui; }
 
 signals:
-    void passChatSettings(const QString &title, const QString &prompt, const QString &model);
+    void passChatSettings(const QString &title, const QString &prompt, const QString &model, const QString &rag);
 
 private slots:
     void animateButtonPress();
@@ -46,7 +46,7 @@ private slots:
 
     void handleCreateChat(const QString &title, const QString &prompt, const QString &model, const QString &rag);
 
-    void handleUpdateChat(const QString &title, const QString &prompt, const QString &model);
+    void handleUpdateChat(const QString &title, const QString &prompt, const QString &model, const QString &rag);
 
     void on_chatslistWidget_itemClicked(QListWidgetItem *item);
 

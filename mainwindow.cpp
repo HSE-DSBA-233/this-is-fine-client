@@ -387,6 +387,7 @@ void MainWindow::handleUpdateChat(const QString &title, const QString &prompt,
     }
 
     if (chatclient.add_rag(rag.toStdString())) {
+        ui->chatRagButton->setText("RAG");
         logger->info("RAG was changed");
     } else {
         logger->warn("Error with a RAG");
@@ -444,18 +445,24 @@ void MainWindow::on_chatslistWidget_itemClicked(QListWidgetItem *item) {
 
     std::ifstream ifs(fmt::format("contexts/{}.json", title[0].toStdString()));
     json context;
-        ifs >> context;
-        ifs.close();
+    ifs >> context;
+    ifs.close();
 
-        if (!context.is_null()) {
-            for (const auto &message : context["dialogue"]) {
-                QString content = QString::fromStdString(message["content"]);
-                QString role = QString::fromStdString(message["role"]);
-                bool isUser = (role == "user");
-                addMessage(isUser, content);
-                logger->info("Added message from {}: {}", role.toStdString(), content.toStdString());
-            }
+    if (!context.is_null()) {
+        QString rag = QString::fromStdString(context["rag"]);
+        if (rag == "") {
+            ui->chatRagButton->setText("NO RAG");
+        } else {
+            ui->chatRagButton->setText("RAG");
         }
+        for (const auto &message : context["dialogue"]) {
+            QString content = QString::fromStdString(message["content"]);
+            QString role = QString::fromStdString(message["role"]);
+            bool isUser = (role == "user");
+            addMessage(isUser, content);
+            logger->info("Added message from {}: {}", role.toStdString(), content.toStdString());
+        }
+    }
 
     chatclient.load_chat(fmt::format("contexts/{}.zip", title[0].toStdString()));
     

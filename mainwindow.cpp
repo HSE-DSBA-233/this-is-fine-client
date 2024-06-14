@@ -451,7 +451,7 @@ void MainWindow::on_chatslistWidget_itemClicked(QListWidgetItem *item) {
     if (!context.is_null()) {
         QString rag = QString::fromStdString(context["rag"]);
         if (rag == "") {
-            ui->chatRagButton->setText("NO RAG");
+            ui->chatRagButton->setText("NO RAG LOCKED");
         } else {
             ui->chatRagButton->setText("RAG");
         }

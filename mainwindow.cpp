@@ -386,11 +386,13 @@ void MainWindow::handleUpdateChat(const QString &title, const QString &prompt,
         logger->warn("Error with a prompt change");
     }
 
-    if (chatclient.add_rag(rag.toStdString())) {
-        ui->chatRagButton->setText("RAG");
-        logger->info("RAG was changed");
-    } else {
-        logger->warn("Error with a RAG");
+    if (!rag.isEmpty()) {
+        if (chatclient.add_rag(rag.toStdString())) {
+            ui->chatRagButton->setText("RAG");
+            logger->info("RAG was changed");
+        } else {
+            logger->warn("Error with a RAG");
+        }
     }
 
     if (title.isEmpty()) {
@@ -400,11 +402,6 @@ void MainWindow::handleUpdateChat(const QString &title, const QString &prompt,
 
     if (prompt.isEmpty()) {
         QMessageBox::warning(this, tr("Warning"), tr("Please enter a prompt."));
-        return;
-    }
-
-    if (rag.isEmpty()) {
-        QMessageBox::warning(this, tr("Warning"), tr("Please pin a file for RAG."));
         return;
     }
 
@@ -450,7 +447,7 @@ void MainWindow::on_chatslistWidget_itemClicked(QListWidgetItem *item) {
 
     if (!context.is_null()) {
         QString rag = QString::fromStdString(context["rag"]);
-        if (rag == "") {
+        if (rag.isEmpty()) {
             ui->chatRagButton->setText("NO RAG LOCKED");
         } else {
             ui->chatRagButton->setText("RAG");

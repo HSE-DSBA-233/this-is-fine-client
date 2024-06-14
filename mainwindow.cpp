@@ -20,6 +20,8 @@
 #include <filesystem>
 #include <iostream>
 #include "chatsettingswindow.h"
+#include <QtConcurrent/QtConcurrent>
+#include <QFuture>
 
 using json = nlohmann::json;
 
@@ -497,17 +499,29 @@ void MainWindow::on_sendMessageButton_clicked() {
     auto logger = getLogger();
     QString message = ui->chatInput2Widget->text();
     if (!message.isEmpty()) {
-            addMessage(true, message);
+        addMessage(true, message);
 
-            QString rag_status = ui->chatRagButton->text();
-            std::string response;
+        QString rag_status = ui->chatRagButton->text();
+        std::string response;
+
+        // Show loading
+        ui->chatInput2Widget->setText("Loading...");
+
+        auto getResponse = [this, message, rag_status]() {
             if (rag_status.toStdString() == "NO RAG" or rag_status.toStdString() == "NO RAG LOCKED") {
-                response = chatclient.generate_response(message.toStdString());
+                return chatclient.generate_response(message.toStdString());
             } else if (rag_status.toStdString() == "RAG") {
-                response = chatclient.rag_generate(message.toStdString());
+                return chatclient.rag_generate(message.toStdString());
             } else {
-                logger->warn("Rag status error");
+                getLogger()->warn("Rag status error");
+                return std::string{};
             }
+        };
+
+        QFuture<std::string> future = QtConcurrent::run(getResponse);
+
+        auto updateUI = [this, future, message, logger]() {
+            std::string response = future.result();
 
             std::cout << "Generated response: " << response << '\n';
             addMessage(false, QString::fromStdString(response));
@@ -533,6 +547,13 @@ void MainWindow::on_sendMessageButton_clicked() {
             std::ofstream ofs(file_path);
             ofs << chat_json.dump(4);
             ofs.close();
+
+            ui->chatInput2Widget->clear();
+        };
+
+        QFutureWatcher<std::string> *watcher = new QFutureWatcher<std::string>();
+        connect(watcher, &QFutureWatcher<std::string>::finished, this, updateUI);
+        watcher->setFuture(future);
     } else {
         logger->warn("Attempted to add an empty message");
     }

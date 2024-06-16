@@ -67,13 +67,13 @@
          <number>20</number>
         </property>
         <property name="leftMargin">
-         <number>50</number>
+         <number>200</number>
         </property>
         <property name="topMargin">
          <number>30</number>
         </property>
         <property name="rightMargin">
-         <number>50</number>
+         <number>200</number>
         </property>
         <property name="bottomMargin">
          <number>30</number>
@@ -163,11 +163,20 @@
                  <enum>Qt::LeftToRight</enum>
                 </property>
                 <property name="text">
-                 <string>Hello, user! You can use this app to chat with different Large Language Models. It also allows you to set custom system prompts. Consider it an alternative to ChatGPT! This application is made using C++ and Qt framework. Unfortunately, this is only &quot;alpha&quot; version, as we were extremely limited in time, but we hope to improve it in the future! Use navigation buttons in the bottom to switch between different parts of this app. We hope you will find it useful!
+                 <string>
+&lt;p&gt;Hello, user! You can use this app to chat with different Large Language Models. You can:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Set custom prompts.&lt;/li&gt;
+  &lt;li&gt;Select from a variety of open-source language models.&lt;/li&gt;
+  &lt;li&gt;Hotswap(change) both of the above while you chat.&lt;/li&gt;
+  &lt;li&gt;Use RAG (Retrieval Augmented Generation) to chat with your documents, i.e. provide custom knowledge to the chatbot.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Keep in mind it is an beta version, so the app can be unstable and with some bugs.&lt;/p&gt;
+&lt;p&gt;We hope you will find it useful!&lt;/p&gt;
 </string>
                 </property>
                 <property name="alignment">
-                 <set>Qt::AlignCenter</set>
+                 <set>Qt::AlignLeft</set>
                 </property>
                 <property name="wordWrap">
                  <bool>true</bool>
@@ -811,7 +820,8 @@
               <cursorShape>ArrowCursor</cursorShape>
              </property>
              <property name="text">
-              <string>&lt;h3&gt;Step 1. Enter &quot;Chats&quot; section.&lt;/h3&gt;
+              <string>
+&lt;h3&gt;Step 1. Enter &quot;Chats&quot; section.&lt;/h3&gt;
 &lt;p&gt;Press on a button with chats icon on the toolbar in the bottom.&lt;/p&gt;
 
 &lt;h3&gt;Step 2. Create a new chat.&lt;/h3&gt;
@@ -820,16 +830,17 @@
   &lt;li&gt;Give a name to your chat to find it easily later.&lt;/li&gt;
   &lt;li&gt;You can set a custom system prompt or leave the default one.&lt;/li&gt;
   &lt;li&gt;Select a Large Language Model to use.&lt;/li&gt;
+  &lt;li&gt;If you wish, you can add a document to use the &quot;Chat with documents&quot; feature.&lt;/li&gt;
   &lt;li&gt;Hit on &quot;Create&quot;.&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h3&gt;Step 3. Chat!&lt;/h3&gt;
-&lt;p&gt;You can start sending messages and use this simple chat interface!&lt;/h3&gt;
-&lt;p&gt;Don't worry, all chats are saved when you close them, you can find them later in list of chats.&lt;/p&gt;
+&lt;p&gt;You can start sending messages and use this simple chat interface! Don't worry, all chats are saved when you close them, you can find them later in list of chats.&lt;/p&gt;
 &lt;p&gt;You can also hit on &quot;Clear&quot; button at top left corner to delete all the messages in the active chat.&lt;/p&gt;
+&lt;p&gt;If you are using RAG function (&quot;chat with documents&quot;), then, you will be able to turn on and off that feature while you are inside a chat. It can be useful, for example, when you only occasionally need information from the document, but you also need to chat with the model itself, without the document.&lt;/p&gt;
 
 &lt;h3&gt;Optional. Settings.&lt;/h3&gt;
-&lt;p&gt;Even after creating a chat, you can change the settings. Just hit on &quot;settings&quot; in top right corner. You can change title, system prompt and model.&lt;/p&gt;
+&lt;p&gt;Even after creating a chat, you can change the settings. Just hit on &quot;settings&quot; in top right corner. You can change title, system prompt, model and even the document.&lt;/p&gt;
 </string>
              </property>
              <property name="alignment">

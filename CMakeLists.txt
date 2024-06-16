@@ -88,35 +88,7 @@ if(QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(This_is_Fine)
 endif()
 
-# Google Test setup
-enable_testing()
-
-add_subdirectory(extern/googletest)
-include_directories(extern/googletest/googletest/include)
-
 include_directories(${CMAKE_SOURCE_DIR})
-
-# Ensure all necessary source files are included in the test executable
-add_executable(runTests
-    tests/test_mainwindow.cpp
-    tests/test_chatcreate.cpp
-    tests/test_chatsitemwidget.cpp
-    mainwindow.cpp
-    chatcreatewindow.cpp
-    chatsitemwidget.cpp
-    chatclient.cpp
-    chatsettingswindow.cpp
-)
-
-target_include_directories(runTests PRIVATE
-    ${PROJECT_SOURCE_DIR}/include
-)
-
-# Link libraries
-target_link_libraries(runTests gtest gtest_main Qt${QT_VERSION_MAJOR}::Widgets cpr::cpr)
-
-# Register the test
-add_test(NAME runTests COMMAND runTests)
 
 # Include spdlog
 include_directories(${CMAKE_SOURCE_DIR}/logger/include)

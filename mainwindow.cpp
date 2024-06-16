@@ -18,6 +18,7 @@
 #include <QPropertyAnimation>
 #include <QSize>
 #include <QString>
+#include <QTextDocument>
 #include <QtConcurrent/QtConcurrent>
 #include <algorithm>
 #include <chat-api.h>
@@ -30,6 +31,41 @@
 #include <json.hpp>
 #include <sstream>
 #include <vector>
+
+QString markdownToHtml(const QString &markdown) {
+  QTextDocument textDocument;
+  textDocument.setMarkdown(markdown);
+  QString html = textDocument.toHtml();
+
+  // Adding CSS styles for code snippets
+  QString css = R"(
+        <style>
+            pre, code {
+                background-color: #f0f0f0;  /* Light gray background */
+                padding: 5px;
+                border-radius: 5px;
+                font-family: monospace;  /* Monospaced font */
+            }
+            pre {
+                white-space: pre-wrap;  /* Wrap long lines */
+            }
+            .message-container {
+                margin: 10px; 
+                padding: 15px;
+            }
+            .message-container * {
+                margin: 0;  /* Remove default margins */
+                padding: 0; /* Remove default padding */
+            }
+            .sender {
+                font-weight: bold;
+            }
+        </style>
+    )";
+
+  // Inject the CSS into the HTML
+  return css + html;
+}
 
 using json = nlohmann::json;
 
@@ -565,7 +601,8 @@ void MainWindow::on_chatInput2Widget_returnPressed() {
 // Chat send button
 void MainWindow::on_sendMessageButton_clicked() {
   auto logger = getLogger();
-  QString message = ui->chatInput2Widget->text();
+  QString message = ui->chatInput2Widget->text().trimmed();
+
   if (!message.isEmpty()) {
     addMessage(true, message);
     ui->chatInput2Widget->clear();
@@ -573,14 +610,13 @@ void MainWindow::on_sendMessageButton_clicked() {
     QString rag_status = ui->chatRagButton->text();
     std::string response;
 
-    // Show loading
     addMessage(false, "loading...");
 
+    // Asynchronously fetch response
     auto getResponse = [this, message, rag_status]() {
-      if (rag_status.toStdString() == "NO RAG" or
-          rag_status.toStdString() == "NO RAG LOCKED") {
+      if (rag_status == "NO RAG" || rag_status == "NO RAG LOCKED") {
         return chatclient.generate_response(message.toStdString());
-      } else if (rag_status.toStdString() == "RAG") {
+      } else if (rag_status == "RAG") {
         return chatclient.rag_generate(message.toStdString());
       } else {
         getLogger()->warn("Rag status error");
@@ -593,20 +629,23 @@ void MainWindow::on_sendMessageButton_clicked() {
     auto updateUI = [this, future, message, logger]() {
       std::string response = future.result();
 
-      std::cout << "Generated response: " << response << '\n';
-
       QTextCursor cursor = ui->chatWindowWidget->textCursor();
       cursor.movePosition(QTextCursor::End, QTextCursor::MoveAnchor);
-      cursor.movePosition(QTextCursor::StartOfLine, QTextCursor::KeepAnchor);
-      QString qResponse = QString::fromStdString(response);
-      cursor.insertText(qResponse);
-      cursor.movePosition(QTextCursor::StartOfLine, QTextCursor::KeepAnchor);
-      cursor.deleteChar();
+      cursor.select(QTextCursor::BlockUnderCursor); // Select "loading..." block
+      cursor.movePosition(
+          QTextCursor::PreviousBlock,
+          QTextCursor::KeepAnchor); // Extend selection to previous block
+      cursor.removeSelectedText();
+      cursor.deletePreviousChar();
+      QString qResponse = QString::fromStdString(response).trimmed();
+      QString htmlMessage = markdownToHtml(qResponse);
+      cursor.insertHtml(htmlMessage.trimmed());
       cursor.movePosition(QTextCursor::End, QTextCursor::MoveAnchor);
       ui->chatWindowWidget->ensureCursorVisible();
 
       logger->info("Message added: {}", message.toStdString());
 
+      // Update JSON file with dialogue
       QString title = ui->chatTitleLabel->text();
       std::string file_path = dir_path() + title.toStdString() + ".json";
 
@@ -631,6 +670,7 @@ void MainWindow::on_sendMessageButton_clicked() {
       ui->chatInput2Widget->clear();
     };
 
+    // Connect watcher to updateUI slot when future is finished
     QFutureWatcher<std::string> *watcher = new QFutureWatcher<std::string>();
     connect(watcher, &QFutureWatcher<std::string>::finished, this, updateUI);
     watcher->setFuture(future);
@@ -652,14 +692,17 @@ void MainWindow::on_chatRagButton_clicked() {
 // Chat add message
 void MainWindow::addMessage(bool isUser, const QString &message) {
   auto logger = getLogger();
-  QString sender = isUser ? "You" : "Bot";
+  QString sender = isUser ? "User" : "Assistant";
 
+  QString htmlMessage = markdownToHtml(message);
   ui->chatWindowWidget->append(
       QString(
-          "<div style='margin: 10px; padding: 15px;'><b> %1</b><br>%2</div>")
-          .arg(sender, message));
+          "<p style='margin: 0 0 10px 0; padding: 15px;'><b>%1:</b> %2<br></p>")
+          .arg(sender, htmlMessage.trimmed()));
+
   QTextCursor cursor = ui->chatWindowWidget->textCursor();
   cursor.movePosition(QTextCursor::End, QTextCursor::MoveAnchor);
+  cursor.deletePreviousChar();
   ui->chatWindowWidget->ensureCursorVisible();
   logger->info("Added message from {}: {}", sender.toStdString(),
                message.toStdString());
